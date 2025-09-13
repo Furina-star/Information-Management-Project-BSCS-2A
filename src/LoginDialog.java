@@ -30,19 +30,19 @@ public class LoginDialog extends javax.swing.JDialog {
     /**
      * Creates new form LoginDialog
      */
+    LoginDialog() {
+        this((java.awt.Frame) null, true);
+    }
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
         
+        setUndecorated(true);
+        setBackground(new java.awt.Color(0, 0, 0, 0));
+        
+        initComponents();
+        setLocationRelativeTo(parent);
     }
-    
-    LoginDialog() {
-        this((java.awt.Frame) null, true);
-        this.setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 0));
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
