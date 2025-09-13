@@ -9,6 +9,7 @@ import Custom_Components.HyperlinkLabel;
 import Custom_Components.TextPrompt;
 import javax.swing.*;
 import DataBaseConnection.Connector;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +39,8 @@ public class LoginDialog extends javax.swing.JDialog {
     
     LoginDialog() {
         this((java.awt.Frame) null, true);
+        this.setUndecorated(true);
+        setBackground(new Color(0, 0, 0, 0));
     }
 
     /**

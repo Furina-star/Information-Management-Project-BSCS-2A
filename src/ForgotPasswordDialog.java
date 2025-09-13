@@ -3,6 +3,7 @@ import Custom_Components.ImageButton;
 import Custom_Components.RoundedButton;
 import Custom_Components.RoundedPanel;
 import Custom_Components.ShowHideButton;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,6 +33,8 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
     
     ForgotPasswordDialog() {
         this((java.awt.Frame) null, true);
+        this.setUndecorated(true);
+        setBackground(new Color(0, 0, 0, 0));
     }
 
     /**
