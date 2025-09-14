@@ -25,22 +25,291 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SidebarPanel = new Custom_Components.BetterRoundPanel();
+        TitlePanel = new javax.swing.JPanel();
+        TitleLabel = new javax.swing.JLabel();
+        ViewLabel = new javax.swing.JLabel();
+        VStudentButton = new Custom_Components.PressedDownAnimButton();
+        VSubjectButton = new Custom_Components.PressedDownAnimButton();
+        VAssessmentButton = new Custom_Components.PressedDownAnimButton();
+        CustomizeLabel = new javax.swing.JLabel();
+        CDeleteButton = new Custom_Components.PressedDownAnimButton();
+        CUpdateButton = new Custom_Components.PressedDownAnimButton();
+        CAddButton = new Custom_Components.PressedDownAnimButton();
+        UtilitiesLabel = new javax.swing.JLabel();
+        UAboutButton = new Custom_Components.PressedDownAnimButton();
+        UCloseButton = new Custom_Components.PressedDownAnimButton();
+        UBackButton = new Custom_Components.PressedDownAnimButton();
+        UExportButton = new Custom_Components.PressedDownAnimButton();
+        MainPanel = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+
+        SidebarPanel.setBackground(new java.awt.Color(44, 62, 80));
+
+        TitlePanel.setBackground(new java.awt.Color(27, 39, 50));
+
+        TitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        TitleLabel.setText("School Dashboard");
+
+        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
+        TitlePanel.setLayout(TitlePanelLayout);
+        TitlePanelLayout.setHorizontalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(TitleLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        TitlePanelLayout.setVerticalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(TitleLabel)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        ViewLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ViewLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ViewLabel.setText("View");
+
+        VStudentButton.setBackground(new java.awt.Color(44, 62, 80));
+        VStudentButton.setForeground(new java.awt.Color(255, 255, 255));
+        VStudentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/girl.png"))); // NOI18N
+        VStudentButton.setText("Students\n");
+        VStudentButton.setCornerRadius(15);
+        VStudentButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        VStudentButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        VStudentButton.setIconTextGap(30);
+
+        VSubjectButton.setBackground(new java.awt.Color(44, 62, 80));
+        VSubjectButton.setForeground(new java.awt.Color(255, 255, 255));
+        VSubjectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/bookmark.png"))); // NOI18N
+        VSubjectButton.setText("Subjects");
+        VSubjectButton.setCornerRadius(15);
+        VSubjectButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        VSubjectButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        VSubjectButton.setIconTextGap(30);
+
+        VAssessmentButton.setBackground(new java.awt.Color(44, 62, 80));
+        VAssessmentButton.setForeground(new java.awt.Color(255, 255, 255));
+        VAssessmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/test.png"))); // NOI18N
+        VAssessmentButton.setText("Assessment");
+        VAssessmentButton.setCornerRadius(15);
+        VAssessmentButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        VAssessmentButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        VAssessmentButton.setIconTextGap(30);
+
+        CustomizeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CustomizeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        CustomizeLabel.setText("Customize");
+
+        CDeleteButton.setBackground(new java.awt.Color(44, 62, 80));
+        CDeleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        CDeleteButton.setText("Delete");
+        CDeleteButton.setCornerRadius(15);
+        CDeleteButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CDeleteButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        CDeleteButton.setIconTextGap(30);
+
+        CUpdateButton.setBackground(new java.awt.Color(44, 62, 80));
+        CUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        CUpdateButton.setText("Update");
+        CUpdateButton.setCornerRadius(15);
+        CUpdateButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CUpdateButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        CUpdateButton.setIconTextGap(30);
+
+        CAddButton.setBackground(new java.awt.Color(44, 62, 80));
+        CAddButton.setForeground(new java.awt.Color(255, 255, 255));
+        CAddButton.setText("Add");
+        CAddButton.setCornerRadius(15);
+        CAddButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CAddButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        CAddButton.setIconTextGap(30);
+
+        UtilitiesLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        UtilitiesLabel.setForeground(new java.awt.Color(255, 255, 255));
+        UtilitiesLabel.setText("Utilities");
+
+        UAboutButton.setBackground(new java.awt.Color(44, 62, 80));
+        UAboutButton.setForeground(new java.awt.Color(255, 255, 255));
+        UAboutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/info.png"))); // NOI18N
+        UAboutButton.setText("About Us");
+        UAboutButton.setCornerRadius(15);
+        UAboutButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        UAboutButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        UAboutButton.setIconTextGap(30);
+        UAboutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UAboutButtonActionPerformed(evt);
+            }
+        });
+
+        UCloseButton.setBackground(new java.awt.Color(44, 62, 80));
+        UCloseButton.setForeground(new java.awt.Color(255, 255, 255));
+        UCloseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/cross.png"))); // NOI18N
+        UCloseButton.setText("Close");
+        UCloseButton.setCornerRadius(15);
+        UCloseButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        UCloseButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        UCloseButton.setIconTextGap(30);
+        UCloseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UCloseButtonActionPerformed(evt);
+            }
+        });
+
+        UBackButton.setBackground(new java.awt.Color(44, 62, 80));
+        UBackButton.setForeground(new java.awt.Color(255, 255, 255));
+        UBackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/previous.png"))); // NOI18N
+        UBackButton.setText("Back to Login");
+        UBackButton.setCornerRadius(15);
+        UBackButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        UBackButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        UBackButton.setIconTextGap(30);
+        UBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UBackButtonActionPerformed(evt);
+            }
+        });
+
+        UExportButton.setBackground(new java.awt.Color(44, 62, 80));
+        UExportButton.setForeground(new java.awt.Color(255, 255, 255));
+        UExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/upload.png"))); // NOI18N
+        UExportButton.setText("Export");
+        UExportButton.setCornerRadius(15);
+        UExportButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        UExportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        UExportButton.setIconTextGap(30);
+
+        javax.swing.GroupLayout SidebarPanelLayout = new javax.swing.GroupLayout(SidebarPanel);
+        SidebarPanel.setLayout(SidebarPanelLayout);
+        SidebarPanelLayout.setHorizontalGroup(
+            SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TitlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(SidebarPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(UAboutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UCloseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UBackButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UtilitiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(UExportButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(CDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(VAssessmentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(VSubjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(VStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CustomizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ViewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        SidebarPanelLayout.setVerticalGroup(
+            SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SidebarPanelLayout.createSequentialGroup()
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(ViewLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VSubjectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(CustomizeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(UtilitiesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(UCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(UAboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(UExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 56, Short.MAX_VALUE))
+        );
+
+        MainPanel.setBackground(new java.awt.Color(100, 147, 192));
+
+        javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
+        MainPanel.setLayout(MainPanelLayout);
+        MainPanelLayout.setHorizontalGroup(
+            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1072, Short.MAX_VALUE)
+        );
+        MainPanelLayout.setVerticalGroup(
+            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1245, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(SidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 838, Short.MAX_VALUE)
+            .addComponent(SidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(1261, 847));
+        setSize(new java.awt.Dimension(1283, 899));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void UCloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UCloseButtonActionPerformed
+        // TODO add your handling code here:
+        java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UCloseButton);
+        CloseConfirmDialog.Result res = CloseConfirmDialog.showDialog(owner, "Your System");
+        if (res == CloseConfirmDialog.Result.CLOSE) {
+            if (owner != null) {
+                owner.dispatchEvent(new java.awt.event.WindowEvent(owner, java.awt.event.WindowEvent.WINDOW_CLOSING));
+            } else {
+                System.exit(0);
+            }
+        }
+    }//GEN-LAST:event_UCloseButtonActionPerformed
+
+    private void UBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UBackButtonActionPerformed
+        // TODO add your handling code here:
+        java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UBackButton);
+        BackToLoginConfirmDialog.Result res = BackToLoginConfirmDialog.showDialog(owner, "Your System");
+        if (res == BackToLoginConfirmDialog.Result.BACK) {
+            if (owner != null) {
+                owner.setVisible(false); // or owner.dispose();
+            }
+            LoginDialog Back = new LoginDialog();
+            this.dispose();
+            Back.setVisible(true);
+        }
+    }//GEN-LAST:event_UBackButtonActionPerformed
+
+    private void UAboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UAboutButtonActionPerformed
+        // TODO add your handling code here:
+        java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UAboutButton);
+        String description = "Student Information System is a lightweight desktop tool for managing student records, subjects, and assessments. It streamlines routine tasks with a clean, modern interface and built‑in confirmations to prevent mistakes. View, add, update, and export data in just a few clicks.";
+
+        AboutUsDialog.showDialog(owner, "Student Information System", description);
+    }//GEN-LAST:event_UAboutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +347,22 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Custom_Components.PressedDownAnimButton CAddButton;
+    private Custom_Components.PressedDownAnimButton CDeleteButton;
+    private Custom_Components.PressedDownAnimButton CUpdateButton;
+    private javax.swing.JLabel CustomizeLabel;
+    private javax.swing.JPanel MainPanel;
+    private Custom_Components.BetterRoundPanel SidebarPanel;
+    private javax.swing.JLabel TitleLabel;
+    private javax.swing.JPanel TitlePanel;
+    private Custom_Components.PressedDownAnimButton UAboutButton;
+    private Custom_Components.PressedDownAnimButton UBackButton;
+    private Custom_Components.PressedDownAnimButton UCloseButton;
+    private Custom_Components.PressedDownAnimButton UExportButton;
+    private javax.swing.JLabel UtilitiesLabel;
+    private Custom_Components.PressedDownAnimButton VAssessmentButton;
+    private Custom_Components.PressedDownAnimButton VStudentButton;
+    private Custom_Components.PressedDownAnimButton VSubjectButton;
+    private javax.swing.JLabel ViewLabel;
     // End of variables declaration//GEN-END:variables
 }
