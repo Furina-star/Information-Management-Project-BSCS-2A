@@ -4,18 +4,38 @@ import Custom_Components.RoundedButton;
 import Custom_Components.RoundPasswordField;
 import Custom_Components.RoundTextField;
 import Custom_Components.ImageButton;
+import Custom_Components.ProfilePanel;
 import Custom_Components.ShowHideButton;
 import Custom_Components.TextPrompt;
+import Custom_Components.ThinScrollBarUI;
+import Custom_Components.ThinScrollDemo;
 import DataBaseConnection.Connector;
+//import com.mysql.cj.xdevapi.Statement;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JButton;                    // For the button
+import javax.swing.JFileChooser;               // For file chooser dialog
+import javax.swing.filechooser.FileNameExtensionFilter; // To filter image files
+import javax.swing.JTextField;                 // Optional, for displaying file path
+import javax.swing.JFrame;                     // Your form window
+import javax.swing.JPanel;                     // Your panel layout
+import java.awt.event.ActionListener;          // For button click listener
+import java.awt.event.ActionEvent;             // For event object in listener
+import java.io.File;                           // To handle the selected file
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import javax.swing.ImageIcon;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -36,13 +56,21 @@ public class SignUpDialog extends javax.swing.JDialog {
         this.setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
         initComponents();
+        ProfilePanel profilePicLabel = new ProfilePanel();
+profilePicLabel.setPreferredSize(new Dimension(100, 100)); // example size
+LoginPanel.add(profilePicLabel); // Add it to your panel
+
+        ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+        PanelHolder.setBorder(BorderFactory.createEmptyBorder());
+        ScrollPanel.getVerticalScrollBar().setUI(new ThinScrollBarUI());
+ScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
     }
-    
+
     SignUpDialog() {
         this((java.awt.Frame) null, true);
         this.setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
-        
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,6 +81,8 @@ public class SignUpDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PanelHolder = new javax.swing.JPanel();
+        ScrollPanel = new javax.swing.JScrollPane();
         LoginPanel = new RoundedPanel(35);
         LoginLabel = new javax.swing.JLabel();
         SignUpButton = new RoundedButton();
@@ -66,9 +96,6 @@ public class SignUpDialog extends javax.swing.JDialog {
         LastnameTextField = new Custom_Components.RoundTextField();
         FirstnameTextField = new Custom_Components.RoundTextField();
         MiddlenameTextField = new Custom_Components.RoundTextField();
-        ProgramTextField = new Custom_Components.RoundTextField();
-        YearTextField = new Custom_Components.RoundTextField();
-        SectionTextField = new Custom_Components.RoundTextField();
         BarangayTextField = new Custom_Components.RoundTextField();
         jLabel1 = new javax.swing.JLabel();
         CityTextField = new Custom_Components.RoundTextField();
@@ -77,11 +104,21 @@ public class SignUpDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         ContactNumberTextField = new Custom_Components.RoundTextField();
         jLabel3 = new javax.swing.JLabel();
+        EmailTextField = new Custom_Components.RoundTextField();
+        jLabel4 = new javax.swing.JLabel();
+        PhotoUploader = new Custom_Components.RoundedButton();
+        profilePathField = new Custom_Components.RoundTextField();
+        profilePicLabel = new Custom_Components.ProfilePanel();
         FontaineBG = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(962, 576));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelHolder.setOpaque(false);
+
+        ScrollPanel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        ScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         LoginPanel.setBackground(new java.awt.Color(255, 255, 255));
         LoginPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -171,27 +208,6 @@ public class SignUpDialog extends javax.swing.JDialog {
             }
         });
 
-        ProgramTextField.setPlaceholderText("Program");
-        ProgramTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProgramTextFieldActionPerformed(evt);
-            }
-        });
-
-        YearTextField.setPlaceholderText("Year");
-        YearTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                YearTextFieldActionPerformed(evt);
-            }
-        });
-
-        SectionTextField.setPlaceholderText("Section");
-        SectionTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SectionTextFieldActionPerformed(evt);
-            }
-        });
-
         BarangayTextField.setPlaceholderText("Barangay");
         BarangayTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,6 +252,27 @@ public class SignUpDialog extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         jLabel3.setText("PERSONAL DETAILS");
 
+        EmailTextField.setPlaceholderText("Email");
+        EmailTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmailTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
+        jLabel4.setText("CREATE PROFILE PICTURE");
+
+        PhotoUploader.setText("Upload Photo");
+        PhotoUploader.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PhotoUploaderActionPerformed(evt);
+            }
+        });
+
+        profilePathField.setMaximumSize(new java.awt.Dimension(64, 26));
+
+        profilePicLabel.setText("profilePanel1");
+
         javax.swing.GroupLayout LoginPanelLayout = new javax.swing.GroupLayout(LoginPanel);
         LoginPanel.setLayout(LoginPanelLayout);
         LoginPanelLayout.setHorizontalGroup(
@@ -243,63 +280,65 @@ public class SignUpDialog extends javax.swing.JDialog {
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
+                        .addGap(106, 106, 106)
+                        .addComponent(LoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(94, Short.MAX_VALUE))
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LoginPanelLayout.createSequentialGroup()
+                                .addComponent(BarangayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(LoginPanelLayout.createSequentialGroup()
+                                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                                        .addComponent(LastnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(FirstnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3))
+                                .addGap(16, 16, 16))
+                            .addComponent(CountryTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(LoginPanelLayout.createSequentialGroup()
+                                .addComponent(MiddlenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 35, Short.MAX_VALUE))
+                            .addGroup(LoginPanelLayout.createSequentialGroup()
+                                .addComponent(ProvinceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(43, 43, 43))))
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addGroup(LoginPanelLayout.createSequentialGroup()
+                                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                                .addComponent(CloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SignUpButton, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                            .addGroup(LoginPanelLayout.createSequentialGroup()
                                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LoginPanelLayout.createSequentialGroup()
-                                            .addComponent(BarangayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(CityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(LoginPanelLayout.createSequentialGroup()
-                                            .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(LoginPanelLayout.createSequentialGroup()
-                                                    .addComponent(LastnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(FirstnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel3))
-                                            .addGap(16, 16, 16))
-                                        .addComponent(CountryTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addComponent(ProgramTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(YearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(PasswordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addComponent(MiddlenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addComponent(ProvinceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(8, 8, 8))
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(SectionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(LoginPanelLayout.createSequentialGroup()
-                                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
-                                        .addComponent(CloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(SignUpButton, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(PasswordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(UsernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(ContactNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(LoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(35, 35, 35))
+                                    .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(UsernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(ContactNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(EmailTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profilePathField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         LoginPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {showHideButton1, showHideButton2});
@@ -316,12 +355,7 @@ public class SignUpDialog extends javax.swing.JDialog {
                     .addComponent(LastnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FirstnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(MiddlenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ProgramTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(YearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SectionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -334,6 +368,8 @@ public class SignUpDialog extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ContactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(EmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(UsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -344,7 +380,15 @@ public class SignUpDialog extends javax.swing.JDialog {
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(profilePathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addComponent(SignUpButton)
                 .addGap(29, 29, 29)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,12 +399,31 @@ public class SignUpDialog extends javax.swing.JDialog {
 
         LoginPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {SignUpButton, showHideButton1, showHideButton2});
 
-        getContentPane().add(LoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 58, -1, 710));
+        ScrollPanel.setViewportView(LoginPanel);
+
+        javax.swing.GroupLayout PanelHolderLayout = new javax.swing.GroupLayout(PanelHolder);
+        PanelHolder.setLayout(PanelHolderLayout);
+        PanelHolderLayout.setHorizontalGroup(
+            PanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelHolderLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(ScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        PanelHolderLayout.setVerticalGroup(
+            PanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHolderLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(ScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(140, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(PanelHolder, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 420, 780));
 
         FontaineBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/FontaineBG.jpeg"))); // NOI18N
         getContentPane().add(FontaineBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2230, -410, -1, -1));
 
-        setSize(new java.awt.Dimension(968, 785));
+        setSize(new java.awt.Dimension(968, 717));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -371,13 +434,13 @@ public class SignUpDialog extends javax.swing.JDialog {
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         // TODO add your handling code here:
-        LoginDialog forgot = new LoginDialog(); 
+        LoginDialog forgot = new LoginDialog();
         this.dispose();
         forgot.setVisible(true);
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void showHideButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHideButtonActionPerformed
-        // TODO add your handling code here:  
+        // TODO add your handling code here:
     }//GEN-LAST:event_showHideButtonActionPerformed
 
     private void showHideButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHideButton2ActionPerformed
@@ -418,34 +481,6 @@ public class SignUpDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_MiddlenameTextFieldActionPerformed
 
-    private void ProgramTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProgramTextFieldActionPerformed
-
-    private void YearTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YearTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_YearTextFieldActionPerformed
-
-    private void SectionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SectionTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SectionTextFieldActionPerformed
-
-    private void BarangayTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BarangayTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BarangayTextFieldActionPerformed
-
-    private void CityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CityTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CityTextFieldActionPerformed
-
-    private void ProvinceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProvinceTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProvinceTextFieldActionPerformed
-
-    private void CountryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CountryTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CountryTextFieldActionPerformed
-
     private void ContactNumberTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContactNumberTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ContactNumberTextFieldActionPerformed
@@ -455,129 +490,149 @@ public class SignUpDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_PasswordTextFieldActionPerformed
 
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
-        // TODO add your handling code here:
-                // TODO add your handling code here:
-// Collect values
-String Lastname   = LastnameTextField.getText();
-String firstName  = FirstnameTextField.getText();
-String middleName = MiddlenameTextField.getText();
-String userName   = UsernameTextField.getText();
-//String birthmonth = cbMonth.getSelectedItem().toString();
-//String birthday   = cbDay.getSelectedItem().toString();
-//String birthyear  = cbYear.getSelectedItem().toString();
-String college      = ProgramTextField.getText();
-String grade      = YearTextField.getText();
-String Section      = SectionTextField.getText();
-String brgy      = BarangayTextField.getText();
-//String gender     = GenderChoice.getSelectedItem().toString();
-//String strt       = Stree.getText();
-String cty        = CityTextField.getText();
-String prov       = ProvinceTextField.getText();
-//String pstlcd     = PostalCode.getText();
-String cntry      = CountryTextField.getText();
-String contact = ContactNumberTextField.getText();
-// Password fields
-String password   = new String(PasswordTextField.getPassword());
-String retype     = new String(ConfirmPasswordTextField.getPassword());
-
-// --- VALIDATIONS ---
-// Empty fields
-// --- VALIDATIONS ---
-// Empty fields
-if (Lastname.isEmpty() || firstName.isEmpty() || middleName.isEmpty() || userName.isEmpty() ||
-    password.isEmpty() || retype.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Please fill in all required fields.",
-                                  "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
-
-// Passwords match
-if (!password.equals(retype)) {
-    JOptionPane.showMessageDialog(this, "Passwords do not match!",
-                                  "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
-
-// ComboBox defaults
-//if (birthmonth.equals("Month") || birthday.equals("Day") ||
-  //  birthyear.equals("Year") || gender.equals("Select Gender")) {
-    //JOptionPane.showMessageDialog(this, "Please complete your birthday and gender.",
-    //                              "Error", JOptionPane.ERROR_MESSAGE);
-    //return;
-//}
-
-// --- DATABASE INSERT ---
-// Only one block
-try (Connection con = Connector.getConnection()) {
-    // 1️⃣ Check username BEFORE insert
-    String checkSql = "SELECT COUNT(*) FROM student WHERE Username = ?";
-    PreparedStatement checkPst = con.prepareStatement(checkSql);
-    checkPst.setString(1, userName);
-    ResultSet checkRs = checkPst.executeQuery();
-
-    if (checkRs.next() && checkRs.getInt(1) > 0) {
-        JOptionPane.showMessageDialog(this,
-                "Username already exists. Please choose another one.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        return; // exit immediately
+try(Connection con = Connector.getConnection()){
+    String Lastname = LastnameTextField.getText();
+    String Firstname = FirstnameTextField.getText();
+    String Middlename = MiddlenameTextField.getText();
+    String Barangay = BarangayTextField.getText();
+    String City = CityTextField.getText();
+    String Province = ProvinceTextField.getText();
+    String Country = CountryTextField.getText();
+    String CPnumber = ContactNumberTextField.getText();
+    String Email = EmailTextField.getText();
+    String Username = UsernameTextField.getText();
+    
+    String Password = new String (PasswordTextField.getPassword());
+    String ConfirmPassword = new String (ConfirmPasswordTextField.getPassword());
+    
+    if (Lastname.isEmpty()||Firstname.isEmpty() || Middlename.isEmpty()||Barangay.isEmpty()|| City.isEmpty()
+            ||Province.isEmpty()||Country.isEmpty()||CPnumber.isEmpty()||Email.isEmpty()||Username.isEmpty()||
+            Password.isEmpty()||ConfirmPassword.isEmpty()){
+        JOptionPane.showMessageDialog(this, "Please make sure to fill out all requirements", "Error",JOptionPane.ERROR_MESSAGE);
+        return;
     }
-
-    // 2️⃣ Insert new user
-    String sql = "INSERT INTO student (`LastName`, `FirstName`, `MiddleName`, `Program`, `YearLevel`, `Section`, `Barangay`, `City`, `Province`,`Country`, `Contact_number`, `Username`, `Password`) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-
-    PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+    if (!Password.equals(ConfirmPassword)){
+        JOptionPane.showMessageDialog(this, "Passwords Do not Match", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+    }
+    //checks whether a username alreasy exist or not
+    String CheckSql = "SELECT COUNT(*) FROM admin WHERE Username = ?";
+    PreparedStatement checkPst = con.prepareStatement(CheckSql);
+    checkPst.setString(1,Username);
+    ResultSet checkRs = checkPst.executeQuery();
+if (checkRs.next() && checkRs.getInt(1)>0){
+    JOptionPane.showMessageDialog(this, "Username already exist", "Error", JOptionPane.ERROR_MESSAGE);
+return;
+}    
+ // 4️⃣ Save profile picture (if selected)
+    String profilePicDestPath = null;
+    if (selectedProfilePath != null) {
+        try {
+            File source = new File(selectedProfilePath);
+            String destDir = "profile_pics/";
+            new File(destDir).mkdirs(); // create folder if not exists
+            profilePicDestPath = destDir + "student_" + Username + ".jpg";
+            Files.copy(source.toPath(), new File(profilePicDestPath).toPath(),
+                       StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error saving profile picture: " + ex.getMessage());
+        }
+    }
+    
+    String SQL = "INSERT INTO admin"
+            +"(`Admin_LName`,`Admin_FName`,`Admin_MName`,`Barangay`,`City`,`Province`,`Country`,`Admin_Contact_Number`,`Admin_Email`"
+            + ",`Username`,`Admin_Password`,`Admin_Profile_Picture`)"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    PreparedStatement pst = con.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
     pst.setString(1, Lastname);
-    pst.setString(2, firstName);
-    pst.setString(3, middleName);
-    pst.setString(4, college);
-    pst.setString(5, grade);
-    pst.setString(6, Section);
-    //pst.setString(6, birthmonth);
-    //pst.setString(7, birthday);
-    //pst.setString(8, birthyear);
-    //pst.setString(9, gender);
-    pst.setString(7, brgy);
-    //pst.setString(11, strt);
-    pst.setString(8, cty);
-    pst.setString(9, prov);
-    //pst.setString(14, pstlcd);
-    pst.setString(10, cntry);
-    pst.setString(11, contact);
-    pst.setString(12, userName);
-    pst.setString(13, password);
-
+    pst.setString(2, Firstname);
+    pst.setString(3, Middlename);
+    pst.setString(4, Barangay);
+    pst.setString(5, City);
+    pst.setString(6, Province);
+    pst.setString(7, Country);
+    pst.setString(8, CPnumber);
+    pst.setString(9, Email);
+    pst.setString(10, Username);
+    pst.setString(11, Password);
+    pst.setString(12, profilePicDestPath);
+    
     pst.executeUpdate();
-
-    // 3️⃣ Get generated ID
+    
+        // 6️⃣ Get generated student ID
     ResultSet rs = pst.getGeneratedKeys();
     int generatedId = -1;
     if (rs.next()) {
         generatedId = rs.getInt(1);
     }
 
-    // 4️⃣ Success dialogs
+    // 7️⃣ Success message
     JOptionPane.showMessageDialog(this,
-            "Registration successful!\nPlease make sure to remember your UID\nYour User ID is: " + generatedId,
-            "Success", JOptionPane.INFORMATION_MESSAGE);
+        "Registration successful!\nYour User ID is: " + generatedId,
+        "Success", JOptionPane.INFORMATION_MESSAGE);
 
-    this.dispose(); // close signup form
-    MainForm main = new MainForm();
+    // Close sign-up form and open main form
+    this.dispose();
+    MainForm main = new MainForm(Username);
     main.setVisible(true);
+    
+}catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+                                  "SQL Error", JOptionPane.ERROR_MESSAGE);
+} catch (HeadlessException ex) {
+    JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage(),
+                                  "Error", JOptionPane.ERROR_MESSAGE);
+}
+    
+    
+    
+    
+    }//GEN-LAST:event_SignUpButtonActionPerformed
 
-} catch (SQLException sqlEx) {
-    JOptionPane.showMessageDialog(this,
-            "Database error: " + sqlEx.getMessage(),
-            "SQL Error", JOptionPane.ERROR_MESSAGE);
+    private void ProvinceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProvinceTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProvinceTextFieldActionPerformed
 
-} catch (HeadlessException e) {
-    JOptionPane.showMessageDialog(this,
-            "Unexpected error: " + e.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
+    private void CountryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CountryTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CountryTextFieldActionPerformed
+
+    private void CityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CityTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CityTextFieldActionPerformed
+
+    private void BarangayTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BarangayTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BarangayTextFieldActionPerformed
+
+    private void EmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EmailTextFieldActionPerformed
+
+    private void PhotoUploaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhotoUploaderActionPerformed
+JFileChooser fileChooser = new JFileChooser();
+fileChooser.setDialogTitle("Select Profile Picture");
+fileChooser.setFileFilter(new FileNameExtensionFilter(
+        "Image files", "jpg", "jpeg", "png", "gif"));
+
+int result = fileChooser.showOpenDialog(null);
+if (result == JFileChooser.APPROVE_OPTION) {
+    File selectedFile = fileChooser.getSelectedFile();
+    selectedProfilePath = selectedFile.getAbsolutePath(); // use the class-level variable
+    profilePathField.setText(selectedProfilePath); // optional
+
+    // Load and display the image
+    ImageIcon icon = new ImageIcon(selectedProfilePath);
+    Image img = icon.getImage().getScaledInstance(
+            profilePicLabel.getWidth(),
+            profilePicLabel.getHeight(),
+            Image.SCALE_SMOOTH
+    );
+    profilePicLabel.setIcon(new ImageIcon(img));
 }
 
-
-    }//GEN-LAST:event_SignUpButtonActionPerformed
+    }//GEN-LAST:event_PhotoUploaderActionPerformed
+private String selectedProfilePath; // stores the path of the profile picture
 
     /**
      * @param args the command line arguments
@@ -586,7 +641,7 @@ try (Connection con = Connector.getConnection()) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -607,20 +662,13 @@ try (Connection con = Connector.getConnection()) {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+      java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SignUpDialog dialog = new SignUpDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new SignUpDialog().setVisible(true);
+
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private Custom_Components.RoundTextField BarangayTextField;
@@ -629,22 +677,26 @@ try (Connection con = Connector.getConnection()) {
     private Custom_Components.RoundPasswordField ConfirmPasswordTextField;
     private Custom_Components.RoundTextField ContactNumberTextField;
     private Custom_Components.RoundTextField CountryTextField;
+    private Custom_Components.RoundTextField EmailTextField;
     private Custom_Components.RoundTextField FirstnameTextField;
     private javax.swing.JLabel FontaineBG;
     private Custom_Components.RoundTextField LastnameTextField;
     private javax.swing.JLabel LoginLabel;
     private javax.swing.JPanel LoginPanel;
     private Custom_Components.RoundTextField MiddlenameTextField;
+    private javax.swing.JPanel PanelHolder;
     private Custom_Components.RoundPasswordField PasswordTextField;
-    private Custom_Components.RoundTextField ProgramTextField;
+    private Custom_Components.RoundedButton PhotoUploader;
     private Custom_Components.RoundTextField ProvinceTextField;
-    private Custom_Components.RoundTextField SectionTextField;
+    private javax.swing.JScrollPane ScrollPanel;
     private javax.swing.JButton SignUpButton;
     private Custom_Components.RoundTextField UsernameTextField;
-    private Custom_Components.RoundTextField YearTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private Custom_Components.RoundTextField profilePathField;
+    private Custom_Components.ProfilePanel profilePicLabel;
     private Custom_Components.ShowHideButton showHideButton1;
     private Custom_Components.ShowHideButton showHideButton2;
     // End of variables declaration//GEN-END:variables

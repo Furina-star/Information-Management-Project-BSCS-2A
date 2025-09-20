@@ -218,22 +218,25 @@ public class LoginDialog extends javax.swing.JDialog {
         try {
             Connection con = Connector.getConnection();
 
-            String sql = "SELECT * FROM student WHERE `Username = ? AND Password = ?";
+            String sql = "SELECT * FROM admin WHERE Username = ? AND Admin_Password = ?";
             PreparedStatement pst = con.prepareStatement(sql);
 
-            pst.setString(2, UsernameTextField.getText());          // Username
-            pst.setString(3, PasswordTextField.getText());          // Password
+            pst.setString(1, UsernameTextField.getText());          // Username
+            pst.setString(2, PasswordTextField.getText());          // Password
 
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                // ✅ Login success
-                MainForm forgot = new MainForm(); 
+                
+                String username = rs.getString("Username");
+
+                //  Login success
+                MainForm forgot = new MainForm(username); 
                  this.dispose();
                     forgot.setVisible(true);
                 return;
             } else {
-                // ❌ Login failed
+                // Login failed
                 JOptionPane.showMessageDialog(null, "Invalid user. Try Again!");
                 UsernameTextField.setText("");
                 PasswordTextField.setText("");

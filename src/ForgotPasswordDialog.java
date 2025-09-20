@@ -101,7 +101,7 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
         });
 
         UsernameTextField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/user.png"))); // NOI18N
-        UsernameTextField.setPlaceholderText("Username");
+        UsernameTextField.setPlaceholderText("Enter Admin ID");
 
         NewPasswordTextField.setPlaceholderText("New Password");
 
@@ -242,7 +242,7 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/learningtracker", "root", "");
 
         // Query to find password by ID
-        String sql = "SELECT Password FROM student WHERE Username = ?";
+        String sql = "SELECT Admin_Password FROM admin WHERE Admin_ID = ?";
         pst = conn.prepareStatement(sql);
         pst.setString(1, Username);
         rs = pst.executeQuery();
@@ -250,7 +250,7 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
       
         if (rs.next()) {
             String password = rs.getString("Password");
-            sql ="UPDATE student SET Password =? WHERE Username = ? ";
+            sql ="UPDATE admin SET Admin_Password =? WHERE Admin_ID = ? ";
             pst = conn.prepareStatement(sql);
             pst.setString(1,newpass);
             pst.setString(2,Username);

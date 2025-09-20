@@ -1,3 +1,29 @@
+
+import java.sql.PreparedStatement;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import Custom_Components.ThinScrollDemo;
+import Custom_Components.ThinScrollBarUI;
+import javax.swing.BorderFactory;
+import java.awt.Color;
+import Custom_Components.TextPrompt;
+import DataBaseConnection.Connector;
+import com.mysql.cj.callback.UsernameCallback;
+import com.mysql.cj.xdevapi.Statement;
+import com.sun.jdi.connect.spi.Connection;
+import java.awt.CardLayout;
+import java.awt.Font;
+import java.awt.HeadlessException;
+import java.awt.Image;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import javax.lang.model.util.Types;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -5,17 +31,72 @@
 
 /**
  *
- * @author bello
+ * @author bello and laurence yeaaaaaaaaaaaaaa
  */
 public class MainForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainForm
-     */
+    // Main constructor for default (no username)
     public MainForm() {
-        initComponents();
+        this(null); // call the other constructor with null username
     }
 
+    // Constructor with username
+    public MainForm(String username) {
+        initComponents(); // generated UI components
+            BodyPanel.setVisible(false);
+                assessmentModel = new DefaultTableModel(
+                    new Object[]{"ID", "Subject", "Title", "Type", "MaxScore", "DateGiven"}, 0
+) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return true; // allow editing for all columns, including ID
+}
+
+};
+        AssessmentTable.setModel(assessmentModel);
+        loadAssessments();
+        //Set greeting if username is provided
+        //note saka lang to gagana if kaka login ni user
+        if (username != null && !username.isEmpty()) {
+            GreetLabel.setText("Hello " + username + "!");
+        } else {
+            GreetLabel.setText("Hello!");
+        }
+
+        //Optional styling for greeting
+        GreetLabel.setFont(new Font("Segoe UI", Font.BOLD, 19));
+            GreetLabel.setForeground(Color.WHITE);
+                GreetLabel.setPreferredSize(new Dimension(250, 30));
+
+        // Layout fixes
+        if (GreetLabel.getParent() != null) {
+                GreetLabel.getParent().revalidate();
+                    GreetLabel.getParent().repaint();
+        }
+
+        // Scroll panel tweaks
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+            SidePanelHolder.setBorder(BorderFactory.createEmptyBorder());
+                jScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
+                    jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
+                    
+        TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+            TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+                TableScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
+                    TableScrollPane1.getHorizontalScrollBar().setUI(new ThinScrollBarUI());
+                        TableScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
+                         
+         //for the Assessment Table
+             assessmentModel = (DefaultTableModel) AssessmentTable.getModel();
+        //Search bar placeholder
+        new TextPrompt("Search here..", searchBar1);
+            loadStudentsFromDB();
+                loadSubjectsFromDB();
+        //Final frame settings
+        pack(); // fit all components
+            setLocationRelativeTo(null); // center on screen
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,9 +106,10 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        BgPanel = new javax.swing.JPanel();
+        SidePanelHolder = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         SidebarPanel = new Custom_Components.BetterRoundPanel();
-        TitlePanel = new javax.swing.JPanel();
-        TitleLabel = new javax.swing.JLabel();
         ViewLabel = new javax.swing.JLabel();
         VStudentButton = new Custom_Components.PressedDownAnimButton();
         VSubjectButton = new Custom_Components.PressedDownAnimButton();
@@ -41,35 +123,97 @@ public class MainForm extends javax.swing.JFrame {
         UCloseButton = new Custom_Components.PressedDownAnimButton();
         UBackButton = new Custom_Components.PressedDownAnimButton();
         UExportButton = new Custom_Components.PressedDownAnimButton();
-        MainPanel = new javax.swing.JPanel();
+        VHomeButton = new Custom_Components.PressedDownAnimButton();
+        VAssessmentButton1 = new Custom_Components.PressedDownAnimButton();
+        jLabel1 = new javax.swing.JLabel();
+        UpperNavigationPanel = new javax.swing.JPanel();
+        GreetLabel = new javax.swing.JLabel();
+        searchBar1 = new Custom_Components.SearchBar();
+        GreetLabel1 = new javax.swing.JLabel();
+        BodyPanel = new javax.swing.JPanel();
+        Home = new javax.swing.JPanel();
+        jPanel1 = new Custom_Components.Wrapper(
+            new Color(27,39,50),
+            new Color(30,45,50),
+            20
+        )
+        ;
+        jLabel2 = new javax.swing.JLabel();
+        ValueDisplayStud = new javax.swing.JLabel();
+        TotalAssessment = new Custom_Components.Wrapper(
+            new Color(27,39,50),
+            new Color(30,45,50),
+            20
+        )
+        ;
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        ValueDisplayAss = new javax.swing.JLabel();
+        jPanel3 = new Custom_Components.Wrapper(
+            new Color(27,39,50),
+            new Color(30, 45, 50),
+            20
+        )
+        ;
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        GradeDisplay = new javax.swing.JLabel();
+        jPanel5 = new Custom_Components.Wrapper(
+            new Color(27,39,50),
+            new Color(30, 45, 50),
+            20
+        )
+        ;
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        DeadLineDis = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        StudentsPanel = new javax.swing.JPanel();
+        TableScrollPane1 = new javax.swing.JScrollPane();
+        StudentTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        lblContact = new javax.swing.JLabel();
+        lblAddress = new javax.swing.JLabel();
+        lblYear = new javax.swing.JLabel();
+        lblSection = new javax.swing.JLabel();
+        lblProgram = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblID = new javax.swing.JLabel();
+        Subjects = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        subjectTable = new javax.swing.JTable();
+        Assessment = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        AssessmentTable = new javax.swing.JTable();
+        roundedButton1 = new Custom_Components.RoundedButton();
+        AssessmentResult = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
 
-        SidebarPanel.setBackground(new java.awt.Color(44, 62, 80));
+        BgPanel.setBackground(new java.awt.Color(27, 39, 60));
+        BgPanel.setForeground(new java.awt.Color(255, 204, 204));
+        BgPanel.setMaximumSize(new java.awt.Dimension(2560, 1440));
+        BgPanel.setMinimumSize(new java.awt.Dimension(1280, 720));
+        BgPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        TitlePanel.setBackground(new java.awt.Color(27, 39, 50));
+        SidePanelHolder.setBackground(new java.awt.Color(27, 39, 50));
 
-        TitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        TitleLabel.setText("School Dashboard");
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(225, 720));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(225, 720));
 
-        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
-        TitlePanel.setLayout(TitlePanelLayout);
-        TitlePanelLayout.setHorizontalGroup(
-            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TitlePanelLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(TitleLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        TitlePanelLayout.setVerticalGroup(
-            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TitlePanelLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(TitleLabel)
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
+        SidebarPanel.setBackground(new java.awt.Color(27, 39, 50));
 
         ViewLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         ViewLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -83,6 +227,11 @@ public class MainForm extends javax.swing.JFrame {
         VStudentButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         VStudentButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         VStudentButton.setIconTextGap(30);
+        VStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VStudentButtonActionPerformed(evt);
+            }
+        });
 
         VSubjectButton.setBackground(new java.awt.Color(44, 62, 80));
         VSubjectButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -92,6 +241,11 @@ public class MainForm extends javax.swing.JFrame {
         VSubjectButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         VSubjectButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         VSubjectButton.setIconTextGap(30);
+        VSubjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VSubjectButtonActionPerformed(evt);
+            }
+        });
 
         VAssessmentButton.setBackground(new java.awt.Color(44, 62, 80));
         VAssessmentButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -101,6 +255,11 @@ public class MainForm extends javax.swing.JFrame {
         VAssessmentButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         VAssessmentButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         VAssessmentButton.setIconTextGap(30);
+        VAssessmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VAssessmentButtonActionPerformed(evt);
+            }
+        });
 
         CustomizeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         CustomizeLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,6 +288,11 @@ public class MainForm extends javax.swing.JFrame {
         CAddButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         CAddButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         CAddButton.setIconTextGap(30);
+        CAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CAddButtonActionPerformed(evt);
+            }
+        });
 
         UtilitiesLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         UtilitiesLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,101 +349,703 @@ public class MainForm extends javax.swing.JFrame {
         UExportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         UExportButton.setIconTextGap(30);
 
+        VHomeButton.setBackground(new java.awt.Color(44, 62, 80));
+        VHomeButton.setForeground(new java.awt.Color(255, 255, 255));
+        VHomeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/home-icon-silhouette (1).png"))); // NOI18N
+        VHomeButton.setText("Home");
+        VHomeButton.setCornerRadius(15);
+        VHomeButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        VHomeButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        VHomeButton.setIconTextGap(30);
+        VHomeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VHomeButtonActionPerformed(evt);
+            }
+        });
+
+        VAssessmentButton1.setBackground(new java.awt.Color(44, 62, 80));
+        VAssessmentButton1.setForeground(new java.awt.Color(255, 255, 255));
+        VAssessmentButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/test.png"))); // NOI18N
+        VAssessmentButton1.setText("Assessment Results");
+        VAssessmentButton1.setCornerRadius(15);
+        VAssessmentButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        VAssessmentButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        VAssessmentButton1.setIconTextGap(30);
+        VAssessmentButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VAssessmentButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SidebarPanelLayout = new javax.swing.GroupLayout(SidebarPanel);
         SidebarPanel.setLayout(SidebarPanelLayout);
         SidebarPanelLayout.setHorizontalGroup(
             SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TitlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(SidebarPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(UAboutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(UCloseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(UBackButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(UtilitiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(UExportButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(CDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(VAssessmentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(VSubjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(VStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CustomizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ViewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(SidebarPanelLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ViewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(SidebarPanelLayout.createSequentialGroup()
+                                .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(CAddButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(CUpdateButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(CDeleteButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UExportButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UAboutButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UCloseButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UBackButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UtilitiesLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(CustomizeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(19, 19, 19))))
+                    .addGroup(SidebarPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(VSubjectButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(VAssessmentButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(VStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(SidebarPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(VHomeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(SidebarPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(VAssessmentButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         SidebarPanelLayout.setVerticalGroup(
             SidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SidebarPanelLayout.createSequentialGroup()
-                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(ViewLabel)
+                .addContainerGap()
+                .addComponent(ViewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(VHomeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(VStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VSubjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VAssessmentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VAssessmentButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
+                .addComponent(CustomizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(VStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(VSubjectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(VAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addGap(44, 44, 44)
-                .addComponent(CustomizeLabel)
+                .addComponent(UtilitiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UBackButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UCloseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(UtilitiesLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UAboutButton, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(UCloseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(UAboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(UExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 56, Short.MAX_VALUE))
+                .addComponent(UExportButton, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
 
-        MainPanel.setBackground(new java.awt.Color(100, 147, 192));
+        jScrollPane1.setViewportView(SidebarPanel);
 
-        javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
-        MainPanel.setLayout(MainPanelLayout);
-        MainPanelLayout.setHorizontalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1072, Short.MAX_VALUE)
+        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("SCHOOL DASHBOARD");
+
+        javax.swing.GroupLayout SidePanelHolderLayout = new javax.swing.GroupLayout(SidePanelHolder);
+        SidePanelHolder.setLayout(SidePanelHolderLayout);
+        SidePanelHolderLayout.setHorizontalGroup(
+            SidePanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+            .addGroup(SidePanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SidePanelHolderLayout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-        MainPanelLayout.setVerticalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        SidePanelHolderLayout.setVerticalGroup(
+            SidePanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SidePanelHolderLayout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 712, Short.MAX_VALUE))
+            .addGroup(SidePanelHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SidePanelHolderLayout.createSequentialGroup()
+                    .addGap(89, 89, 89)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(111, Short.MAX_VALUE)))
+        );
+
+        UpperNavigationPanel.setOpaque(false);
+
+        GreetLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        GreetLabel.setForeground(new java.awt.Color(255, 255, 255));
+
+        searchBar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/search (2).png"))); // NOI18N
+        searchBar1.setInheritsPopupMenu(true);
+
+        GreetLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        GreetLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        GreetLabel1.setText("What's the agenda today?");
+
+        javax.swing.GroupLayout UpperNavigationPanelLayout = new javax.swing.GroupLayout(UpperNavigationPanel);
+        UpperNavigationPanel.setLayout(UpperNavigationPanelLayout);
+        UpperNavigationPanelLayout.setHorizontalGroup(
+            UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                        .addComponent(GreetLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                        .addComponent(GreetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))))
+        );
+        UpperNavigationPanelLayout.setVerticalGroup(
+            UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(GreetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(GreetLabel1)
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+
+        BodyPanel.setOpaque(false);
+        BodyPanel.setLayout(new java.awt.CardLayout());
+
+        Home.setOpaque(false);
+
+        jLabel2.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Total Students");
+
+        ValueDisplayStud.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        ValueDisplayStud.setForeground(new java.awt.Color(255, 255, 255));
+        ValueDisplayStud.setText("100%");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(67, Short.MAX_VALUE)
+                    .addComponent(ValueDisplayStud)
+                    .addGap(52, 52, 52)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(36, 36, 36))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(115, 115, 115)
+                    .addComponent(ValueDisplayStud)
+                    .addContainerGap(138, Short.MAX_VALUE)))
+        );
+
+        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Assessments");
+
+        jLabel6.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Pending ");
+
+        ValueDisplayAss.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        ValueDisplayAss.setForeground(new java.awt.Color(255, 255, 255));
+        ValueDisplayAss.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ValueDisplayAss.setText("100%");
+
+        javax.swing.GroupLayout TotalAssessmentLayout = new javax.swing.GroupLayout(TotalAssessment);
+        TotalAssessment.setLayout(TotalAssessmentLayout);
+        TotalAssessmentLayout.setHorizontalGroup(
+            TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TotalAssessmentLayout.createSequentialGroup()
+                .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(TotalAssessmentLayout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel4))
+                    .addGroup(TotalAssessmentLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ValueDisplayAss)
+                            .addComponent(jLabel6))))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        TotalAssessmentLayout.setVerticalGroup(
+            TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TotalAssessmentLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ValueDisplayAss)
+                .addGap(51, 51, 51)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addGap(23, 23, 23))
+        );
+
+        jLabel8.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Average");
+
+        jLabel9.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Grades");
+
+        GradeDisplay.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        GradeDisplay.setForeground(new java.awt.Color(255, 255, 255));
+        GradeDisplay.setText("100%");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(GradeDisplay)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel9)))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(GradeDisplay)
+                .addGap(51, 51, 51)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addGap(21, 21, 21))
+        );
+
+        jLabel5.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Deadlines");
+
+        jLabel7.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Upcoming");
+
+        DeadLineDis.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        DeadLineDis.setForeground(new java.awt.Color(255, 255, 255));
+        DeadLineDis.setText("100%");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(DeadLineDis)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel5)))
+                .addGap(55, 55, 55))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(DeadLineDis)
+                .addGap(49, 49, 49)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(22, 22, 22))
+        );
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("QUICK STATS");
+
+        javax.swing.GroupLayout HomeLayout = new javax.swing.GroupLayout(Home);
+        Home.setLayout(HomeLayout);
+        HomeLayout.setHorizontalGroup(
+            HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HomeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(TotalAssessment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+        HomeLayout.setVerticalGroup(
+            HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HomeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(35, 35, 35)
+                .addGroup(HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TotalAssessment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(189, 189, 189))
+        );
+
+        BodyPanel.add(Home, "HomePanel");
+
+        StudentsPanel.setBackground(new java.awt.Color(51, 255, 51));
+        StudentsPanel.setForeground(new java.awt.Color(255, 153, 153));
+        StudentsPanel.setOpaque(false);
+
+        TableScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        TableScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        StudentTable.setAutoCreateRowSorter(true);
+        StudentTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "StudentID", "Name", "Pogram", "Year Level", "Section", "Address", "Contact Number", "Username", "Password"
+            }
+        ));
+        StudentTable.setAlignmentY(2.0F);
+        StudentTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        StudentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                StudentTableMouseClicked(evt);
+            }
+        });
+        TableScrollPane1.setViewportView(StudentTable);
+        if (StudentTable.getColumnModel().getColumnCount() > 0) {
+            StudentTable.getColumnModel().getColumn(0).setResizable(false);
+            StudentTable.getColumnModel().getColumn(1).setResizable(false);
+            StudentTable.getColumnModel().getColumn(2).setResizable(false);
+            StudentTable.getColumnModel().getColumn(3).setResizable(false);
+            StudentTable.getColumnModel().getColumn(4).setResizable(false);
+            StudentTable.getColumnModel().getColumn(5).setResizable(false);
+            StudentTable.getColumnModel().getColumn(6).setResizable(false);
+            StudentTable.getColumnModel().getColumn(7).setResizable(false);
+            StudentTable.getColumnModel().getColumn(8).setResizable(false);
+        }
+
+        jLabel10.setText("Profile Picture");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel11.setText("ID:");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel12.setText("NAME: ");
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel13.setText("PROGRAM:");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel14.setText("YEAR: ");
+
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel15.setText("SECTION: ");
+
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel16.setText("ADDRESS: ");
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel17.setText("CONTACT:");
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel18.setText("USERNAME: ");
+
+        lblUsername.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblUsername.setText("*");
+
+        lblContact.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblContact.setText("*");
+
+        lblAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblAddress.setText("*");
+
+        lblYear.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblYear.setText("*:");
+
+        lblSection.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblSection.setText("*");
+
+        lblProgram.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblProgram.setText("*");
+
+        lblName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblName.setText("*");
+
+        lblID.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblID.setText("*");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(67, 67, 67)
+                                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(38, 38, 38)
+                                .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblProgram, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblContact, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblSection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(42, 42, 42)
+                                .addComponent(lblYear, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(lblID))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(lblName))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(lblProgram))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(lblYear))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(lblSection))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(lblAddress))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(lblContact))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(lblUsername))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout StudentsPanelLayout = new javax.swing.GroupLayout(StudentsPanel);
+        StudentsPanel.setLayout(StudentsPanelLayout);
+        StudentsPanelLayout.setHorizontalGroup(
+            StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        StudentsPanelLayout.setVerticalGroup(
+            StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentsPanelLayout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
+        );
+
+        BodyPanel.add(StudentsPanel, "StudentsPanel");
+
+        Subjects.setOpaque(false);
+
+        subjectTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Taker", "SubjectID", "Name", "Code", "Units", "Credits"
+            }
+        ));
+        jScrollPane2.setViewportView(subjectTable);
+
+        javax.swing.GroupLayout SubjectsLayout = new javax.swing.GroupLayout(Subjects);
+        Subjects.setLayout(SubjectsLayout);
+        SubjectsLayout.setHorizontalGroup(
+            SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
+        );
+        SubjectsLayout.setVerticalGroup(
+            SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SubjectsLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 71, Short.MAX_VALUE))
+        );
+
+        BodyPanel.add(Subjects, "Subjects");
+
+        Assessment.setOpaque(false);
+
+        AssessmentTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "AssessmentID", "Subject", "Title ", "Type", "Max Score", "Date Given"
+            }
+        ));
+        jScrollPane3.setViewportView(AssessmentTable);
+
+        roundedButton1.setBackground(new java.awt.Color(153, 255, 153));
+        roundedButton1.setLabel("Upload");
+        roundedButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roundedButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout AssessmentLayout = new javax.swing.GroupLayout(Assessment);
+        Assessment.setLayout(AssessmentLayout);
+        AssessmentLayout.setHorizontalGroup(
+            AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AssessmentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        AssessmentLayout.setVerticalGroup(
+            AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AssessmentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+
+        BodyPanel.add(Assessment, "Assessment");
+
+        javax.swing.GroupLayout AssessmentResultLayout = new javax.swing.GroupLayout(AssessmentResult);
+        AssessmentResult.setLayout(AssessmentResultLayout);
+        AssessmentResultLayout.setHorizontalGroup(
+            AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 963, Short.MAX_VALUE)
+        );
+        AssessmentResultLayout.setVerticalGroup(
+            AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 592, Short.MAX_VALUE)
+        );
+
+        BodyPanel.add(AssessmentResult, "card6");
+
+        javax.swing.GroupLayout BgPanelLayout = new javax.swing.GroupLayout(BgPanel);
+        BgPanel.setLayout(BgPanelLayout);
+        BgPanelLayout.setHorizontalGroup(
+            BgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BgPanelLayout.createSequentialGroup()
+                .addComponent(SidePanelHolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(BgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(UpperNavigationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(BgPanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(BodyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        BgPanelLayout.setVerticalGroup(
+            BgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(SidePanelHolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(BgPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(UpperNavigationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BodyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(SidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(BgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1250, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(SidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(BgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1283, 899));
+        setSize(new java.awt.Dimension(1266, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void UCloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UCloseButtonActionPerformed
         // TODO add your handling code here:
         java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UCloseButton);
-        CloseConfirmDialog.Result res = CloseConfirmDialog.showDialog(owner, "Your System");
+            CloseConfirmDialog.Result res = CloseConfirmDialog.showDialog(owner, "Your System");
         if (res == CloseConfirmDialog.Result.CLOSE) {
             if (owner != null) {
                 owner.dispatchEvent(new java.awt.event.WindowEvent(owner, java.awt.event.WindowEvent.WINDOW_CLOSING));
@@ -292,24 +1058,326 @@ public class MainForm extends javax.swing.JFrame {
     private void UBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UBackButtonActionPerformed
         // TODO add your handling code here:
         java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UBackButton);
-        BackToLoginConfirmDialog.Result res = BackToLoginConfirmDialog.showDialog(owner, "Your System");
-        if (res == BackToLoginConfirmDialog.Result.BACK) {
-            if (owner != null) {
-                owner.setVisible(false); // or owner.dispose();
+            BackToLoginConfirmDialog.Result res = BackToLoginConfirmDialog.showDialog(owner, "Your System");
+                
+            if (res == BackToLoginConfirmDialog.Result.BACK) {
+                if (owner != null) {
+                    owner.setVisible(false); // or owner.dispose();
             }
-            LoginDialog Back = new LoginDialog();
-            this.dispose();
-            Back.setVisible(true);
+                        LoginDialog Back = new LoginDialog();
+                            this.dispose();
+                                Back.setVisible(true);
         }
     }//GEN-LAST:event_UBackButtonActionPerformed
 
     private void UAboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UAboutButtonActionPerformed
         // TODO add your handling code here:
         java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(UAboutButton);
-        String description = "Student Information System is a lightweight desktop tool for managing student records, subjects, and assessments. It streamlines routine tasks with a clean, modern interface and built‑in confirmations to prevent mistakes. View, add, update, and export data in just a few clicks.";
-
-        AboutUsDialog.showDialog(owner, "Student Information System", description);
+            String description = "Student Information System is a lightweight desktop tool for managing student records, subjects, and assessments. It streamlines routine tasks with a clean, "
+                + "modern interface and built‑in confirmations to prevent mistakes. View, add, update, and export data in just a few clicks.";
+                    AboutUsDialog.showDialog(owner, "Student Information System", description);
     }//GEN-LAST:event_UAboutButtonActionPerformed
+
+    private void VStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VStudentButtonActionPerformed
+        BodyPanel.setVisible(true);
+            CardLayout cl = (CardLayout)(BodyPanel.getLayout());
+                cl.show(BodyPanel, "StudentsPanel" );
+    }//GEN-LAST:event_VStudentButtonActionPerformed
+
+    private void VSubjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VSubjectButtonActionPerformed
+        BodyPanel.setVisible(true);
+            CardLayout cl = (CardLayout)(BodyPanel.getLayout());
+                cl.show(BodyPanel, "Subjects" );
+    }//GEN-LAST:event_VSubjectButtonActionPerformed
+
+    private void CAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CAddButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CAddButtonActionPerformed
+
+    private void VHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VHomeButtonActionPerformed
+        BodyPanel.setVisible(true);
+            CardLayout cl = (CardLayout)(BodyPanel.getLayout());
+                cl.show(BodyPanel, "HomePanel");
+    }//GEN-LAST:event_VHomeButtonActionPerformed
+
+    private void VAssessmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VAssessmentButtonActionPerformed
+        BodyPanel.setVisible(true);
+            CardLayout cl = (CardLayout)(BodyPanel.getLayout());
+                cl.show(BodyPanel, "Assessment");
+    }//GEN-LAST:event_VAssessmentButtonActionPerformed
+
+    private void StudentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMouseClicked
+    int row = StudentTable.getSelectedRow();
+    if (row != -1) {
+        // Get data from selected row
+        String ID = (String) StudentTable.getValueAt(row, 0);
+            String name = (String) StudentTable.getValueAt(row, 1);
+                String program = (String) StudentTable.getValueAt(row, 2);
+                    String year = (String) StudentTable.getValueAt(row, 3);
+                        String section = (String) StudentTable.getValueAt(row, 4);
+                            String address = (String) StudentTable.getValueAt(row, 5);
+                                String contact = (String) StudentTable.getValueAt(row, 6);
+                                    String username = (String) StudentTable.getValueAt(row,7);
+
+        // Show text in labels
+                                    lblID.setText(ID);
+                                lblName.setText(name);
+                            lblProgram.setText(program);
+                        lblYear.setText(year);
+                    lblSection.setText(section);
+                lblAddress.setText(address);
+            lblContact.setText(contact);
+        lblUsername.setText(username);
+
+        // Optional: profile pic (if you have the path in DB)
+       /*if (StudentTable.getColumnCount() > 7) {
+            String profilePath = (String) StudentTable.getValueAt(row, 7);
+            if (profilePath != null && !profilePath.isEmpty()) {
+                ImageIcon icon = new ImageIcon(profilePath);
+                Image img = icon.getImage().getScaledInstance(
+                        profilePicLabel.getWidth(),
+                        profilePicLabel.getHeight(),
+                        Image.SCALE_SMOOTH
+                );
+                profilePicLabel.setIcon(new ImageIcon(img));
+            } else {
+                profilePicLabel.setIcon(new ImageIcon("default.png"));
+            }
+        }
+    */
+    }
+    }//GEN-LAST:event_StudentTableMouseClicked
+
+    private void VAssessmentButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VAssessmentButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VAssessmentButton1ActionPerformed
+
+    private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
+         try (java.sql.Connection con = Connector.getConnection()) {
+    DefaultTableModel model = (DefaultTableModel) AssessmentTable.getModel();
+    boolean hasChanges = false;
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        Object idObj         = model.getValueAt(i, 0);
+        Object subjObj       = model.getValueAt(i, 1);
+        Object titleObj      = model.getValueAt(i, 2);
+        Object typeObj       = model.getValueAt(i, 3);
+        Object maxScoreObj   = model.getValueAt(i, 4);
+        Object dateGivenObj  = model.getValueAt(i, 5);
+
+        boolean isBlank = (subjObj == null || subjObj.toString().trim().isEmpty()) &&
+                          (titleObj == null || titleObj.toString().trim().isEmpty()) &&
+                          (typeObj == null || typeObj.toString().trim().isEmpty()) &&
+                          (maxScoreObj == null || maxScoreObj.toString().trim().isEmpty()) &&
+                          (dateGivenObj == null || dateGivenObj.toString().trim().isEmpty());
+
+        if (isBlank) continue;
+
+        hasChanges = true;
+
+        String subject     = subjObj == null ? "" : subjObj.toString().trim();
+        String title       = titleObj == null ? "" : titleObj.toString().trim();
+        String type        = typeObj == null ? "" : typeObj.toString().trim();
+        String maxScoreStr = maxScoreObj == null ? "0" : maxScoreObj.toString().trim();
+        int maxScore       = maxScoreStr.matches("\\d+") ? Integer.parseInt(maxScoreStr) : 0;
+        String dateGivenStr = dateGivenObj == null ? "" : dateGivenObj.toString().trim();
+
+        int subjectID = -1;
+        try (PreparedStatement pst = con.prepareStatement("SELECT SubjectID FROM Subject WHERE SubjectName=? LIMIT 1")) {
+            pst.setString(1, subject);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) subjectID = rs.getInt(1);
+            }
+        }
+
+        if (subjectID == -1) {
+            JOptionPane.showMessageDialog(this, "Subject not found: " + subject, "Invalid Subject", JOptionPane.WARNING_MESSAGE);
+            continue;
+        }
+//may error dito na part kaninang 5 ko pa inaayos
+        if (idObj == null || idObj.toString().trim().isEmpty()) {
+            // INSERT with auto-generated ID
+            String insertSQL = "INSERT INTO Assessment (SubjectID, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pst = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+                pst.setInt(1, subjectID);
+                pst.setString(2, title);
+                pst.setString(3, type);
+                pst.setInt(4, maxScore);
+                if (!dateGivenStr.isEmpty()) {
+                    pst.setDate(5, Date.valueOf(dateGivenStr));
+                } else {
+                    pst.setNull(5, Types.DATE);
+                }
+
+                int affected = pst.executeUpdate();
+                if (affected > 0) {
+                    try (ResultSet keys = pst.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int genId = keys.getInt(1);
+                            model.setValueAt(genId, i, 0); // update table with new ID
+                        }
+                    }
+                }
+            }
+        } else {
+            // UPDATE using manually entered ID
+            int id = Integer.parseInt(idObj.toString().trim());
+            String updateSQL = "UPDATE Assessment SET SubjectID=?, Title=?, Type=?, MaxScore=?, DateGiven=? WHERE AssessmentID=?";
+            try (PreparedStatement pst = con.prepareStatement(updateSQL)) {
+                pst.setInt(1, subjectID);
+                pst.setString(2, title);
+                pst.setString(3, type);
+                pst.setInt(4, maxScore);
+                if (!dateGivenStr.isEmpty()) {
+                    pst.setDate(5, Date.valueOf(dateGivenStr));
+                } else {
+                    pst.setNull(5, Types.DATE);
+                }
+                pst.setInt(6, id);
+                pst.executeUpdate();
+            }
+        }
+    }
+
+    if (hasChanges) {
+        JOptionPane.showMessageDialog(this, "Changes saved successfully!");
+        ensureOneBlankRow(model);
+    } else {
+        JOptionPane.showMessageDialog(this, "Nothing to save.");
+    }
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Error saving: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+
+/** Make sure the table ends with exactly one empty row for new input */
+private void ensureOneBlankRow(DefaultTableModel model) {
+    int rows = model.getRowCount();
+    boolean lastIsBlank = rows > 0 && isRowBlank(model, rows - 1);
+    if (!lastIsBlank) {
+        model.addRow(new Object[]{null, "", "", "", "", ""});
+    }
+    // optionally remove extra blank rows if user accidentally added multiple blanks:
+    for (int r = model.getRowCount() - 2; r >= 0; r--) {
+        if (isRowBlank(model, r) && isRowBlank(model, r + 1)) {
+            model.removeRow(r); // keep only one blank
+        }
+    }
+}
+private boolean isRowBlank(DefaultTableModel model, int r) {
+    for (int c = 1; c < model.getColumnCount(); c++) { // skip ID col (c=0)
+        Object v = model.getValueAt(r, c);
+        if (v != null && !v.toString().trim().isEmpty()) return false;
+    }
+    return true;
+
+
+
+    }//GEN-LAST:event_roundedButton1ActionPerformed
+
+    private void loadAssessments() {
+   
+
+    try (java.sql.Connection con = Connector.getConnection()) {
+        String sql = "SELECT a.AssessmentID, s.SubjectName, a.Title, a.Type, a.MaxScore, a.DateGiven " +
+                        "FROM Assessment a " +
+                            "JOIN Subject s ON a.SubjectID = s.SubjectID";
+                                PreparedStatement pst = con.prepareStatement(sql);
+                                    ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            assessmentModel.addRow(new Object[]{
+                rs.getInt("AssessmentID"),
+                    rs.getString("SubjectName"),
+                        rs.getString("Title"),
+                            rs.getString("Type"),
+                                rs.getInt("MaxScore"),
+                                    rs.getDate("DateGiven")
+            });
+        }
+  
+        assessmentModel.addRow(new Object[]{"", "", "", "", "", ""});
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading assessments: " + ex.getMessage());
+    }
+}
+
+    
+private void loadSubjectsFromDB() {
+    Connection con = null;
+        PreparedStatement pst = null;
+            ResultSet rs = null;
+
+    try(java.sql.Connection connect = Connector.getConnection()){
+        
+        String sql = "SELECT SubjectID, SubjectName, SubjectCode, Units, Credits, StudentID FROM subject";
+            pst = connect.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+            model.setRowCount(0);
+
+        while (rs.next()) {
+            Object[] row = {
+                rs.getString("SubjectID"),
+                    rs.getString("SubjectName"),
+                        rs.getInt("SubjectCode"),
+                            rs.getString("Units"),
+                                rs.getInt("Credits"),
+                                    rs.getInt("StudentID")                   
+            };
+                                model.addRow(row);
+        }
+    }                       catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+              "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+            
+private void loadStudentsFromDB() {
+
+    try (java.sql.Connection con = Connector.getConnection()) {
+
+       String sql = "SELECT StudentID, LastName, FirstName, MiddleName, Program, YearLevel, Section, "
+                    + "Barangay, City, Province, Country, Contact_number, Username, Password FROM student";
+            PreparedStatement pst = con.prepareStatement(sql); 
+                ResultSet rs = pst.executeQuery();
+                    DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
+                        model.setRowCount(0); // clear table first
+
+        while (rs.next()) {
+            // Combine full name
+            String fullName = rs.getString("LastName") + ", " +
+                                rs.getString("FirstName") + " " +
+                                    rs.getString("MiddleName");
+
+            // Combine address
+            String fullAddress = rs.getString("Barangay") + ", " +
+                                    rs.getString("City") + ", " +
+                                        rs.getString("Province") + ", " +
+                                            rs.getString("Country");
+            Object[] row = {
+                rs.getString("StudentID"),
+                    fullName,
+                        rs.getString("Program"),
+                            rs.getString("YearLevel"),
+                                rs.getString("Section"),
+                                    fullAddress,
+                                        rs.getString("Contact_number"),
+                                            rs.getString("Username"),
+                                                rs.getString("Password")
+            };
+            model.addRow(row);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this,
+            "Database error: " + e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);  
+    }
+}
+
 
     /**
      * @param args the command line arguments
@@ -337,7 +1405,6 @@ public class MainForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -345,24 +1412,78 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
     }
-
+DefaultTableModel assessmentModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Assessment;
+    private javax.swing.JPanel AssessmentResult;
+    private javax.swing.JTable AssessmentTable;
+    private javax.swing.JPanel BgPanel;
+    private javax.swing.JPanel BodyPanel;
     private Custom_Components.PressedDownAnimButton CAddButton;
     private Custom_Components.PressedDownAnimButton CDeleteButton;
     private Custom_Components.PressedDownAnimButton CUpdateButton;
     private javax.swing.JLabel CustomizeLabel;
-    private javax.swing.JPanel MainPanel;
+    private javax.swing.JLabel DeadLineDis;
+    private javax.swing.JLabel GradeDisplay;
+    private javax.swing.JLabel GreetLabel;
+    private javax.swing.JLabel GreetLabel1;
+    private javax.swing.JPanel Home;
+    private javax.swing.JPanel SidePanelHolder;
     private Custom_Components.BetterRoundPanel SidebarPanel;
-    private javax.swing.JLabel TitleLabel;
-    private javax.swing.JPanel TitlePanel;
+    private javax.swing.JTable StudentTable;
+    private javax.swing.JPanel StudentsPanel;
+    private javax.swing.JPanel Subjects;
+    private javax.swing.JScrollPane TableScrollPane1;
+    private javax.swing.JPanel TotalAssessment;
     private Custom_Components.PressedDownAnimButton UAboutButton;
     private Custom_Components.PressedDownAnimButton UBackButton;
     private Custom_Components.PressedDownAnimButton UCloseButton;
     private Custom_Components.PressedDownAnimButton UExportButton;
+    private javax.swing.JPanel UpperNavigationPanel;
     private javax.swing.JLabel UtilitiesLabel;
     private Custom_Components.PressedDownAnimButton VAssessmentButton;
+    private Custom_Components.PressedDownAnimButton VAssessmentButton1;
+    private Custom_Components.PressedDownAnimButton VHomeButton;
     private Custom_Components.PressedDownAnimButton VStudentButton;
     private Custom_Components.PressedDownAnimButton VSubjectButton;
+    private javax.swing.JLabel ValueDisplayAss;
+    private javax.swing.JLabel ValueDisplayStud;
     private javax.swing.JLabel ViewLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblProgram;
+    private javax.swing.JLabel lblSection;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JLabel lblYear;
+    private Custom_Components.RoundedButton roundedButton1;
+    private Custom_Components.SearchBar searchBar1;
+    private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 }
