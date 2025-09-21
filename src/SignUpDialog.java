@@ -528,7 +528,7 @@ return;
     String profilePicDestPath = null;
     if (selectedProfilePath != null) {
         try {
-            File source = new File(selectedProfilePath);
+                File source = new File(selectedProfilePath);
             String destDir = "profile_pics/";
             new File(destDir).mkdirs(); // create folder if not exists
             profilePicDestPath = destDir + "student_" + Username + ".jpg";
@@ -573,8 +573,8 @@ return;
 
     // Close sign-up form and open main form
     this.dispose();
-    /*MainForm main = new MainForm(Username);
-    main.setVisible(true);*/
+    MainForm main = new MainForm(Username);
+    main.setVisible(true);
     
 }catch (SQLException ex) {
     JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
