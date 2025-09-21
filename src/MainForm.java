@@ -1,4 +1,9 @@
-
+import java.sql.Types;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -9,8 +14,8 @@ import java.awt.Color;
 import Custom_Components.TextPrompt;
 import DataBaseConnection.Connector;
 import com.mysql.cj.callback.UsernameCallback;
-import com.mysql.cj.xdevapi.Statement;
-import com.sun.jdi.connect.spi.Connection;
+//import com.mysql.cj.xdevapi.Statement;
+//import com.sun.jdi.connect.spi.Connection;
 import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -18,7 +23,7 @@ import java.awt.Image;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import javax.lang.model.util.Types;
+//import javax.lang.model.util.Types;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -53,7 +58,23 @@ public class MainForm extends javax.swing.JFrame {
 }
 
 };
-        AssessmentTable.setModel(assessmentModel);
+DefaultTableModel subjectModel = new DefaultTableModel(
+    new Object[]{"SubjectName", "SubjectCode", "Units", "Credits", "StudentID"}, 0
+) {
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return true; // all cells editable
+    }
+};
+
+subjectTable.setModel(subjectModel);
+
+// Add blank rows for input
+for (int i = 0; i < 5; i++) {
+    subjectModel.addRow(new Object[]{"", "", "", "", ""});
+}
+// Add initial blank row(s)
+subjectModel.addRow(new Object[]{"", "", "", "", ""});
         loadAssessments();
         //Set greeting if username is provided
         //note saka lang to gagana if kaka login ni user
@@ -88,6 +109,9 @@ public class MainForm extends javax.swing.JFrame {
                          
          //for the Assessment Table
              assessmentModel = (DefaultTableModel) AssessmentTable.getModel();
+             //for the Subject table
+             
+             
         //Search bar placeholder
         new TextPrompt("Search here..", searchBar1);
             loadStudentsFromDB();
@@ -192,10 +216,11 @@ public class MainForm extends javax.swing.JFrame {
         Subjects = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         subjectTable = new javax.swing.JTable();
+        SubjectRoundedButtong = new Custom_Components.RoundedButton();
         Assessment = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         AssessmentTable = new javax.swing.JTable();
-        roundedButton1 = new Custom_Components.RoundedButton();
+        AssessmentUploadButton = new Custom_Components.RoundedButton();
         AssessmentResult = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -924,17 +949,31 @@ public class MainForm extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(subjectTable);
 
+        SubjectRoundedButtong.setBackground(new java.awt.Color(153, 255, 153));
+        SubjectRoundedButtong.setText("Upload");
+        SubjectRoundedButtong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubjectRoundedButtongActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SubjectsLayout = new javax.swing.GroupLayout(Subjects);
         Subjects.setLayout(SubjectsLayout);
         SubjectsLayout.setHorizontalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SubjectsLayout.createSequentialGroup()
+                .addContainerGap(845, Short.MAX_VALUE)
+                .addComponent(SubjectRoundedButtong, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         SubjectsLayout.setVerticalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SubjectsLayout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 71, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SubjectRoundedButtong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 27, Short.MAX_VALUE))
         );
 
         BodyPanel.add(Subjects, "Subjects");
@@ -954,11 +993,11 @@ public class MainForm extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(AssessmentTable);
 
-        roundedButton1.setBackground(new java.awt.Color(153, 255, 153));
-        roundedButton1.setLabel("Upload");
-        roundedButton1.addActionListener(new java.awt.event.ActionListener() {
+        AssessmentUploadButton.setBackground(new java.awt.Color(153, 255, 153));
+        AssessmentUploadButton.setLabel("Upload");
+        AssessmentUploadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roundedButton1ActionPerformed(evt);
+                AssessmentUploadButtonActionPerformed(evt);
             }
         });
 
@@ -972,7 +1011,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(AssessmentUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         AssessmentLayout.setVerticalGroup(
@@ -981,7 +1020,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AssessmentUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -1152,134 +1191,96 @@ public class MainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_VAssessmentButton1ActionPerformed
 
-    private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
-         try (java.sql.Connection con = Connector.getConnection()) {
-    DefaultTableModel model = (DefaultTableModel) AssessmentTable.getModel();
-    boolean hasChanges = false;
+    private void AssessmentUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssessmentUploadButtonActionPerformed
 
-    for (int i = 0; i < model.getRowCount(); i++) {
-        Object idObj         = model.getValueAt(i, 0);
-        Object subjObj       = model.getValueAt(i, 1);
-        Object titleObj      = model.getValueAt(i, 2);
-        Object typeObj       = model.getValueAt(i, 3);
-        Object maxScoreObj   = model.getValueAt(i, 4);
-        Object dateGivenObj  = model.getValueAt(i, 5);
+    try (Connection con = Connector.getConnection()) {
+        DefaultTableModel model = (DefaultTableModel) AssessmentTable.getModel();
 
-        boolean isBlank = (subjObj == null || subjObj.toString().trim().isEmpty()) &&
-                          (titleObj == null || titleObj.toString().trim().isEmpty()) &&
-                          (typeObj == null || typeObj.toString().trim().isEmpty()) &&
-                          (maxScoreObj == null || maxScoreObj.toString().trim().isEmpty()) &&
-                          (dateGivenObj == null || dateGivenObj.toString().trim().isEmpty());
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object subjectObj = model.getValueAt(i, 1); // Subject
+            Object titleObj   = model.getValueAt(i, 2); // Title
+            Object typeObj    = model.getValueAt(i, 3); // Type
+            Object scoreObj   = model.getValueAt(i, 4); // MaxScore
+            Object dateObj    = model.getValueAt(i, 5); // DateGiven
 
-        if (isBlank) continue;
+            if (titleObj == null || titleObj.toString().trim().isEmpty()) continue;
 
-        hasChanges = true;
+            String subject   = subjectObj == null ? "" : subjectObj.toString().trim();
+            String title     = titleObj.toString().trim();
+            String type      = typeObj == null ? "" : typeObj.toString().trim();
+            int maxScore     = scoreObj == null || scoreObj.toString().trim().isEmpty()
+                                ? 0 : Integer.parseInt(scoreObj.toString().trim());
+            String dateGiven = dateObj == null ? "" : dateObj.toString().trim();
 
-        String subject     = subjObj == null ? "" : subjObj.toString().trim();
-        String title       = titleObj == null ? "" : titleObj.toString().trim();
-        String type        = typeObj == null ? "" : typeObj.toString().trim();
-        String maxScoreStr = maxScoreObj == null ? "0" : maxScoreObj.toString().trim();
-        int maxScore       = maxScoreStr.matches("\\d+") ? Integer.parseInt(maxScoreStr) : 0;
-        String dateGivenStr = dateGivenObj == null ? "" : dateGivenObj.toString().trim();
-
-        int subjectID = -1;
-        try (PreparedStatement pst = con.prepareStatement("SELECT SubjectID FROM Subject WHERE SubjectName=? LIMIT 1")) {
-            pst.setString(1, subject);
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) subjectID = rs.getInt(1);
-            }
-        }
-
-        if (subjectID == -1) {
-            JOptionPane.showMessageDialog(this, "Subject not found: " + subject, "Invalid Subject", JOptionPane.WARNING_MESSAGE);
-            continue;
-        }
-//may error dito na part kaninang 5 ko pa inaayos
-        if (idObj == null || idObj.toString().trim().isEmpty()) {
-            // INSERT with auto-generated ID
-            String insertSQL = "INSERT INTO Assessment (SubjectID, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pst = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
-                pst.setInt(1, subjectID);
+            String sql = "INSERT INTO assessment (Subject, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pst = con.prepareStatement(sql)) {
+                pst.setString(1, subject);
                 pst.setString(2, title);
                 pst.setString(3, type);
                 pst.setInt(4, maxScore);
-                if (!dateGivenStr.isEmpty()) {
-                    pst.setDate(5, Date.valueOf(dateGivenStr));
-                } else {
-                    pst.setNull(5, Types.DATE);
-                }
-
-                int affected = pst.executeUpdate();
-                if (affected > 0) {
-                    try (ResultSet keys = pst.getGeneratedKeys()) {
-                        if (keys.next()) {
-                            int genId = keys.getInt(1);
-                            model.setValueAt(genId, i, 0); // update table with new ID
-                        }
-                    }
-                }
-            }
-        } else {
-            // UPDATE using manually entered ID
-            int id = Integer.parseInt(idObj.toString().trim());
-            String updateSQL = "UPDATE Assessment SET SubjectID=?, Title=?, Type=?, MaxScore=?, DateGiven=? WHERE AssessmentID=?";
-            try (PreparedStatement pst = con.prepareStatement(updateSQL)) {
-                pst.setInt(1, subjectID);
-                pst.setString(2, title);
-                pst.setString(3, type);
-                pst.setInt(4, maxScore);
-                if (!dateGivenStr.isEmpty()) {
-                    pst.setDate(5, Date.valueOf(dateGivenStr));
-                } else {
-                    pst.setNull(5, Types.DATE);
-                }
-                pst.setInt(6, id);
+                pst.setString(5, dateGiven);
                 pst.executeUpdate();
             }
         }
+
+        JOptionPane.showMessageDialog(null, "Assessments saved successfully!");
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error saving assessments: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
 
-    if (hasChanges) {
-        JOptionPane.showMessageDialog(this, "Changes saved successfully!");
-        ensureOneBlankRow(model);
-    } else {
-        JOptionPane.showMessageDialog(this, "Nothing to save.");
-    }
+    }//GEN-LAST:event_AssessmentUploadButtonActionPerformed
 
-} catch (SQLException ex) {
-    JOptionPane.showMessageDialog(this, "Error saving: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
-}
+    private void SubjectRoundedButtongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubjectRoundedButtongActionPerformed
+    try (Connection con = Connector.getConnection()) {
+        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
 
-/** Make sure the table ends with exactly one empty row for new input */
-private void ensureOneBlankRow(DefaultTableModel model) {
-    int rows = model.getRowCount();
-    boolean lastIsBlank = rows > 0 && isRowBlank(model, rows - 1);
-    if (!lastIsBlank) {
-        model.addRow(new Object[]{null, "", "", "", "", ""});
-    }
-    // optionally remove extra blank rows if user accidentally added multiple blanks:
-    for (int r = model.getRowCount() - 2; r >= 0; r--) {
-        if (isRowBlank(model, r) && isRowBlank(model, r + 1)) {
-            model.removeRow(r); // keep only one blank
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object nameObj     = model.getValueAt(i, 0); // SubjectName
+            Object codeObj     = model.getValueAt(i, 1); // SubjectCode
+            Object unitsObj    = model.getValueAt(i, 2); // Units
+            Object creditsObj  = model.getValueAt(i, 3); // Credits
+            Object studentObj  = model.getValueAt(i, 4); // StudentID
+
+            if (nameObj == null || nameObj.toString().trim().isEmpty()) continue;
+
+            String name     = nameObj.toString().trim();
+            String code     = codeObj == null ? "" : codeObj.toString().trim();
+            String units    = unitsObj == null ? "" : unitsObj.toString().trim();
+            int credits     = creditsObj == null || creditsObj.toString().trim().isEmpty()
+                                ? 0 : Integer.parseInt(creditsObj.toString().trim());
+
+            // ✅ Validate StudentID
+            if (studentObj == null || studentObj.toString().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "StudentID is required for this subject.", "Missing StudentID", JOptionPane.WARNING_MESSAGE);
+                continue;
+            }
+
+            int studentID = Integer.parseInt(studentObj.toString().trim());
+
+            String sql = "INSERT INTO Subject (SubjectName, SubjectCode, Units, Credits, StudentID) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pst = con.prepareStatement(sql)) {
+                pst.setString(1, name);
+                pst.setString(2, code);
+                pst.setString(3, units);
+                pst.setInt(4, credits);
+                pst.setInt(5, studentID);
+                pst.executeUpdate();
+            }
         }
+
+        JOptionPane.showMessageDialog(null, "Subjects saved successfully!");
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error saving subjects: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
-}
-private boolean isRowBlank(DefaultTableModel model, int r) {
-    for (int c = 1; c < model.getColumnCount(); c++) { // skip ID col (c=0)
-        Object v = model.getValueAt(r, c);
-        if (v != null && !v.toString().trim().isEmpty()) return false;
-    }
-    return true;
 
-
-
-    }//GEN-LAST:event_roundedButton1ActionPerformed
+    }//GEN-LAST:event_SubjectRoundedButtongActionPerformed
 
     private void loadAssessments() {
-   
-
-    try (java.sql.Connection con = Connector.getConnection()) {
+      try (java.sql.Connection con = Connector.getConnection()) {
         String sql = "SELECT a.AssessmentID, s.SubjectName, a.Title, a.Type, a.MaxScore, a.DateGiven " +
                         "FROM Assessment a " +
                             "JOIN Subject s ON a.SubjectID = s.SubjectID";
@@ -1305,33 +1306,33 @@ private boolean isRowBlank(DefaultTableModel model, int r) {
 
     
 private void loadSubjectsFromDB() {
-    Connection con = null;
-        PreparedStatement pst = null;
-            ResultSet rs = null;
+    try (Connection con = Connector.getConnection();
+         PreparedStatement pst = con.prepareStatement(
+             "SELECT SubjectID, SubjectName, SubjectCode, Units, Credits, StudentID FROM subject");
+         ResultSet rs = pst.executeQuery()) {
 
-    try(java.sql.Connection connect = Connector.getConnection()){
-        
-        String sql = "SELECT SubjectID, SubjectName, SubjectCode, Units, Credits, StudentID FROM subject";
-            pst = connect.prepareStatement(sql);
-                rs = pst.executeQuery();
-
-                DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
-            model.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+        model.setRowCount(0); // clear existing rows
 
         while (rs.next()) {
             Object[] row = {
-                rs.getString("SubjectID"),
-                    rs.getString("SubjectName"),
-                        rs.getInt("SubjectCode"),
-                            rs.getString("Units"),
-                                rs.getInt("Credits"),
-                                    rs.getInt("StudentID")                   
+                rs.getInt("SubjectID"),               // int
+                rs.getString("SubjectName"),          // string
+                rs.getString("SubjectCode"),          // string
+                rs.getString("Units"),                // string
+                rs.getInt("Credits"),                 // int
+                rs.getInt("StudentID")                // int
             };
-                                model.addRow(row);
+            model.addRow(row);
         }
-    }                       catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
-              "Error", JOptionPane.ERROR_MESSAGE);
+
+        // Optional: add one blank row for new input
+        model.addRow(new Object[]{"", "", "", "", "", ""});
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
 }
             
@@ -1417,6 +1418,7 @@ DefaultTableModel assessmentModel;
     private javax.swing.JPanel Assessment;
     private javax.swing.JPanel AssessmentResult;
     private javax.swing.JTable AssessmentTable;
+    private Custom_Components.RoundedButton AssessmentUploadButton;
     private javax.swing.JPanel BgPanel;
     private javax.swing.JPanel BodyPanel;
     private Custom_Components.PressedDownAnimButton CAddButton;
@@ -1432,6 +1434,7 @@ DefaultTableModel assessmentModel;
     private Custom_Components.BetterRoundPanel SidebarPanel;
     private javax.swing.JTable StudentTable;
     private javax.swing.JPanel StudentsPanel;
+    private Custom_Components.RoundedButton SubjectRoundedButtong;
     private javax.swing.JPanel Subjects;
     private javax.swing.JScrollPane TableScrollPane1;
     private javax.swing.JPanel TotalAssessment;
@@ -1482,7 +1485,6 @@ DefaultTableModel assessmentModel;
     private javax.swing.JLabel lblSection;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblYear;
-    private Custom_Components.RoundedButton roundedButton1;
     private Custom_Components.SearchBar searchBar1;
     private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
