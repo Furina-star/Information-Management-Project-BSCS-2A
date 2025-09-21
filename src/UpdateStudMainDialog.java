@@ -34,12 +34,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-public class AddStudMainDialog extends javax.swing.JDialog {
+public class UpdateStudMainDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form AddStudMainDialog
+     * Creates new form UpdateStudMainDialog
      */
-    public AddStudMainDialog(java.awt.Frame parent, boolean modal) {
+    public UpdateStudMainDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -53,12 +53,22 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        AddMainPanel = new RoundedPanel(0);
+        UpdateMainPanel = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
+        FindStudentIDLabel = new javax.swing.JLabel();
+        StudentIDTextField = new Custom_Components.RoundTextField();
+        VerifyButton = new Custom_Components.RoundedButton();
+        CreateProfilePicture = new javax.swing.JLabel();
+        profilePathField = new Custom_Components.RoundTextField();
+        PhotoUploader = new Custom_Components.RoundedButton();
+        profilePicLabel = new Custom_Components.ProfilePanel();
         PersonalDetialsLabel = new javax.swing.JLabel();
         LastnameTextField = new Custom_Components.RoundTextField();
         FirstnameTextField = new Custom_Components.RoundTextField();
         MiddlenameTextField = new Custom_Components.RoundTextField();
+        ProgramTextField1 = new Custom_Components.RoundTextField();
+        YearTextField1 = new Custom_Components.RoundTextField();
+        SectionTextField1 = new Custom_Components.RoundTextField();
         WhereDoYouLiveLabel = new javax.swing.JLabel();
         BarangayTextField = new Custom_Components.RoundTextField();
         CityTextField = new Custom_Components.RoundTextField();
@@ -68,29 +78,59 @@ public class AddStudMainDialog extends javax.swing.JDialog {
         ContactNumberTextField = new Custom_Components.RoundTextField();
         UsernameTextField = new Custom_Components.RoundTextField();
         PasswordTextField = new Custom_Components.RoundPasswordField();
-        showHideButton1 = new ShowHideButton();
         ConfirmPasswordTextField = new Custom_Components.RoundPasswordField();
         showHideButton2 = new ShowHideButton();
-        CreateProfilePicture = new javax.swing.JLabel();
-        profilePathField = new Custom_Components.RoundTextField();
-        PhotoUploader = new Custom_Components.RoundedButton();
-        profilePicLabel = new Custom_Components.ProfilePanel();
-        AddStudButton = new RoundedButton();
+        showHideButton1 = new ShowHideButton();
+        UpdateStudButton = new RoundedButton();
         BackButton = new ImageButton();
         CloseButton = new ImageButton();
-        ProgramTextField1 = new Custom_Components.RoundTextField();
-        YearTextField1 = new Custom_Components.RoundTextField();
-        SectionTextField1 = new Custom_Components.RoundTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        AddMainPanel.setBackground(new java.awt.Color(255, 255, 255));
-        AddMainPanel.setPreferredSize(new java.awt.Dimension(761, 693));
+        UpdateMainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         TitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TitleLabel.setText("Add Student");
+        TitleLabel.setText("Update Student");
         TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+        FindStudentIDLabel.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
+        FindStudentIDLabel.setText("FIND STUDENT ID");
+
+        StudentIDTextField.setPlaceholderText("Student ID");
+        StudentIDTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StudentIDTextFieldActionPerformed(evt);
+            }
+        });
+
+        VerifyButton.setText("Verify");
+        VerifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerifyButtonActionPerformed(evt);
+            }
+        });
+
+        CreateProfilePicture.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
+        CreateProfilePicture.setText("UPDATE PROFILE PICTURE");
+
+        profilePathField.setMaximumSize(new java.awt.Dimension(64, 26));
+        profilePathField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profilePathFieldActionPerformed(evt);
+            }
+        });
+
+        PhotoUploader.setText("Upload Photo");
+        PhotoUploader.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PhotoUploaderActionPerformed(evt);
+            }
+        });
+
+        profilePicLabel.setForeground(new java.awt.Color(153, 153, 153));
+        profilePicLabel.setText("*Your Uploaded Profile Picture*");
+        profilePicLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         PersonalDetialsLabel.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         PersonalDetialsLabel.setText("PERSONAL DETAILS");
@@ -113,6 +153,27 @@ public class AddStudMainDialog extends javax.swing.JDialog {
         MiddlenameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MiddlenameTextFieldActionPerformed(evt);
+            }
+        });
+
+        ProgramTextField1.setPlaceholderText("Program\n");
+        ProgramTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProgramTextField1ActionPerformed(evt);
+            }
+        });
+
+        YearTextField1.setPlaceholderText("Year");
+        YearTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                YearTextField1ActionPerformed(evt);
+            }
+        });
+
+        SectionTextField1.setPlaceholderText("Section\n");
+        SectionTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SectionTextField1ActionPerformed(evt);
             }
         });
 
@@ -167,15 +228,6 @@ public class AddStudMainDialog extends javax.swing.JDialog {
 
         PasswordTextField.setPlaceholderText("Password");
 
-        showHideButton1.setText("showHideButton1");
-        showHideButton1.setHideIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/eye.png"))); // NOI18N
-        showHideButton1.setShowIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/hidden.png"))); // NOI18N
-        showHideButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showHideButton1ActionPerformed(evt);
-            }
-        });
-
         ConfirmPasswordTextField.setPlaceholderText("Confirm Password");
 
         showHideButton2.setText("showHideButton1");
@@ -187,34 +239,22 @@ public class AddStudMainDialog extends javax.swing.JDialog {
             }
         });
 
-        CreateProfilePicture.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        CreateProfilePicture.setText("CREATE PROFILE PICTURE");
-
-        profilePathField.setMaximumSize(new java.awt.Dimension(64, 26));
-        profilePathField.addActionListener(new java.awt.event.ActionListener() {
+        showHideButton1.setText("showHideButton1");
+        showHideButton1.setHideIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/eye.png"))); // NOI18N
+        showHideButton1.setShowIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/hidden.png"))); // NOI18N
+        showHideButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profilePathFieldActionPerformed(evt);
+                showHideButton1ActionPerformed(evt);
             }
         });
 
-        PhotoUploader.setText("Upload Photo");
-        PhotoUploader.addActionListener(new java.awt.event.ActionListener() {
+        UpdateStudButton.setBackground(new java.awt.Color(51, 153, 255));
+        UpdateStudButton.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        UpdateStudButton.setForeground(new java.awt.Color(255, 255, 255));
+        UpdateStudButton.setText("Update");
+        UpdateStudButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PhotoUploaderActionPerformed(evt);
-            }
-        });
-
-        profilePicLabel.setForeground(new java.awt.Color(153, 153, 153));
-        profilePicLabel.setText("*Your Uploaded Profile Picture*");
-        profilePicLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        AddStudButton.setBackground(new java.awt.Color(51, 153, 255));
-        AddStudButton.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        AddStudButton.setForeground(new java.awt.Color(255, 255, 255));
-        AddStudButton.setText("Add Student");
-        AddStudButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddStudButtonActionPerformed(evt);
+                UpdateStudButtonActionPerformed(evt);
             }
         });
 
@@ -232,131 +272,131 @@ public class AddStudMainDialog extends javax.swing.JDialog {
             }
         });
 
-        ProgramTextField1.setPlaceholderText("Program\n");
-        ProgramTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProgramTextField1ActionPerformed(evt);
-            }
-        });
-
-        YearTextField1.setPlaceholderText("Year");
-        YearTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                YearTextField1ActionPerformed(evt);
-            }
-        });
-
-        SectionTextField1.setPlaceholderText("Section\n");
-        SectionTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SectionTextField1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout AddMainPanelLayout = new javax.swing.GroupLayout(AddMainPanel);
-        AddMainPanel.setLayout(AddMainPanelLayout);
-        AddMainPanelLayout.setHorizontalGroup(
-            AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddMainPanelLayout.createSequentialGroup()
-                .addGap(275, 275, 275)
+        javax.swing.GroupLayout UpdateMainPanelLayout = new javax.swing.GroupLayout(UpdateMainPanel);
+        UpdateMainPanel.setLayout(UpdateMainPanelLayout);
+        UpdateMainPanelLayout.setHorizontalGroup(
+            UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                .addGap(248, 248, 248)
                 .addComponent(TitleLabel)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(AddMainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(AddMainPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AddStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(176, 212, Short.MAX_VALUE))
-                    .addGroup(AddMainPanelLayout.createSequentialGroup()
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(AddMainPanelLayout.createSequentialGroup()
+                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(FindStudentIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(StudentIDTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                                 .addComponent(ProgramTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(YearTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(SectionTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(PersonalDetialsLabel)
-                            .addGroup(AddMainPanelLayout.createSequentialGroup()
+                            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                                 .addComponent(LastnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FirstnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(MiddlenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(ContactNumberTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(WhereDoYouLiveLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ContactLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddMainPanelLayout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UpdateMainPanelLayout.createSequentialGroup()
                                     .addComponent(BarangayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(CityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                    .addComponent(CityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(ProvinceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(CountryTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(BackButton))
+                                .addComponent(CountryTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(UsernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                                    .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(PasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BackButton, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ContactLabel)
+                                .addComponent(ContactNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(CreateProfilePicture)
                                 .addComponent(profilePathField, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(AddMainPanelLayout.createSequentialGroup()
-                                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(AddMainPanelLayout.createSequentialGroup()
+                            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                                         .addGap(122, 122, 122)
                                         .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(AddMainPanelLayout.createSequentialGroup()
+                                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                                         .addGap(69, 69, 69)
                                         .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(22, 22, 22))
-                    .addGroup(AddMainPanelLayout.createSequentialGroup()
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(UsernameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddMainPanelLayout.createSequentialGroup()
-                                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(PasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(22, 22, 22))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createSequentialGroup()
+                .addContainerGap(212, Short.MAX_VALUE)
+                .addComponent(UpdateStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(213, 213, 213))
         );
-        AddMainPanelLayout.setVerticalGroup(
-            AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddMainPanelLayout.createSequentialGroup()
+        UpdateMainPanelLayout.setVerticalGroup(
+            UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(TitleLabel)
                 .addGap(18, 18, 18)
-                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(AddMainPanelLayout.createSequentialGroup()
+                .addComponent(FindStudentIDLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(StudentIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                         .addComponent(PersonalDetialsLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(LastnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(FirstnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MiddlenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ProgramTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(YearTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SectionTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
+                        .addGap(20, 20, 20)
                         .addComponent(WhereDoYouLiveLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BarangayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ProvinceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(CountryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
+                        .addGap(20, 20, 20)
                         .addComponent(ContactLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ContactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(AddMainPanelLayout.createSequentialGroup()
+                        .addComponent(ContactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(UsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(PasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                         .addComponent(CreateProfilePicture)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profilePathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -364,39 +404,74 @@ public class AddStudMainDialog extends javax.swing.JDialog {
                         .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(UsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addComponent(AddStudButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(AddMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(UpdateStudButton)
+                .addGap(18, 18, 18)
+                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BackButton)
                     .addComponent(CloseButton))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AddMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(UpdateMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AddMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+            .addComponent(UpdateMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(777, 759));
+        setSize(new java.awt.Dimension(777, 831));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void StudentIDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentIDTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StudentIDTextFieldActionPerformed
+
+    private void VerifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerifyButtonActionPerformed
+        try (Connection con = Connector.getConnection()) {
+            String idText = StudentIDTextField.getText().trim();
+            if (idText.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a Student ID to verify.",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int studentID = Integer.parseInt(idText);
+            String sql = "SELECT COUNT(*) FROM student WHERE StudentID = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, studentID);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(this, "Student ID: " + studentID + " exists.",
+                                              "Verified", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Student ID: " + studentID + " does not exists",
+                                              "Not Found", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+                                          "SQL Error", JOptionPane.ERROR_MESSAGE);
+        } catch (HeadlessException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage(),
+                                          "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_VerifyButtonActionPerformed
+
+    private void profilePathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePathFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_profilePathFieldActionPerformed
+
+    private void PhotoUploaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhotoUploaderActionPerformed
+
+    }//GEN-LAST:event_PhotoUploaderActionPerformed
 
     private void LastnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LastnameTextFieldActionPerformed
         // TODO add your handling code here:
@@ -409,6 +484,18 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     private void MiddlenameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MiddlenameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MiddlenameTextFieldActionPerformed
+
+    private void ProgramTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProgramTextField1ActionPerformed
+
+    private void YearTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YearTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_YearTextField1ActionPerformed
+
+    private void SectionTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SectionTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SectionTextField1ActionPerformed
 
     private void BarangayTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BarangayTextFieldActionPerformed
         // TODO add your handling code here:
@@ -434,17 +521,6 @@ public class AddStudMainDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_UsernameTextFieldActionPerformed
 
-    private void showHideButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHideButton1ActionPerformed
-        // TODO add your handling code here:
-        if (showHideButton1.isPasswordVisible()) {
-            // If it's visible, show the password text
-            PasswordTextField.setEchoChar((char) 0);
-        } else {
-            // If it's not visible, hide the password text
-            PasswordTextField.setEchoChar('*');
-        }
-    }//GEN-LAST:event_showHideButton1ActionPerformed
-
     private void showHideButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHideButton2ActionPerformed
         // TODO add your handling code here:
         if (showHideButton2.isPasswordVisible()) {
@@ -456,16 +532,29 @@ public class AddStudMainDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_showHideButton2ActionPerformed
 
-    private void PhotoUploaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhotoUploaderActionPerformed
-
-    }//GEN-LAST:event_PhotoUploaderActionPerformed
-
-    private void profilePathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePathFieldActionPerformed
+    private void showHideButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHideButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_profilePathFieldActionPerformed
+        if (showHideButton1.isPasswordVisible()) {
+            // If it's visible, show the password text
+            PasswordTextField.setEchoChar((char) 0);
+        } else {
+            // If it's not visible, hide the password text
+            PasswordTextField.setEchoChar('*');
+        }
+    }//GEN-LAST:event_showHideButton1ActionPerformed
 
-    private void AddStudButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddStudButtonActionPerformed
-        try(Connection con = Connector.getConnection()){
+    private void UpdateStudButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateStudButtonActionPerformed
+
+        try (Connection con = Connector.getConnection()) {
+            String idText = StudentIDTextField.getText().trim();
+            if (idText.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Student ID to update.",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int studentID = Integer.parseInt(idText);
+
             String Lastname = LastnameTextField.getText();
             String Firstname = FirstnameTextField.getText();
             String Middlename = MiddlenameTextField.getText();
@@ -479,38 +568,30 @@ public class AddStudMainDialog extends javax.swing.JDialog {
             String CPnumber = ContactNumberTextField.getText();
             String Username = UsernameTextField.getText();
             String ProfilePhoto = profilePathField.getText();
+            String Password = new String(PasswordTextField.getPassword());
+            String ConfirmPassword = new String(ConfirmPasswordTextField.getPassword());
 
-            String Password = new String (PasswordTextField.getPassword());
-            String ConfirmPassword = new String (ConfirmPasswordTextField.getPassword());
-
-            if (Lastname.isEmpty()||Firstname.isEmpty() || Middlename.isEmpty()|| Program.isEmpty() || YearLevel.isEmpty()|| 
-                    Section.isEmpty() || Barangay.isEmpty()|| City.isEmpty()
-                    ||Province.isEmpty()||Country.isEmpty()||CPnumber.isEmpty() ||Username.isEmpty()||
-                    Password.isEmpty()||ConfirmPassword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please make sure to fill out all requirements", "Error",JOptionPane.ERROR_MESSAGE);
+            if (Lastname.isEmpty()||Firstname.isEmpty()||Middlename.isEmpty()||Program.isEmpty()||YearLevel.isEmpty()||
+                Section.isEmpty()||Barangay.isEmpty()||City.isEmpty()||Province.isEmpty()||Country.isEmpty()||
+                CPnumber.isEmpty()||Username.isEmpty()||Password.isEmpty()||ConfirmPassword.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill out all fields.",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (!Password.equals(ConfirmPassword)){
-                JOptionPane.showMessageDialog(this, "Passwords Do not Match", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+
+            if (!Password.equals(ConfirmPassword)) {
+                JOptionPane.showMessageDialog(this, "Passwords do not match.",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            //checks whether a username alreasy exist or not
-            String CheckSql = "SELECT COUNT(*) FROM student WHERE Username = ?";
-            PreparedStatement checkPst = con.prepareStatement(CheckSql);
-            checkPst.setString(1,Username);
-            ResultSet checkRs = checkPst.executeQuery();
-        if (checkRs.next() && checkRs.getInt(1)>0){
-            JOptionPane.showMessageDialog(this, "Username already exist", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-        }    
 
-            String SQL = "INSERT INTO student"
-                + "(`LastName`,`FirstName`,`MiddleName`,`Program`,`YearLevel`,`Section`,"
-                + "`Barangay`,`City`,`Province`,`Country`,`Contact_number`,"
-                + "`Username`,`Password`,`ProfilePhoto`)"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "UPDATE student SET "
+                       + "LastName=?, FirstName=?, MiddleName=?, Program=?, YearLevel=?, Section=?, "
+                       + "Barangay=?, City=?, Province=?, Country=?, Contact_number=?, "
+                       + "Username=?, Password=?, ProfilePhoto=? "
+                       + "WHERE StudentID=?";
 
-            PreparedStatement pst = con.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, Lastname);
             pst.setString(2, Firstname);
             pst.setString(3, Middlename);
@@ -525,32 +606,25 @@ public class AddStudMainDialog extends javax.swing.JDialog {
             pst.setString(12, Username);
             pst.setString(13, Password);
             pst.setString(14, ProfilePhoto);
+            pst.setInt(15, studentID);
 
-            pst.executeUpdate();
-
-                // 6️⃣ Get generated student ID
-            ResultSet rs = pst.getGeneratedKeys();
-            int generatedId = -1;
-            if (rs.next()) {
-                generatedId = rs.getInt(1);
+            int rows = pst.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "Student updated successfully.",
+                                              "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Student: " + studentID + "does not exist",
+                                              "Not Found", JOptionPane.WARNING_MESSAGE);
             }
 
-            // 7️⃣ Success message
-            JOptionPane.showMessageDialog(this,
-                "Registration successful!\nYour User ID is: " + generatedId,
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Close sign-up form and open main form
-            this.dispose();
-
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
                                           "SQL Error", JOptionPane.ERROR_MESSAGE);
-        } catch (HeadlessException ex) {
-            JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage(),
+        } catch (HeadlessException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage(),
                                           "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_AddStudButtonActionPerformed
+    }//GEN-LAST:event_UpdateStudButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         // TODO add your handling code here:
@@ -560,18 +634,6 @@ public class AddStudMainDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_CloseButtonActionPerformed
-
-    private void ProgramTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProgramTextField1ActionPerformed
-
-    private void YearTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YearTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_YearTextField1ActionPerformed
-
-    private void SectionTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SectionTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SectionTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,20 +652,20 @@ public class AddStudMainDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateStudMainDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddStudMainDialog dialog = new AddStudMainDialog(new javax.swing.JFrame(), true);
+                UpdateStudMainDialog dialog = new UpdateStudMainDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -616,8 +678,6 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel AddMainPanel;
-    private javax.swing.JButton AddStudButton;
     private javax.swing.JButton BackButton;
     private Custom_Components.RoundTextField BarangayTextField;
     private Custom_Components.RoundTextField CityTextField;
@@ -627,6 +687,7 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     private Custom_Components.RoundTextField ContactNumberTextField;
     private Custom_Components.RoundTextField CountryTextField;
     private javax.swing.JLabel CreateProfilePicture;
+    private javax.swing.JLabel FindStudentIDLabel;
     private Custom_Components.RoundTextField FirstnameTextField;
     private Custom_Components.RoundTextField LastnameTextField;
     private Custom_Components.RoundTextField MiddlenameTextField;
@@ -636,8 +697,12 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     private Custom_Components.RoundTextField ProgramTextField1;
     private Custom_Components.RoundTextField ProvinceTextField;
     private Custom_Components.RoundTextField SectionTextField1;
+    private Custom_Components.RoundTextField StudentIDTextField;
     private javax.swing.JLabel TitleLabel;
+    private javax.swing.JPanel UpdateMainPanel;
+    private javax.swing.JButton UpdateStudButton;
     private Custom_Components.RoundTextField UsernameTextField;
+    private Custom_Components.RoundedButton VerifyButton;
     private javax.swing.JLabel WhereDoYouLiveLabel;
     private Custom_Components.RoundTextField YearTextField1;
     private Custom_Components.RoundTextField profilePathField;
