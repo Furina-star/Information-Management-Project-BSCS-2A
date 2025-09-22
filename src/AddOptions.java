@@ -186,7 +186,6 @@ public class AddOptions extends javax.swing.JDialog {
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
      AddStudMainDialog add = new AddStudMainDialog();
-     this.dispose();
      add.setVisible(true);
     }//GEN-LAST:event_roundedButton1ActionPerformed
 

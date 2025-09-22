@@ -606,10 +606,7 @@ if (result == JFileChooser.APPROVE_OPTION) {
 
     private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
         // TODO add your handling code here:
-        
-        AddOptions add = new AddOptions();
         this.dispose();   
-        add.setVisible(true);            // then show it
             
     }//GEN-LAST:event_roundedButton2ActionPerformed
 
