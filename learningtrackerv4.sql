@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2025 at 06:11 PM
+-- Generation Time: Sep 22, 2025 at 12:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +24,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `Admin_ID` int(11) NOT NULL,
+  `Admin_LName` varchar(60) NOT NULL,
+  `Admin_MName` varchar(60) NOT NULL,
+  `Admin_FName` varchar(60) NOT NULL,
+  `Barangay` varchar(255) NOT NULL,
+  `City` varchar(255) NOT NULL,
+  `Province` varchar(255) NOT NULL,
+  `Country` varchar(255) NOT NULL,
+  `Admin_Contact_Number` varchar(255) NOT NULL,
+  `Admin_Email` varchar(100) NOT NULL,
+  `Username` varchar(100) NOT NULL,
+  `Admin_Password` varchar(24) NOT NULL,
+  `Admin_Profile_Picture` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`Admin_ID`, `Admin_LName`, `Admin_MName`, `Admin_FName`, `Barangay`, `City`, `Province`, `Country`, `Admin_Contact_Number`, `Admin_Email`, `Username`, `Admin_Password`, `Admin_Profile_Picture`) VALUES
+(1, 'Dom', 'Au', 'Lau', 'Nag', 'Ga', 'LU', 'lu', '09876543321', '@gmail.com', 'ngf', 'ns', 'profile_pics/student_ngf.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `assessment`
 --
 
@@ -32,9 +61,17 @@ CREATE TABLE `assessment` (
   `SubjectID` int(11) NOT NULL COMMENT 'References Subject table',
   `Title` varchar(100) NOT NULL COMMENT 'Name of the Assessment (e.g., Quiz 1, Midterm Exam)',
   `Type` enum('Quiz','Exam','Assignment','Project') NOT NULL COMMENT 'Type of Assessment',
-  `MaxScore` decimal(5,2) NOT NULL COMMENT 'Maximum possible score',
+  `MaxScore` int(100) NOT NULL COMMENT 'Maximum possible score',
   `DateGiven` date NOT NULL COMMENT 'Date the assessment was given'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assessment`
+--
+
+INSERT INTO `assessment` (`AssessmentID`, `SubjectID`, `Title`, `Type`, `MaxScore`, `DateGiven`) VALUES
+(5, 23, 'Quiz1', 'Exam', 100, '2025-09-29'),
+(6, 25, 'Activity#4', 'Quiz', 100, '2025-09-27');
 
 -- --------------------------------------------------------
 
@@ -46,9 +83,17 @@ CREATE TABLE `assessmentresult` (
   `ResultID` int(11) NOT NULL,
   `StudentID` int(11) NOT NULL,
   `AssessmentID` int(11) NOT NULL,
-  `Score` decimal(5,2) NOT NULL,
+  `Score` int(100) NOT NULL,
   `DateTaken` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assessmentresult`
+--
+
+INSERT INTO `assessmentresult` (`ResultID`, `StudentID`, `AssessmentID`, `Score`, `DateTaken`) VALUES
+(5, 4, 5, 56, '2025-09-08'),
+(7, 1, 5, 90, '2025-09-22');
 
 -- --------------------------------------------------------
 
@@ -85,15 +130,59 @@ CREATE TABLE `student` (
   `Country` varchar(100) NOT NULL,
   `Contact_number` varchar(20) NOT NULL,
   `Username` varchar(100) NOT NULL,
-  `Password` varchar(20) NOT NULL
+  `Password` varchar(20) NOT NULL,
+  `ProfilePhoto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`StudentID`, `LastName`, `FirstName`, `MiddleName`, `Program`, `YearLevel`, `Section`, `Barangay`, `City`, `Province`, `Country`, `Contact_number`, `Username`, `Password`) VALUES
-(1, 'Dominguez', 'Laurence Jhon', 'Austria', 'Bachelor of Science in Computer Science', '2', 'A', 'Nagsangalan', 'Vigan', 'Ilocos Sur', 'Philippines', '09876543321', 'Laurence', '89');
+INSERT INTO `student` (`StudentID`, `LastName`, `FirstName`, `MiddleName`, `Program`, `YearLevel`, `Section`, `Barangay`, `City`, `Province`, `Country`, `Contact_number`, `Username`, `Password`, `ProfilePhoto`) VALUES
+(1, 'Dominguez', 'Laurence Jhon', 'Austria', 'Bachelor of Science in Computer Science', '2', 'A', 'Nagsangalan', 'Vigan', 'Ilocos Sur', 'Philippines', '09876543321', 'Laurence', 'oo', NULL),
+(4, 'Bello', 'Michael', 'L', 'BSCS', '2', 'A', 'A', 'F', 'S', 'RE', '09876653312', 'BELLO', 'BEL', ''),
+(5, 'Martin', 'Ser', 'Tapos na po', 'BSCS', '2', 'a', 'Ma', 'Sa', 'His', 'Ta', '09697786969', 'yum', 'we', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_photos`
+--
+
+CREATE TABLE `student_photos` (
+  `PhotoID` int(11) NOT NULL,
+  `StudentID` int(11) DEFAULT NULL,
+  `PhotoPath` varchar(255) DEFAULT NULL,
+  `Description` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_photos`
+--
+
+INSERT INTO `student_photos` (`PhotoID`, `StudentID`, `PhotoPath`, `Description`) VALUES
+(1, 5, 'profile_pics/student_yum.jpg', 'Profile photo');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_subject`
+--
+
+CREATE TABLE `student_subject` (
+  `StudentID` int(11) NOT NULL,
+  `SubjectID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_subject`
+--
+
+INSERT INTO `student_subject` (`StudentID`, `SubjectID`) VALUES
+(1, 23),
+(1, 25),
+(4, 23),
+(4, 25);
 
 -- --------------------------------------------------------
 
@@ -105,14 +194,27 @@ CREATE TABLE `subject` (
   `SubjectID` int(11) NOT NULL,
   `SubjectName` varchar(100) NOT NULL,
   `SubjectCode` varchar(100) NOT NULL,
-  `Column1` text DEFAULT NULL,
-  `Credits` int(11) DEFAULT NULL,
-  `StudentID` int(11) NOT NULL
+  `Units` varchar(100) NOT NULL,
+  `Credits` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`SubjectID`, `SubjectName`, `SubjectCode`, `Units`, `Credits`) VALUES
+(23, 'Infoman', '101', '24', 3),
+(25, 'Contemporary World', '102', '3', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`Admin_ID`);
 
 --
 -- Indexes for table `assessment`
@@ -144,28 +246,47 @@ ALTER TABLE `student`
   ADD PRIMARY KEY (`StudentID`);
 
 --
+-- Indexes for table `student_photos`
+--
+ALTER TABLE `student_photos`
+  ADD PRIMARY KEY (`PhotoID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `student_subject`
+--
+ALTER TABLE `student_subject`
+  ADD PRIMARY KEY (`StudentID`,`SubjectID`),
+  ADD KEY `SubjectID` (`SubjectID`);
+
+--
 -- Indexes for table `subject`
 --
 ALTER TABLE `subject`
   ADD PRIMARY KEY (`SubjectID`),
-  ADD UNIQUE KEY `Subject_unique` (`SubjectCode`),
-  ADD KEY `fk_student` (`StudentID`);
+  ADD UNIQUE KEY `Subject_unique` (`SubjectCode`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `Admin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `AssessmentID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique Identifier';
+  MODIFY `AssessmentID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique Identifier', AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `assessmentresult`
 --
 ALTER TABLE `assessmentresult`
-  MODIFY `ResultID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ResultID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `progress`
@@ -177,13 +298,19 @@ ALTER TABLE `progress`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `student_photos`
+--
+ALTER TABLE `student_photos`
+  MODIFY `PhotoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `SubjectID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `SubjectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -193,7 +320,7 @@ ALTER TABLE `subject`
 -- Constraints for table `assessment`
 --
 ALTER TABLE `assessment`
-  ADD CONSTRAINT `Assessment_Subject_FK` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Assessment_Subject_FK` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `assessmentresult`
@@ -210,10 +337,17 @@ ALTER TABLE `progress`
   ADD CONSTRAINT `Progress_Subject_FK` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `subject`
+-- Constraints for table `student_photos`
 --
-ALTER TABLE `subject`
-  ADD CONSTRAINT `fk_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+ALTER TABLE `student_photos`
+  ADD CONSTRAINT `student_photos_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `student_subject`
+--
+ALTER TABLE `student_subject`
+  ADD CONSTRAINT `student_subject_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `student_subject_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
