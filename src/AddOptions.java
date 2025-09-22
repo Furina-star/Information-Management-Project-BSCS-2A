@@ -7,6 +7,9 @@
  *
  * @author domin
  */
+import Custom_Components.RoundedPanel;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 public class AddOptions extends javax.swing.JDialog {
 
     /**
@@ -15,10 +18,11 @@ public class AddOptions extends javax.swing.JDialog {
     public AddOptions(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
 
     AddOptions() {
-       initComponents();
+       this((java.awt.Frame) null, true);
     }
 
     /**
@@ -30,25 +34,30 @@ public class AddOptions extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        HeadPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         roundedButton1 = new Custom_Components.RoundedButton();
         AddSub = new Custom_Components.RoundedButton();
         AddAss = new Custom_Components.RoundedButton();
         roundedButton4 = new Custom_Components.RoundedButton();
-        Back = new javax.swing.JButton();
+        TitlePanel = new RoundedPanel(20);
+        TitleLabel = new javax.swing.JLabel();
+        roundedButton2 = new Custom_Components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 51));
+        HeadPanel.setBackground(new java.awt.Color(44, 62, 80));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Please choose the following:");
+        jLabel1.setText("   Please choose the following:");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         roundedButton1.setBackground(new java.awt.Color(0, 153, 153));
-        roundedButton1.setText("Add Student");
-        roundedButton1.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        roundedButton1.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton1.setText("Student");
+        roundedButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         roundedButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 roundedButton1ActionPerformed(evt);
@@ -56,8 +65,9 @@ public class AddOptions extends javax.swing.JDialog {
         });
 
         AddSub.setBackground(new java.awt.Color(0, 153, 153));
-        AddSub.setText("Add Subject");
-        AddSub.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        AddSub.setForeground(new java.awt.Color(255, 255, 255));
+        AddSub.setText("Subject");
+        AddSub.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         AddSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddSubActionPerformed(evt);
@@ -65,8 +75,9 @@ public class AddOptions extends javax.swing.JDialog {
         });
 
         AddAss.setBackground(new java.awt.Color(0, 153, 153));
-        AddAss.setText("Add Assessment");
-        AddAss.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        AddAss.setForeground(new java.awt.Color(255, 255, 255));
+        AddAss.setText("Assessment");
+        AddAss.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         AddAss.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddAssActionPerformed(evt);
@@ -74,111 +85,132 @@ public class AddOptions extends javax.swing.JDialog {
         });
 
         roundedButton4.setBackground(new java.awt.Color(0, 153, 153));
-        roundedButton4.setText("Add Assessment Results");
-        roundedButton4.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        roundedButton4.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton4.setText("Assessment Result");
+        roundedButton4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         roundedButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 roundedButton4ActionPerformed(evt);
             }
         });
 
-        Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/left-arrow.png"))); // NOI18N
-        Back.addActionListener(new java.awt.event.ActionListener() {
+        TitlePanel.setBackground(new java.awt.Color(50, 71, 93));
+
+        TitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        TitleLabel.setText("Add Options");
+
+        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
+        TitlePanel.setLayout(TitlePanelLayout);
+        TitlePanelLayout.setHorizontalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(TitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(147, Short.MAX_VALUE))
+        );
+        TitlePanelLayout.setVerticalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(TitleLabel)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        roundedButton2.setBackground(new java.awt.Color(72, 130, 237));
+        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton2.setText("Back");
+        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        roundedButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackActionPerformed(evt);
+                roundedButton2ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(roundedButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout HeadPanelLayout = new javax.swing.GroupLayout(HeadPanel);
+        HeadPanel.setLayout(HeadPanelLayout);
+        HeadPanelLayout.setHorizontalGroup(
+            HeadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HeadPanelLayout.createSequentialGroup()
+                .addGroup(HeadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(HeadPanelLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(HeadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(AddSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(AddAss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(Back)
-                .addGap(47, 362, Short.MAX_VALUE))
+                            .addComponent(AddAss, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(roundedButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(roundedButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(HeadPanelLayout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(HeadPanelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+        HeadPanelLayout.setVerticalGroup(
+            HeadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HeadPanelLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddSub, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(AddSub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddAss, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(AddAss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(Back)
-                .addGap(39, 39, 39))
+                .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(HeadPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(HeadPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(450, 540));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
      AddStudMainDialog add = new AddStudMainDialog();
-     add.setVisible(rootPaneCheckingEnabled);
-            add.setLocationRelativeTo(null);
-                add.setAlwaysOnTop(rootPaneCheckingEnabled);
+     this.dispose();
+     add.setVisible(true);
     }//GEN-LAST:event_roundedButton1ActionPerformed
 
     private void AddSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSubActionPerformed
-     AddSubject adde = new AddSubject();
-     adde.setVisible(rootPaneCheckingEnabled);
-     adde.setLocationRelativeTo(null);
-                adde.setAlwaysOnTop(rootPaneCheckingEnabled);
+        AddSubject adde = new AddSubject();
+            adde.setVisible(true);
     }//GEN-LAST:event_AddSubActionPerformed
 
     private void AddAssActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAssActionPerformed
         AddAssessment yes = new AddAssessment();
-        yes.setVisible(rootPaneCheckingEnabled);
-             yes.setLocationRelativeTo(null);
-                yes.setAlwaysOnTop(rootPaneCheckingEnabled);
+            yes.setVisible(true);
     }//GEN-LAST:event_AddAssActionPerformed
 
     private void roundedButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton4ActionPerformed
-AddResults wow = new AddResults();
-wow.setVisible(rootPaneCheckingEnabled);
-     wow.setLocationRelativeTo(null);
-                wow.setAlwaysOnTop(rootPaneCheckingEnabled);
-                    this.dispose();
+        AddResults wow = new AddResults();
+            wow.setVisible(true);
+
     }//GEN-LAST:event_roundedButton4ActionPerformed
 
-    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-      dispose();
-    }//GEN-LAST:event_BackActionPerformed
+    private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
+        // TODO add your handling code here:
+        MainForm mf = new MainForm();
+        this.dispose();
+    }//GEN-LAST:event_roundedButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,10 +257,12 @@ wow.setVisible(rootPaneCheckingEnabled);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom_Components.RoundedButton AddAss;
     private Custom_Components.RoundedButton AddSub;
-    private javax.swing.JButton Back;
+    private javax.swing.JPanel HeadPanel;
+    private javax.swing.JLabel TitleLabel;
+    private javax.swing.JPanel TitlePanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private Custom_Components.RoundedButton roundedButton1;
+    private Custom_Components.RoundedButton roundedButton2;
     private Custom_Components.RoundedButton roundedButton4;
     // End of variables declaration//GEN-END:variables
 }

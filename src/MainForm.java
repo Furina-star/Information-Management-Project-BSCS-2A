@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import Custom_Components.ThinScrollDemo;
 import Custom_Components.ThinScrollBarUI;
+import Custom_Components.RoundedPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;
 import Custom_Components.TextPrompt;
@@ -48,60 +49,61 @@ public class MainForm extends javax.swing.JFrame {
     // Constructor with username
     public MainForm(String username) {
         initComponents(); // generated UI components
+        
             BodyPanel.setVisible(false);
             String[] columnss = {"Result ID", "Student", "Assessment", "Score", "Date Taken", "Rating"};
-resultModel = new DefaultTableModel(columnss, 0);
-Result.setModel(resultModel);
-            
-String[] columns = {"Assessment ID", "Subject", "Title", "Type", "Max Score", "Date Given"};
-assessmentModel = new DefaultTableModel(columns, 0);
-AssessmentTable.setModel(assessmentModel);
-        //Set greeting if username is provided
-        //note saka lang to gagana if kaka login ni user
-        if (username != null && !username.isEmpty()) {
-            GreetLabel.setText("Hello " + username + "!");
-        } else {
-            GreetLabel.setText("Hello!");
-        }
+                resultModel = new DefaultTableModel(columnss, 0);
+                Result.setModel(resultModel);
 
-        //Optional styling for greeting
-        GreetLabel.setFont(new Font("Segoe UI", Font.BOLD, 19));
-            GreetLabel.setForeground(Color.WHITE);
-                GreetLabel.setPreferredSize(new Dimension(250, 30));
+            String[] columns = {"Assessment ID", "Subject", "Title", "Type", "Max Score", "Date Given"};
+                assessmentModel = new DefaultTableModel(columns, 0);
+                AssessmentTable.setModel(assessmentModel);
+                        //Set greeting if username is provided
+                        //note saka lang to gagana if kaka login ni user
+                        if (username != null && !username.isEmpty()) {
+                            GreetLabel.setText("Hello " + username + "!");
+                        } else {
+                            GreetLabel.setText("Hello!");
+                        }
 
-        // Layout fixes
-        if (GreetLabel.getParent() != null) {
-                GreetLabel.getParent().revalidate();
-                    GreetLabel.getParent().repaint();
-        }
+                        //Optional styling for greeting
+                        GreetLabel.setFont(new Font("Segoe UI", Font.BOLD, 19));
+                            GreetLabel.setForeground(Color.WHITE);
+                                GreetLabel.setPreferredSize(new Dimension(250, 30));
 
-        // Scroll panel tweaks
-        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
-            SidePanelHolder.setBorder(BorderFactory.createEmptyBorder());
-                jScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
-                    jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
-                    
-        TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
-            TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
-                TableScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
-                    TableScrollPane1.getHorizontalScrollBar().setUI(new ThinScrollBarUI());
-                        TableScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
-                         
-         //for the Assessment Table
-      
-             //for the Subject table
-             
-             
-        //Search bar placeholder
-        new TextPrompt("Search here..", searchBar1);
-            loadStudentsFromDB();
-                loadSubjectsFromDB();
-                    loadAssessments();
-                        loadAssessmentResults();
-        //Final frame settings
-        pack(); // fit all components
-            setLocationRelativeTo(null); // center on screen
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // Layout fixes
+                        if (GreetLabel.getParent() != null) {
+                                GreetLabel.getParent().revalidate();
+                                    GreetLabel.getParent().repaint();
+                        }
+
+                        // Scroll panel tweaks
+                        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+                            SidePanelHolder.setBorder(BorderFactory.createEmptyBorder());
+                                jScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
+                                    jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
+
+                        TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+                            TableScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+                                TableScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
+                                    TableScrollPane1.getHorizontalScrollBar().setUI(new ThinScrollBarUI());
+                                        TableScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
+
+                         //for the Assessment Table
+
+                             //for the Subject table
+
+
+                        //Search bar placeholder
+                        new TextPrompt("Search here..", Searchbar);
+                            loadStudentsFromDB();
+                                loadSubjectsFromDB();
+                                    loadAssessments();
+                                        loadAssessmentResults();
+                        //Final frame settings
+                        pack(); // fit all components
+                            setLocationRelativeTo(null); // center on screen
+                                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -134,7 +136,7 @@ AssessmentTable.setModel(assessmentModel);
         jLabel1 = new javax.swing.JLabel();
         UpperNavigationPanel = new javax.swing.JPanel();
         GreetLabel = new javax.swing.JLabel();
-        searchBar1 = new Custom_Components.SearchBar();
+        Searchbar = new Custom_Components.SearchBar();
         GreetLabel1 = new javax.swing.JLabel();
         Refresher = new Custom_Components.RoundedButton();
         BodyPanel = new javax.swing.JPanel();
@@ -178,7 +180,7 @@ AssessmentTable.setModel(assessmentModel);
         StudentsPanel = new javax.swing.JPanel();
         TableScrollPane1 = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new RoundedPanel(20);
         profilePicLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -223,7 +225,7 @@ AssessmentTable.setModel(assessmentModel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        BgPanel.setBackground(new java.awt.Color(27, 39, 60));
+        BgPanel.setBackground(new java.awt.Color(48, 62, 78));
         BgPanel.setForeground(new java.awt.Color(255, 204, 204));
         BgPanel.setMaximumSize(new java.awt.Dimension(2560, 1440));
         BgPanel.setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -516,14 +518,18 @@ AssessmentTable.setModel(assessmentModel);
         GreetLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         GreetLabel.setForeground(new java.awt.Color(255, 255, 255));
 
-        searchBar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/search (2).png"))); // NOI18N
-        searchBar1.setInheritsPopupMenu(true);
+        Searchbar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/search (2).png"))); // NOI18N
+        Searchbar.setInheritsPopupMenu(true);
 
-        GreetLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        GreetLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         GreetLabel1.setForeground(new java.awt.Color(255, 255, 255));
         GreetLabel1.setText("What's the agenda today?");
 
+        Refresher.setBackground(new java.awt.Color(0, 153, 153));
+        Refresher.setForeground(new java.awt.Color(255, 255, 255));
         Refresher.setText("REFRESH");
+        Refresher.setActionCommand("Refresh");
+        Refresher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         Refresher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RefresherActionPerformed(evt);
@@ -538,29 +544,28 @@ AssessmentTable.setModel(assessmentModel);
                 .addGap(22, 22, 22)
                 .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
-                        .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
-                        .addComponent(GreetLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
                         .addComponent(GreetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))))
+                        .addComponent(Searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))
+                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                        .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(GreetLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         UpperNavigationPanelLayout.setVerticalGroup(
             UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(searchBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(GreetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(GreetLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(Refresher, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         BodyPanel.setOpaque(false);
@@ -581,26 +586,20 @@ AssessmentTable.setModel(assessmentModel);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(67, Short.MAX_VALUE)
-                    .addComponent(ValueDisplayStud)
-                    .addGap(52, 52, 52)))
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ValueDisplayStud, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(187, 187, 187)
+                .addComponent(ValueDisplayStud)
+                .addGap(80, 80, 80)
                 .addComponent(jLabel2)
                 .addGap(36, 36, 36))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(115, 115, 115)
-                    .addComponent(ValueDisplayStud)
-                    .addContainerGap(138, Short.MAX_VALUE)))
         );
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
@@ -621,27 +620,23 @@ AssessmentTable.setModel(assessmentModel);
         TotalAssessmentLayout.setHorizontalGroup(
             TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TotalAssessmentLayout.createSequentialGroup()
-                .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(TotalAssessmentLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel4))
-                    .addGroup(TotalAssessmentLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(ValueDisplayAss)
-                            .addComponent(jLabel6))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ValueDisplayAss, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         TotalAssessmentLayout.setVerticalGroup(
             TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TotalAssessmentLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(187, 187, 187)
                 .addComponent(ValueDisplayAss)
-                .addGap(51, 51, 51)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(23, 23, 23))
+                .addGap(94, 94, 94))
         );
 
         jLabel8.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
@@ -661,21 +656,19 @@ AssessmentTable.setModel(assessmentModel);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(48, 48, 48)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GradeDisplay)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel9)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(GradeDisplay))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(187, 187, 187)
                 .addComponent(GradeDisplay)
-                .addGap(51, 51, 51)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
@@ -699,18 +692,17 @@ AssessmentTable.setModel(assessmentModel);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(DeadLineDis)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel5)))
-                .addGap(55, 55, 55))
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DeadLineDis, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(187, 187, 187)
                 .addComponent(DeadLineDis)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel7)
@@ -729,16 +721,17 @@ AssessmentTable.setModel(assessmentModel);
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HomeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(TotalAssessment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGroup(HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(HomeLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(TotalAssessment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -794,6 +787,8 @@ AssessmentTable.setModel(assessmentModel);
             StudentTable.getColumnModel().getColumn(7).setResizable(false);
             StudentTable.getColumnModel().getColumn(8).setResizable(false);
         }
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         profilePicLabel.setText("Profile Picture");
 
@@ -928,7 +923,7 @@ AssessmentTable.setModel(assessmentModel);
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(lblUsername))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout StudentsPanelLayout = new javax.swing.GroupLayout(StudentsPanel);
@@ -939,15 +934,15 @@ AssessmentTable.setModel(assessmentModel);
                 .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         StudentsPanelLayout.setVerticalGroup(
             StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentsPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(54, 54, 54))
         );
 
@@ -972,6 +967,7 @@ AssessmentTable.setModel(assessmentModel);
         jScrollPane2.setViewportView(subjectTable);
 
         AssignSub.setText("Assign Student");
+        AssignSub.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         AssignSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AssignSubActionPerformed(evt);
@@ -979,13 +975,17 @@ AssessmentTable.setModel(assessmentModel);
         });
 
         UnAssign.setText("Unassign Student");
+        UnAssign.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         UnAssign.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UnAssignActionPerformed(evt);
             }
         });
 
+        DeleteSub.setBackground(new java.awt.Color(220, 53, 70));
+        DeleteSub.setForeground(new java.awt.Color(255, 255, 255));
         DeleteSub.setText("Delete Subject");
+        DeleteSub.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         DeleteSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteSubActionPerformed(evt);
@@ -996,10 +996,13 @@ AssessmentTable.setModel(assessmentModel);
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("QUICK ACCESS:");
 
-        roundedButton2.setBackground(new java.awt.Color(0, 204, 102));
+        roundedButton2.setBackground(new java.awt.Color(0, 153, 153));
+        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
         roundedButton2.setText("EXPORT");
+        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         AssignSub1.setText("Add Subject");
+        AssignSub1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         AssignSub1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AssignSub1ActionPerformed(evt);
@@ -1010,13 +1013,13 @@ AssessmentTable.setModel(assessmentModel);
         Subjects.setLayout(SubjectsLayout);
         SubjectsLayout.setHorizontalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 993, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)
             .addGroup(SubjectsLayout.createSequentialGroup()
                 .addGap(121, 121, 121)
                 .addComponent(jLabel19)
-                .addGap(28, 28, 28)
-                .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
+                .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1035,10 +1038,10 @@ AssessmentTable.setModel(assessmentModel);
                     .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19)
-                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 139, Short.MAX_VALUE))
+                .addGap(0, 211, Short.MAX_VALUE))
         );
 
         BodyPanel.add(Subjects, "Subjects");
@@ -1059,28 +1062,34 @@ AssessmentTable.setModel(assessmentModel);
         jScrollPane3.setViewportView(AssessmentTable);
 
         creation.setText("Add Assessment");
+        creation.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         creation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 creationActionPerformed(evt);
             }
         });
 
+        deleteass.setBackground(new java.awt.Color(220, 53, 70));
+        deleteass.setForeground(new java.awt.Color(255, 255, 255));
         deleteass.setText("Delete Assessment");
+        deleteass.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         deleteass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteassActionPerformed(evt);
             }
         });
 
-        roundedButton4.setBackground(new java.awt.Color(0, 204, 102));
+        roundedButton4.setBackground(new java.awt.Color(0, 153, 153));
+        roundedButton4.setForeground(new java.awt.Color(255, 255, 255));
         roundedButton4.setText("EXPORT");
+        roundedButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         roundedButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 roundedButton4ActionPerformed(evt);
             }
         });
 
-        jLabel20.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("QUICK ACCESS");
 
@@ -1092,14 +1101,15 @@ AssessmentTable.setModel(assessmentModel);
                 .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3)
                     .addGroup(AssessmentLayout.createSequentialGroup()
-                        .addContainerGap(409, Short.MAX_VALUE)
+                        .addContainerGap(392, Short.MAX_VALUE)
                         .addComponent(jLabel20)
                         .addGap(18, 18, 18)
-                        .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)))
                 .addContainerGap())
         );
         AssessmentLayout.setVerticalGroup(
@@ -1108,11 +1118,11 @@ AssessmentTable.setModel(assessmentModel);
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
-                .addContainerGap(151, Short.MAX_VALUE))
+                    .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(211, Short.MAX_VALUE))
         );
 
         BodyPanel.add(Assessment, "Assessment");
@@ -1133,6 +1143,7 @@ AssessmentTable.setModel(assessmentModel);
         jScrollPane4.setViewportView(Result);
 
         addorcreatetable.setText("Add Results");
+        addorcreatetable.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         addorcreatetable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addorcreatetableActionPerformed(evt);
@@ -1140,54 +1151,60 @@ AssessmentTable.setModel(assessmentModel);
         });
 
         roundedButton6.setText("Update Results");
+        roundedButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        dEL.setBackground(new java.awt.Color(220, 53, 70));
+        dEL.setForeground(new java.awt.Color(255, 255, 255));
         dEL.setText("Delete Results");
+        dEL.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         dEL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dELActionPerformed(evt);
             }
         });
 
+        roundedButton8.setBackground(new java.awt.Color(0, 153, 153));
+        roundedButton8.setForeground(new java.awt.Color(255, 255, 255));
         roundedButton8.setText("EXPORT");
+        roundedButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel21.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("QUICK ACCESS");
+        jLabel21.setText("QUICK ACCESS:");
 
         javax.swing.GroupLayout AssessmentResultLayout = new javax.swing.GroupLayout(AssessmentResult);
         AssessmentResult.setLayout(AssessmentResultLayout);
         AssessmentResultLayout.setHorizontalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AssessmentResultLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentResultLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentResultLayout.createSequentialGroup()
+                .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4)
+                    .addGroup(AssessmentResultLayout.createSequentialGroup()
+                        .addGap(184, 184, 184)
                         .addComponent(jLabel21)
-                        .addGap(56, 56, 56)
+                        .addGap(18, 18, 18)
                         .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)))
                 .addContainerGap())
         );
         AssessmentResultLayout.setVerticalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AssessmentResultLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
-                .addContainerGap(191, Short.MAX_VALUE))
+                    .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(212, Short.MAX_VALUE))
         );
 
         BodyPanel.add(AssessmentResult, "AssessmentResult");
@@ -1201,8 +1218,8 @@ AssessmentTable.setModel(assessmentModel);
                 .addGroup(BgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(UpperNavigationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(BgPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(BodyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGap(23, 23, 23)
+                        .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         BgPanelLayout.setVerticalGroup(
@@ -1221,7 +1238,7 @@ AssessmentTable.setModel(assessmentModel);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(BgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1250, Short.MAX_VALUE))
+                .addComponent(BgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1230,7 +1247,7 @@ AssessmentTable.setModel(assessmentModel);
                 .addComponent(BgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1266, 728));
+        setSize(new java.awt.Dimension(1316, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1283,9 +1300,9 @@ AssessmentTable.setModel(assessmentModel);
     }//GEN-LAST:event_VSubjectButtonActionPerformed
 
     private void CAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CAddButtonActionPerformed
-AddOptions add = new AddOptions();
-add.setVisible(rootPaneCheckingEnabled);
-add.setLocationRelativeTo(null);
+        AddOptions add = new AddOptions(this, true);
+        add.setVisible(rootPaneCheckingEnabled);
+        add.setLocationRelativeTo(null);
     }//GEN-LAST:event_CAddButtonActionPerformed
 
     private void VHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VHomeButtonActionPerformed
@@ -1358,14 +1375,14 @@ try (Connection con = Connector.getConnection()) {
     }//GEN-LAST:event_VAssessmentButton1ActionPerformed
 
     private void CUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CUpdateButtonActionPerformed
-  UpdateOptions wih = new UpdateOptions();
+  UpdateOptions wih = new UpdateOptions(this, true);
         wih.setVisible(rootPaneCheckingEnabled);
            wih.setLocationRelativeTo(null);
 
     }//GEN-LAST:event_CUpdateButtonActionPerformed
 
     private void CDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CDeleteButtonActionPerformed
-DeleteOptions wih = new DeleteOptions();
+DeleteOptions wih = new DeleteOptions(this, true);
         wih.setVisible(rootPaneCheckingEnabled);
            wih.setLocationRelativeTo(null);
      
@@ -1640,6 +1657,7 @@ private String getRating(int score) {
     private javax.swing.JPanel Home;
     private Custom_Components.RoundedButton Refresher;
     private javax.swing.JTable Result;
+    private Custom_Components.SearchBar Searchbar;
     private javax.swing.JPanel SidePanelHolder;
     private Custom_Components.BetterRoundPanel SidebarPanel;
     private javax.swing.JTable StudentTable;
@@ -1707,7 +1725,6 @@ private String getRating(int score) {
     private Custom_Components.RoundedButton roundedButton4;
     private Custom_Components.RoundedButton roundedButton6;
     private Custom_Components.RoundedButton roundedButton8;
-    private Custom_Components.SearchBar searchBar1;
     private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 }
