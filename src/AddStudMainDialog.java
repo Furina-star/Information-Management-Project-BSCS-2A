@@ -22,6 +22,7 @@ import DataBaseConnection.Connector;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +33,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 public class AddStudMainDialog extends javax.swing.JDialog {
 
     /**
@@ -42,6 +46,10 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     public AddStudMainDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    AddStudMainDialog() {
+                initComponents();
     }
 
     /**
@@ -457,7 +465,26 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_showHideButton2ActionPerformed
 
     private void PhotoUploaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhotoUploaderActionPerformed
+JFileChooser fileChooser = new JFileChooser();
+fileChooser.setDialogTitle("Select Profile Picture");
+fileChooser.setFileFilter(new FileNameExtensionFilter(
+        "Image files", "jpg", "jpeg", "png", "gif"));
 
+int result = fileChooser.showOpenDialog(null);
+if (result == JFileChooser.APPROVE_OPTION) {
+    File selectedFile = fileChooser.getSelectedFile();
+    selectedProfilePath = selectedFile.getAbsolutePath(); // use the class-level variable
+    profilePathField.setText(selectedProfilePath); // optional
+
+    // Load and display the image
+    ImageIcon icon = new ImageIcon(selectedProfilePath);
+    Image img = icon.getImage().getScaledInstance(
+            profilePicLabel.getWidth(),
+            profilePicLabel.getHeight(),
+            Image.SCALE_SMOOTH
+    );
+    profilePicLabel.setIcon(new ImageIcon(img));
+}
     }//GEN-LAST:event_PhotoUploaderActionPerformed
 
     private void profilePathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePathFieldActionPerformed
@@ -465,100 +492,123 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_profilePathFieldActionPerformed
 
     private void AddStudButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddStudButtonActionPerformed
-        try(Connection con = Connector.getConnection()){
-            String Lastname = LastnameTextField.getText();
-            String Firstname = FirstnameTextField.getText();
-            String Middlename = MiddlenameTextField.getText();
-            String Program = ProgramTextField1.getText();
-            String YearLevel = YearTextField1.getText();
-            String Section = SectionTextField1.getText();
-            String Barangay = BarangayTextField.getText();
-            String City = CityTextField.getText();
-            String Province = ProvinceTextField.getText();
-            String Country = CountryTextField.getText();
-            String CPnumber = ContactNumberTextField.getText();
-            String Username = UsernameTextField.getText();
-            String ProfilePhoto = profilePathField.getText();
+        try (Connection con = Connector.getConnection()) {
+    // 1️⃣ Gather input
+    String lastName = LastnameTextField.getText().trim();
+    String firstName = FirstnameTextField.getText().trim();
+    String middleName = MiddlenameTextField.getText().trim();
+    String program = ProgramTextField1.getText().trim();
+    String yearLevel = YearTextField1.getText().trim();
+    String section = SectionTextField1.getText().trim();
+    String barangay = BarangayTextField.getText().trim();
+    String city = CityTextField.getText().trim();
+    String province = ProvinceTextField.getText().trim();
+    String country = CountryTextField.getText().trim();
+    String contactNumber = ContactNumberTextField.getText().trim();
+    String username = UsernameTextField.getText().trim();
+    String password = new String(PasswordTextField.getPassword()).trim();
+    String confirmPassword = new String(ConfirmPasswordTextField.getPassword()).trim();
 
-            String Password = new String (PasswordTextField.getPassword());
-            String ConfirmPassword = new String (ConfirmPasswordTextField.getPassword());
-
-            if (Lastname.isEmpty()||Firstname.isEmpty() || Middlename.isEmpty()|| Program.isEmpty() || YearLevel.isEmpty()|| 
-                    Section.isEmpty() || Barangay.isEmpty()|| City.isEmpty()
-                    ||Province.isEmpty()||Country.isEmpty()||CPnumber.isEmpty() ||Username.isEmpty()||
-                    Password.isEmpty()||ConfirmPassword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please make sure to fill out all requirements", "Error",JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (!Password.equals(ConfirmPassword)){
-                JOptionPane.showMessageDialog(this, "Passwords Do not Match", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-            }
-            //checks whether a username alreasy exist or not
-            String CheckSql = "SELECT COUNT(*) FROM student WHERE Username = ?";
-            PreparedStatement checkPst = con.prepareStatement(CheckSql);
-            checkPst.setString(1,Username);
-            ResultSet checkRs = checkPst.executeQuery();
-        if (checkRs.next() && checkRs.getInt(1)>0){
-            JOptionPane.showMessageDialog(this, "Username already exist", "Error", JOptionPane.ERROR_MESSAGE);
+    // 2️⃣ Validate input
+    if (lastName.isEmpty() || firstName.isEmpty() || middleName.isEmpty() || program.isEmpty() ||
+        yearLevel.isEmpty() || section.isEmpty() || barangay.isEmpty() || city.isEmpty() ||
+        province.isEmpty() || country.isEmpty() || contactNumber.isEmpty() ||
+        username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill out all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
-        }    
+    }
 
-            String SQL = "INSERT INTO student"
-                + "(`LastName`,`FirstName`,`MiddleName`,`Program`,`YearLevel`,`Section`,"
-                + "`Barangay`,`City`,`Province`,`Country`,`Contact_number`,"
-                + "`Username`,`Password`,`ProfilePhoto`)"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    if (!password.equals(confirmPassword)) {
+        JOptionPane.showMessageDialog(this, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-            PreparedStatement pst = con.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1, Lastname);
-            pst.setString(2, Firstname);
-            pst.setString(3, Middlename);
-            pst.setString(4, Program);
-            pst.setString(5, YearLevel);
-            pst.setString(6, Section);
-            pst.setString(7, Barangay);
-            pst.setString(8, City);
-            pst.setString(9, Province);
-            pst.setString(10, Country);
-            pst.setString(11, CPnumber);
-            pst.setString(12, Username);
-            pst.setString(13, Password);
-            pst.setString(14, ProfilePhoto);
+    // 3️⃣ Check for existing username
+    String checkSQL = "SELECT COUNT(*) FROM student WHERE Username = ?";
+    PreparedStatement checkPst = con.prepareStatement(checkSQL);
+    checkPst.setString(1, username);
+    ResultSet checkRs = checkPst.executeQuery();
+    if (checkRs.next() && checkRs.getInt(1) > 0) {
+        JOptionPane.showMessageDialog(this, "Username already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-            pst.executeUpdate();
-
-                // 6️⃣ Get generated student ID
-            ResultSet rs = pst.getGeneratedKeys();
-            int generatedId = -1;
-            if (rs.next()) {
-                generatedId = rs.getInt(1);
-            }
-
-            // 7️⃣ Success message
-            JOptionPane.showMessageDialog(this,
-                "Registration successful!\nYour User ID is: " + generatedId,
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Close sign-up form and open main form
-            this.dispose();
-
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
-                                          "SQL Error", JOptionPane.ERROR_MESSAGE);
-        } catch (HeadlessException ex) {
-            JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage(),
-                                          "Error", JOptionPane.ERROR_MESSAGE);
+    // 4️⃣ Handle profile photo
+    String profilePicDestPath = null;
+    if (selectedProfilePath != null) {
+        try {
+            File source = new File(selectedProfilePath);
+            String destDir = "profile_pics/";
+            new File(destDir).mkdirs(); // create folder if not exists
+            profilePicDestPath = destDir + "student_" + username + ".jpg";
+            Files.copy(source.toPath(), new File(profilePicDestPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error saving profile picture: " + ex.getMessage());
         }
+    }
+
+    // 5️⃣ Insert student
+    String insertSQL = "INSERT INTO student (LastName, FirstName, MiddleName, Program, YearLevel, Section, " +
+                       "Barangay, City, Province, Country, Contact_number, Username, Password) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    PreparedStatement pst = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+    pst.setString(1, lastName);
+    pst.setString(2, firstName);
+    pst.setString(3, middleName);
+    pst.setString(4, program);
+    pst.setString(5, yearLevel);
+    pst.setString(6, section);
+    pst.setString(7, barangay);
+    pst.setString(8, city);
+    pst.setString(9, province);
+    pst.setString(10, country);
+    pst.setString(11, contactNumber);
+    pst.setString(12, username);
+    pst.setString(13, password);
+    pst.executeUpdate();
+
+    // 6️⃣ Get generated StudentID
+    ResultSet rs = pst.getGeneratedKeys();
+    int studentID = -1;
+    if (rs.next()) {
+        studentID = rs.getInt(1);
+    }
+
+    // 7️⃣ Insert photo into student_photos
+    if (profilePicDestPath != null && studentID != -1) {
+        String photoSQL = "INSERT INTO student_photos (StudentID, PhotoPath, Description) VALUES (?, ?, ?)";
+        PreparedStatement photoPst = con.prepareStatement(photoSQL);
+        photoPst.setInt(1, studentID);
+        photoPst.setString(2, profilePicDestPath);
+        photoPst.setString(3, "Profile photo");
+        photoPst.executeUpdate();
+    }
+
+    // 8️⃣ Success message
+    JOptionPane.showMessageDialog(this,
+        "Registration successful!\nYour User ID is: " + studentID,
+        "Success", JOptionPane.INFORMATION_MESSAGE);
+
+    this.dispose(); // close registration form
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+} catch (HeadlessException ex) {
+    JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
     }//GEN-LAST:event_AddStudButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        // TODO add your handling code here:
+AddOptions add = new AddOptions();
+add.setVisible(rootPaneCheckingEnabled);
+add.setLocationRelativeTo(null);        // TODO add your handling code here:
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+dispose(); // do not use system.close it will shutdown the entire app
     }//GEN-LAST:event_CloseButtonActionPerformed
 
     private void ProgramTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramTextField1ActionPerformed
@@ -614,7 +664,7 @@ public class AddStudMainDialog extends javax.swing.JDialog {
             }
         });
     }
-
+private String selectedProfilePath;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddMainPanel;
     private javax.swing.JButton AddStudButton;

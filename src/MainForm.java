@@ -49,33 +49,13 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm(String username) {
         initComponents(); // generated UI components
             BodyPanel.setVisible(false);
-                assessmentModel = new DefaultTableModel(
-                    new Object[]{"ID", "Subject", "Title", "Type", "MaxScore", "DateGiven"}, 0
-) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return true; // allow editing for all columns, including ID
-}
-
-};
-DefaultTableModel subjectModel = new DefaultTableModel(
-    new Object[]{"SubjectName", "SubjectCode", "Units", "Credits", "StudentID"}, 0
-) {
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return true; // all cells editable
-    }
-};
-
-subjectTable.setModel(subjectModel);
-
-// Add blank rows for input
-for (int i = 0; i < 5; i++) {
-    subjectModel.addRow(new Object[]{"", "", "", "", ""});
-}
-// Add initial blank row(s)
-subjectModel.addRow(new Object[]{"", "", "", "", ""});
-        loadAssessments();
+            String[] columnss = {"Result ID", "Student", "Assessment", "Score", "Date Taken", "Rating"};
+resultModel = new DefaultTableModel(columnss, 0);
+Result.setModel(resultModel);
+            
+String[] columns = {"Assessment ID", "Subject", "Title", "Type", "Max Score", "Date Given"};
+assessmentModel = new DefaultTableModel(columns, 0);
+AssessmentTable.setModel(assessmentModel);
         //Set greeting if username is provided
         //note saka lang to gagana if kaka login ni user
         if (username != null && !username.isEmpty()) {
@@ -108,7 +88,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
                         TableScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
                          
          //for the Assessment Table
-             assessmentModel = (DefaultTableModel) AssessmentTable.getModel();
+      
              //for the Subject table
              
              
@@ -116,6 +96,8 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         new TextPrompt("Search here..", searchBar1);
             loadStudentsFromDB();
                 loadSubjectsFromDB();
+                    loadAssessments();
+                        loadAssessmentResults();
         //Final frame settings
         pack(); // fit all components
             setLocationRelativeTo(null); // center on screen
@@ -154,6 +136,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         GreetLabel = new javax.swing.JLabel();
         searchBar1 = new Custom_Components.SearchBar();
         GreetLabel1 = new javax.swing.JLabel();
+        Refresher = new Custom_Components.RoundedButton();
         BodyPanel = new javax.swing.JPanel();
         Home = new javax.swing.JPanel();
         jPanel1 = new Custom_Components.Wrapper(
@@ -196,7 +179,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         TableScrollPane1 = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        profilePicLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -216,12 +199,27 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         Subjects = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         subjectTable = new javax.swing.JTable();
-        SubjectRoundedButtong = new Custom_Components.RoundedButton();
+        AssignSub = new Custom_Components.RoundedButton();
+        UnAssign = new Custom_Components.RoundedButton();
+        DeleteSub = new Custom_Components.RoundedButton();
+        jLabel19 = new javax.swing.JLabel();
+        roundedButton2 = new Custom_Components.RoundedButton();
+        AssignSub1 = new Custom_Components.RoundedButton();
         Assessment = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         AssessmentTable = new javax.swing.JTable();
-        AssessmentUploadButton = new Custom_Components.RoundedButton();
+        creation = new Custom_Components.RoundedButton();
+        deleteass = new Custom_Components.RoundedButton();
+        roundedButton4 = new Custom_Components.RoundedButton();
+        jLabel20 = new javax.swing.JLabel();
         AssessmentResult = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        Result = new javax.swing.JTable();
+        addorcreatetable = new Custom_Components.RoundedButton();
+        roundedButton6 = new Custom_Components.RoundedButton();
+        dEL = new Custom_Components.RoundedButton();
+        roundedButton8 = new Custom_Components.RoundedButton();
+        jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -297,6 +295,11 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         CDeleteButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         CDeleteButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         CDeleteButton.setIconTextGap(30);
+        CDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CDeleteButtonActionPerformed(evt);
+            }
+        });
 
         CUpdateButton.setBackground(new java.awt.Color(44, 62, 80));
         CUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -305,6 +308,11 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         CUpdateButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         CUpdateButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         CUpdateButton.setIconTextGap(30);
+        CUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CUpdateButtonActionPerformed(evt);
+            }
+        });
 
         CAddButton.setBackground(new java.awt.Color(44, 62, 80));
         CAddButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -515,6 +523,13 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         GreetLabel1.setForeground(new java.awt.Color(255, 255, 255));
         GreetLabel1.setText("What's the agenda today?");
 
+        Refresher.setText("REFRESH");
+        Refresher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefresherActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout UpperNavigationPanelLayout = new javax.swing.GroupLayout(UpperNavigationPanel);
         UpperNavigationPanel.setLayout(UpperNavigationPanelLayout);
         UpperNavigationPanelLayout.setHorizontalGroup(
@@ -522,6 +537,9 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
             .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                        .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
                         .addComponent(GreetLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -540,7 +558,9 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
                     .addComponent(GreetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(GreetLabel1)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         BodyPanel.setOpaque(false);
@@ -775,7 +795,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
             StudentTable.getColumnModel().getColumn(8).setResizable(false);
         }
 
-        jLabel10.setText("Profile Picture");
+        profilePicLabel.setText("Profile Picture");
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel11.setText("ID:");
@@ -833,7 +853,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -875,7 +895,7 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -916,16 +936,15 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         StudentsPanelLayout.setHorizontalGroup(
             StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(StudentsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         StudentsPanelLayout.setVerticalGroup(
             StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentsPanelLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -935,6 +954,9 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         BodyPanel.add(StudentsPanel, "StudentsPanel");
 
         Subjects.setOpaque(false);
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -949,11 +971,38 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         ));
         jScrollPane2.setViewportView(subjectTable);
 
-        SubjectRoundedButtong.setBackground(new java.awt.Color(153, 255, 153));
-        SubjectRoundedButtong.setText("Upload");
-        SubjectRoundedButtong.addActionListener(new java.awt.event.ActionListener() {
+        AssignSub.setText("Assign Student");
+        AssignSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubjectRoundedButtongActionPerformed(evt);
+                AssignSubActionPerformed(evt);
+            }
+        });
+
+        UnAssign.setText("Unassign Student");
+        UnAssign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UnAssignActionPerformed(evt);
+            }
+        });
+
+        DeleteSub.setText("Delete Subject");
+        DeleteSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteSubActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("QUICK ACCESS:");
+
+        roundedButton2.setBackground(new java.awt.Color(0, 204, 102));
+        roundedButton2.setText("EXPORT");
+
+        AssignSub1.setText("Add Subject");
+        AssignSub1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AssignSub1ActionPerformed(evt);
             }
         });
 
@@ -961,19 +1010,35 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         Subjects.setLayout(SubjectsLayout);
         SubjectsLayout.setHorizontalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SubjectsLayout.createSequentialGroup()
-                .addContainerGap(845, Short.MAX_VALUE)
-                .addComponent(SubjectRoundedButtong, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 993, Short.MAX_VALUE)
+            .addGroup(SubjectsLayout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(jLabel19)
+                .addGap(28, 28, 28)
+                .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SubjectsLayout.setVerticalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SubjectsLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SubjectRoundedButtong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19)
+                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 139, Short.MAX_VALUE))
         );
 
         BodyPanel.add(Subjects, "Subjects");
@@ -993,51 +1058,139 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
         ));
         jScrollPane3.setViewportView(AssessmentTable);
 
-        AssessmentUploadButton.setBackground(new java.awt.Color(153, 255, 153));
-        AssessmentUploadButton.setLabel("Upload");
-        AssessmentUploadButton.addActionListener(new java.awt.event.ActionListener() {
+        creation.setText("Add Assessment");
+        creation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AssessmentUploadButtonActionPerformed(evt);
+                creationActionPerformed(evt);
             }
         });
+
+        deleteass.setText("Delete Assessment");
+        deleteass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteassActionPerformed(evt);
+            }
+        });
+
+        roundedButton4.setBackground(new java.awt.Color(0, 204, 102));
+        roundedButton4.setText("EXPORT");
+        roundedButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roundedButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("QUICK ACCESS");
 
         javax.swing.GroupLayout AssessmentLayout = new javax.swing.GroupLayout(Assessment);
         Assessment.setLayout(AssessmentLayout);
         AssessmentLayout.setHorizontalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AssessmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(AssessmentUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentLayout.createSequentialGroup()
+                .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(AssessmentLayout.createSequentialGroup()
+                        .addContainerGap(409, Short.MAX_VALUE)
+                        .addComponent(jLabel20)
+                        .addGap(18, 18, 18)
+                        .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         AssessmentLayout.setVerticalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AssessmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(AssessmentUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         BodyPanel.add(Assessment, "Assessment");
+
+        AssessmentResult.setOpaque(false);
+
+        Result.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ResultID", "StudentID", "AssessmentID", "Score", "DateTaken", "Ratings"
+            }
+        ));
+        jScrollPane4.setViewportView(Result);
+
+        addorcreatetable.setText("Add Results");
+        addorcreatetable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addorcreatetableActionPerformed(evt);
+            }
+        });
+
+        roundedButton6.setText("Update Results");
+
+        dEL.setText("Delete Results");
+        dEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dELActionPerformed(evt);
+            }
+        });
+
+        roundedButton8.setText("EXPORT");
+
+        jLabel21.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("QUICK ACCESS");
 
         javax.swing.GroupLayout AssessmentResultLayout = new javax.swing.GroupLayout(AssessmentResult);
         AssessmentResult.setLayout(AssessmentResultLayout);
         AssessmentResultLayout.setHorizontalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 963, Short.MAX_VALUE)
+            .addGroup(AssessmentResultLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentResultLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel21)
+                        .addGap(56, 56, 56)
+                        .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         AssessmentResultLayout.setVerticalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
+            .addGroup(AssessmentResultLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
-        BodyPanel.add(AssessmentResult, "card6");
+        BodyPanel.add(AssessmentResult, "AssessmentResult");
 
         javax.swing.GroupLayout BgPanelLayout = new javax.swing.GroupLayout(BgPanel);
         BgPanel.setLayout(BgPanelLayout);
@@ -1130,7 +1283,9 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
     }//GEN-LAST:event_VSubjectButtonActionPerformed
 
     private void CAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CAddButtonActionPerformed
-        // TODO add your handling code here:
+AddOptions add = new AddOptions();
+add.setVisible(rootPaneCheckingEnabled);
+add.setLocationRelativeTo(null);
     }//GEN-LAST:event_CAddButtonActionPerformed
 
     private void VHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VHomeButtonActionPerformed
@@ -1167,173 +1322,217 @@ subjectModel.addRow(new Object[]{"", "", "", "", ""});
                 lblAddress.setText(address);
             lblContact.setText(contact);
         lblUsername.setText(username);
+        
+try (Connection con = Connector.getConnection()) {
+    String sql = "SELECT PhotoPath FROM student_photos WHERE StudentID = ?";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setInt(1, Integer.parseInt(ID));
+    ResultSet rs = pst.executeQuery();
 
-        // Optional: profile pic (if you have the path in DB)
-       /*if (StudentTable.getColumnCount() > 7) {
-            String profilePath = (String) StudentTable.getValueAt(row, 7);
-            if (profilePath != null && !profilePath.isEmpty()) {
-                ImageIcon icon = new ImageIcon(profilePath);
-                Image img = icon.getImage().getScaledInstance(
-                        profilePicLabel.getWidth(),
-                        profilePicLabel.getHeight(),
-                        Image.SCALE_SMOOTH
-                );
-                profilePicLabel.setIcon(new ImageIcon(img));
-            } else {
-                profilePicLabel.setIcon(new ImageIcon("default.png"));
-            }
+    if (rs.next()) {
+        String path = rs.getString("PhotoPath");
+        if (path != null && !path.isEmpty()) {
+            ImageIcon icon = new ImageIcon(path);
+            Image img = icon.getImage().getScaledInstance(
+                profilePicLabel.getWidth(),
+                profilePicLabel.getHeight(),
+                Image.SCALE_SMOOTH
+            );
+            profilePicLabel.setIcon(new ImageIcon(img));
+        } else {
+            profilePicLabel.setIcon(null); // or set a default image
         }
-    */
+    }
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Error loading profile photo: " + ex.getMessage());
+        ex.printStackTrace();
+}
+
     }
     }//GEN-LAST:event_StudentTableMouseClicked
 
     private void VAssessmentButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VAssessmentButton1ActionPerformed
-        // TODO add your handling code here:
+        BodyPanel.setVisible(true);
+            CardLayout cl = (CardLayout)(BodyPanel.getLayout());
+                cl.show(BodyPanel, "AssessmentResult");
     }//GEN-LAST:event_VAssessmentButton1ActionPerformed
 
-    private void AssessmentUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssessmentUploadButtonActionPerformed
+    private void CUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CUpdateButtonActionPerformed
+  UpdateOptions wih = new UpdateOptions();
+        wih.setVisible(rootPaneCheckingEnabled);
+           wih.setLocationRelativeTo(null);
+
+    }//GEN-LAST:event_CUpdateButtonActionPerformed
+
+    private void CDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CDeleteButtonActionPerformed
+DeleteOptions wih = new DeleteOptions();
+        wih.setVisible(rootPaneCheckingEnabled);
+           wih.setLocationRelativeTo(null);
+     
+    }//GEN-LAST:event_CDeleteButtonActionPerformed
+
+    private void RefresherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefresherActionPerformed
+        loadAssessments();
+            loadStudentsFromDB();
+                loadSubjectsFromDB();
+                    loadAssessmentResults();
+    }//GEN-LAST:event_RefresherActionPerformed
+
+    private void AssignSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssignSubActionPerformed
+     AssignStudents assign = new AssignStudents(this,rootPaneCheckingEnabled);
+              assign.setVisible(rootPaneCheckingEnabled);
+                assign.setLocationRelativeTo(null);
+                    assign.setAlwaysOnTop(rootPaneCheckingEnabled); 
+    }//GEN-LAST:event_AssignSubActionPerformed
+
+    private void UnAssignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UnAssignActionPerformed
+        UnAssignStud blah = new UnAssignStud(this, rootPaneCheckingEnabled);
+            blah.setVisible(rootPaneCheckingEnabled);
+                blah.setLocationRelativeTo(null);
+                    blah.setAlwaysOnTop(rootPaneCheckingEnabled);   
+    }//GEN-LAST:event_UnAssignActionPerformed
+
+    private void DeleteSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteSubActionPerformed
+            DeleteSubject heeya = new DeleteSubject();
+                heeya.setVisible(rootPaneCheckingEnabled);
+                    heeya.setLocationRelativeTo(null);
+                        heeya.setAlwaysOnTop(rootPaneCheckingEnabled);
+
+ 
+  // TODO add your handling code here:
+    }//GEN-LAST:event_DeleteSubActionPerformed
+
+    private void creationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creationActionPerformed
+      AddAssessment los = new AddAssessment();
+        los.setVisible(rootPaneCheckingEnabled);
+            los.setLocationRelativeTo(null);
+                los.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_creationActionPerformed
+
+    private void deleteassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteassActionPerformed
+       DeleteAssessment amor = new DeleteAssessment();
+        amor.setVisible(rootPaneCheckingEnabled);
+            amor.setLocationRelativeTo(null);
+                amor.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_deleteassActionPerformed
+
+    private void roundedButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roundedButton4ActionPerformed
+
+    private void dELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dELActionPerformed
+        DeleteAssessmentResults diewithasmile = new DeleteAssessmentResults();
+            diewithasmile.setVisible(rootPaneCheckingEnabled);
+                diewithasmile.setLocationRelativeTo(null);
+                    diewithasmile.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_dELActionPerformed
+
+    private void addorcreatetableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addorcreatetableActionPerformed
+        AddResults ladygaga = new AddResults();
+            ladygaga.setVisible(rootPaneCheckingEnabled);
+                ladygaga.setLocationRelativeTo(null);
+                    ladygaga.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_addorcreatetableActionPerformed
+
+    private void AssignSub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssignSub1ActionPerformed
+              AddSubject ladygaga = new AddSubject();
+            ladygaga.setVisible(rootPaneCheckingEnabled);
+                ladygaga.setLocationRelativeTo(null);
+                    ladygaga.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_AssignSub1ActionPerformed
+private DefaultTableModel assessmentModel;
+
+private void loadAssessments() {
+    assessmentModel.setRowCount(0); // clear table
 
     try (Connection con = Connector.getConnection()) {
-        DefaultTableModel model = (DefaultTableModel) AssessmentTable.getModel();
-
-        for (int i = 0; i < model.getRowCount(); i++) {
-            Object subjectObj = model.getValueAt(i, 1); // Subject
-            Object titleObj   = model.getValueAt(i, 2); // Title
-            Object typeObj    = model.getValueAt(i, 3); // Type
-            Object scoreObj   = model.getValueAt(i, 4); // MaxScore
-            Object dateObj    = model.getValueAt(i, 5); // DateGiven
-
-            if (titleObj == null || titleObj.toString().trim().isEmpty()) continue;
-
-            String subject   = subjectObj == null ? "" : subjectObj.toString().trim();
-            String title     = titleObj.toString().trim();
-            String type      = typeObj == null ? "" : typeObj.toString().trim();
-            int maxScore     = scoreObj == null || scoreObj.toString().trim().isEmpty()
-                                ? 0 : Integer.parseInt(scoreObj.toString().trim());
-            String dateGiven = dateObj == null ? "" : dateObj.toString().trim();
-
-            String sql = "INSERT INTO assessment (Subject, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pst = con.prepareStatement(sql)) {
-                pst.setString(1, subject);
-                pst.setString(2, title);
-                pst.setString(3, type);
-                pst.setInt(4, maxScore);
-                pst.setString(5, dateGiven);
-                pst.executeUpdate();
-            }
-        }
-
-        JOptionPane.showMessageDialog(null, "Assessments saved successfully!");
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "Error saving assessments: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-
-    }//GEN-LAST:event_AssessmentUploadButtonActionPerformed
-
-    private void SubjectRoundedButtongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubjectRoundedButtongActionPerformed
-    try (Connection con = Connector.getConnection()) {
-        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
-
-        for (int i = 0; i < model.getRowCount(); i++) {
-            Object nameObj     = model.getValueAt(i, 0); // SubjectName
-            Object codeObj     = model.getValueAt(i, 1); // SubjectCode
-            Object unitsObj    = model.getValueAt(i, 2); // Units
-            Object creditsObj  = model.getValueAt(i, 3); // Credits
-            Object studentObj  = model.getValueAt(i, 4); // StudentID
-
-            if (nameObj == null || nameObj.toString().trim().isEmpty()) continue;
-
-            String name     = nameObj.toString().trim();
-            String code     = codeObj == null ? "" : codeObj.toString().trim();
-            String units    = unitsObj == null ? "" : unitsObj.toString().trim();
-            int credits     = creditsObj == null || creditsObj.toString().trim().isEmpty()
-                                ? 0 : Integer.parseInt(creditsObj.toString().trim());
-
-            // ✅ Validate StudentID
-            if (studentObj == null || studentObj.toString().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "StudentID is required for this subject.", "Missing StudentID", JOptionPane.WARNING_MESSAGE);
-                continue;
-            }
-
-            int studentID = Integer.parseInt(studentObj.toString().trim());
-
-            String sql = "INSERT INTO Subject (SubjectName, SubjectCode, Units, Credits, StudentID) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pst = con.prepareStatement(sql)) {
-                pst.setString(1, name);
-                pst.setString(2, code);
-                pst.setString(3, units);
-                pst.setInt(4, credits);
-                pst.setInt(5, studentID);
-                pst.executeUpdate();
-            }
-        }
-
-        JOptionPane.showMessageDialog(null, "Subjects saved successfully!");
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "Error saving subjects: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-
-    }//GEN-LAST:event_SubjectRoundedButtongActionPerformed
-
-    private void loadAssessments() {
-      try (java.sql.Connection con = Connector.getConnection()) {
         String sql = "SELECT a.AssessmentID, s.SubjectName, a.Title, a.Type, a.MaxScore, a.DateGiven " +
-                        "FROM Assessment a " +
-                            "JOIN Subject s ON a.SubjectID = s.SubjectID";
-                                PreparedStatement pst = con.prepareStatement(sql);
-                                    ResultSet rs = pst.executeQuery();
+                     "FROM assessment a JOIN subject s ON a.SubjectID = s.SubjectID";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
             assessmentModel.addRow(new Object[]{
                 rs.getInt("AssessmentID"),
-                    rs.getString("SubjectName"),
-                        rs.getString("Title"),
-                            rs.getString("Type"),
-                                rs.getInt("MaxScore"),
-                                    rs.getDate("DateGiven")
+                rs.getString("SubjectName"),
+                rs.getString("Title"),
+                rs.getString("Type"),
+                rs.getInt("MaxScore"),
+                rs.getDate("DateGiven")
             });
         }
-  
-        assessmentModel.addRow(new Object[]{"", "", "", "", "", ""});
+
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(this, "Error loading assessments: " + ex.getMessage());
     }
 }
 
+private DefaultTableModel resultModel;
+
+private void loadAssessmentResults() {
+    resultModel.setRowCount(0);
+
+    try (Connection con = Connector.getConnection()) {
+        String sql = "SELECT r.ResultID, s.FirstName, s.LastName, a.Title, r.Score, r.DateTaken " +
+                     "FROM assessmentresult r " +
+                     "JOIN student s ON r.StudentID = s.StudentID " +
+                     "JOIN assessment a ON r.AssessmentID = a.AssessmentID";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            int score = rs.getInt("Score");
+            String rating = getRating(score);
+
+            resultModel.addRow(new Object[]{
+                rs.getInt("ResultID"),
+                    rs.getString("FirstName") + " " + rs.getString("LastName"),
+                        rs.getString("Title"),
+                            score,
+                                rs.getDate("DateTaken"),
+                                    rating
+            });
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading results: " + ex.getMessage());
+    }
+}
     
 private void loadSubjectsFromDB() {
     try (Connection con = Connector.getConnection();
-         PreparedStatement pst = con.prepareStatement(
-             "SELECT SubjectID, SubjectName, SubjectCode, Units, Credits, StudentID FROM subject");
-         ResultSet rs = pst.executeQuery()) {
+     PreparedStatement pst = con.prepareStatement(
+    "SELECT s.SubjectID, s.SubjectName, s.SubjectCode, s.Units, s.Credits, " +
+    "CONCAT(st.LastName, ', ', st.FirstName) AS FullName " +
+    "FROM subject s " +
+    "LEFT JOIN student_subject ss ON s.SubjectID = ss.SubjectID " +
+    "LEFT JOIN student st ON ss.StudentID = st.StudentID");
+     ResultSet rs = pst.executeQuery()) {
 
-        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
-        model.setRowCount(0); // clear existing rows
+    DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+    model.setRowCount(0); // clear existing rows
 
-        while (rs.next()) {
-            Object[] row = {
-                rs.getInt("SubjectID"),               // int
-                rs.getString("SubjectName"),          // string
-                rs.getString("SubjectCode"),          // string
-                rs.getString("Units"),                // string
-                rs.getInt("Credits"),                 // int
-                rs.getInt("StudentID")                // int
-            };
-            model.addRow(row);
-        }
+    while (rs.next()) {
+     String fullName = rs.getString("FullName");
+        if (fullName == null) fullName = "Epmty"; // or "No takers"
 
-        // Optional: add one blank row for new input
-        model.addRow(new Object[]{"", "", "", "", "", ""});
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
+        Object[] row = {
+            fullName,
+                rs.getInt("SubjectID"),
+                    rs.getString("SubjectName"),
+                        rs.getString("SubjectCode"),
+                            rs.getString("Units"),
+                                rs.getInt("Credits")
+};
+        model.addRow(row);
     }
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+        "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
 }
             
 private void loadStudentsFromDB() {
@@ -1378,6 +1577,13 @@ private void loadStudentsFromDB() {
             JOptionPane.ERROR_MESSAGE);  
     }
 }
+private String getRating(int score) {
+    if (score == 100) return "God Mode";
+    else if (score >= 85) return "Outstanding";
+    else if (score >= 70) return "Good";
+    else if (score >= 50) return "Fair";
+    else return "Needs Improvement";
+}
 
 
     /**
@@ -1413,12 +1619,13 @@ private void loadStudentsFromDB() {
             }
         });
     }
-DefaultTableModel assessmentModel;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Assessment;
     private javax.swing.JPanel AssessmentResult;
     private javax.swing.JTable AssessmentTable;
-    private Custom_Components.RoundedButton AssessmentUploadButton;
+    private Custom_Components.RoundedButton AssignSub;
+    private Custom_Components.RoundedButton AssignSub1;
     private javax.swing.JPanel BgPanel;
     private javax.swing.JPanel BodyPanel;
     private Custom_Components.PressedDownAnimButton CAddButton;
@@ -1426,15 +1633,17 @@ DefaultTableModel assessmentModel;
     private Custom_Components.PressedDownAnimButton CUpdateButton;
     private javax.swing.JLabel CustomizeLabel;
     private javax.swing.JLabel DeadLineDis;
+    private Custom_Components.RoundedButton DeleteSub;
     private javax.swing.JLabel GradeDisplay;
     private javax.swing.JLabel GreetLabel;
     private javax.swing.JLabel GreetLabel1;
     private javax.swing.JPanel Home;
+    private Custom_Components.RoundedButton Refresher;
+    private javax.swing.JTable Result;
     private javax.swing.JPanel SidePanelHolder;
     private Custom_Components.BetterRoundPanel SidebarPanel;
     private javax.swing.JTable StudentTable;
     private javax.swing.JPanel StudentsPanel;
-    private Custom_Components.RoundedButton SubjectRoundedButtong;
     private javax.swing.JPanel Subjects;
     private javax.swing.JScrollPane TableScrollPane1;
     private javax.swing.JPanel TotalAssessment;
@@ -1442,6 +1651,7 @@ DefaultTableModel assessmentModel;
     private Custom_Components.PressedDownAnimButton UBackButton;
     private Custom_Components.PressedDownAnimButton UCloseButton;
     private Custom_Components.PressedDownAnimButton UExportButton;
+    private Custom_Components.RoundedButton UnAssign;
     private javax.swing.JPanel UpperNavigationPanel;
     private javax.swing.JLabel UtilitiesLabel;
     private Custom_Components.PressedDownAnimButton VAssessmentButton;
@@ -1452,8 +1662,11 @@ DefaultTableModel assessmentModel;
     private javax.swing.JLabel ValueDisplayAss;
     private javax.swing.JLabel ValueDisplayStud;
     private javax.swing.JLabel ViewLabel;
+    private Custom_Components.RoundedButton addorcreatetable;
+    private Custom_Components.RoundedButton creation;
+    private Custom_Components.RoundedButton dEL;
+    private Custom_Components.RoundedButton deleteass;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1462,7 +1675,10 @@ DefaultTableModel assessmentModel;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1477,6 +1693,7 @@ DefaultTableModel assessmentModel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblID;
@@ -1485,6 +1702,11 @@ DefaultTableModel assessmentModel;
     private javax.swing.JLabel lblSection;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblYear;
+    private javax.swing.JLabel profilePicLabel;
+    private Custom_Components.RoundedButton roundedButton2;
+    private Custom_Components.RoundedButton roundedButton4;
+    private Custom_Components.RoundedButton roundedButton6;
+    private Custom_Components.RoundedButton roundedButton8;
     private Custom_Components.SearchBar searchBar1;
     private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables

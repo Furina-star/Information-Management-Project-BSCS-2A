@@ -186,6 +186,11 @@ ScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MA
         });
 
         ConfirmPasswordTextField.setPlaceholderText("Confirm Password");
+        ConfirmPasswordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfirmPasswordTextFieldActionPerformed(evt);
+            }
+        });
 
         LastnameTextField.setPlaceholderText("Last name");
         LastnameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -270,6 +275,11 @@ ScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MA
         });
 
         profilePathField.setMaximumSize(new java.awt.Dimension(64, 26));
+        profilePathField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profilePathFieldActionPerformed(evt);
+            }
+        });
 
         profilePicLabel.setText("profilePanel1");
 
@@ -632,6 +642,14 @@ if (result == JFileChooser.APPROVE_OPTION) {
 }
 
     }//GEN-LAST:event_PhotoUploaderActionPerformed
+
+    private void ConfirmPasswordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmPasswordTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ConfirmPasswordTextFieldActionPerformed
+
+    private void profilePathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePathFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_profilePathFieldActionPerformed
 private String selectedProfilePath; // stores the path of the profile picture
 
     /**

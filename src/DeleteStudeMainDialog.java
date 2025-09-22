@@ -43,6 +43,9 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    DeleteStudeMainDialog(){
+        initComponents(); 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -257,12 +260,15 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_DeleteStudButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        // TODO add your handling code here:
+DeleteOptions wih = new DeleteOptions();
+        wih.setVisible(rootPaneCheckingEnabled);
+           wih.setLocationRelativeTo(null);
+            this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        dispose();//System.exit(0);
     }//GEN-LAST:event_CloseButtonActionPerformed
 
     /**

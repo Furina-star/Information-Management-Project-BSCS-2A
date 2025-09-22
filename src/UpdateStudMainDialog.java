@@ -41,6 +41,10 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
      */
     public UpdateStudMainDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+    
+    }
+
+    UpdateStudMainDialog() {
         initComponents();
     }
 
@@ -627,12 +631,16 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_UpdateStudButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+UpdateOptions wih = new UpdateOptions();
+wih.setLocationRelativeTo(null); // center the dialog first
+wih.setVisible(true);            // then show it
+this.dispose();                  // close current window
         // TODO add your handling code here:
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        dispose();//System.exit(0);
     }//GEN-LAST:event_CloseButtonActionPerformed
 
     /**

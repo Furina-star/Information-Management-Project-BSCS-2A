@@ -345,6 +345,9 @@
                   <Properties>
                     <Property name="placeholderText" type="java.lang.String" value="Confirm Password"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConfirmPasswordTextFieldActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="Custom_Components.RoundTextField" name="LastnameTextField">
                   <Properties>
@@ -464,6 +467,9 @@
                       <Dimension value="[64, 26]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="profilePathFieldActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="Custom_Components.ProfilePanel" name="profilePicLabel">
                   <Properties>
