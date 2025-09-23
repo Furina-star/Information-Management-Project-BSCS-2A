@@ -27,6 +27,8 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 //import javax.lang.model.util.Types;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -36,6 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import Custom_Components.TableStyler;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -1777,29 +1781,29 @@ DeleteOptions wih = new DeleteOptions(this, true);
 private DefaultTableModel assessmentModel;
 
 private void loadAssessments() {
-    assessmentModel.setRowCount(0); // clear table
-
+    assessmentModel.setRowCount(0);
     try (Connection con = Connector.getConnection()) {
         String sql = "SELECT a.AssessmentID, s.SubjectName, a.Title, a.Type, a.MaxScore, a.DateGiven " +
                      "FROM assessment a JOIN subject s ON a.SubjectID = s.SubjectID";
         PreparedStatement pst = con.prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
-
         while (rs.next()) {
+            String raw = rs.getString("DateGiven");
+            String display = normalizeDate(raw);
             assessmentModel.addRow(new Object[]{
                 rs.getInt("AssessmentID"),
                 rs.getString("SubjectName"),
                 rs.getString("Title"),
                 rs.getString("Type"),
                 rs.getInt("MaxScore"),
-                rs.getDate("DateGiven")
+                display
             });
         }
-
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(this, "Error loading assessments: " + ex.getMessage());
     }
 }
+
 
 private DefaultTableModel resultModel;
 
@@ -1811,7 +1815,6 @@ private void loadAssessmentResults() {
                      "FROM assessmentresult r " +
                      "JOIN student s ON r.StudentID = s.StudentID " +
                      "JOIN assessment a ON r.AssessmentID = a.AssessmentID";
-
         PreparedStatement pst = con.prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
 
@@ -1819,19 +1822,45 @@ private void loadAssessmentResults() {
             int score = rs.getInt("Score");
             String rating = getRating(score);
 
+            String raw = rs.getString("DateTaken");
+            String display = normalizeDate(raw);
+
             resultModel.addRow(new Object[]{
                 rs.getInt("ResultID"),
-                    rs.getString("FirstName") + " " + rs.getString("LastName"),
-                        rs.getString("Title"),
-                            score,
-                                rs.getDate("DateTaken"),
-                                    rating
+                rs.getString("FirstName") + " " + rs.getString("LastName"),
+                rs.getString("Title"),
+                score,
+                display,
+                rating
             });
         }
-
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(this, "Error loading results: " + ex.getMessage());
     }
+}
+
+// helper: turn "1758556800" or "2025-09-27 00:00:00" into "2025-09-27"
+private static String normalizeDate(String raw) {
+    if (raw == null || raw.isBlank()) return "";
+    raw = raw.trim();
+
+    // numeric? treat as unix epoch seconds
+    if (raw.matches("^\\d{10}$")) {
+        long epochSec = Long.parseLong(raw);
+        return java.time.Instant.ofEpochSecond(epochSec)
+                .atZone(java.time.ZoneId.systemDefault())
+                .toLocalDate()
+                .toString();
+    }
+
+    // if it looks like "YYYY-MM-DD ..." keep first 10 chars
+    if (raw.length() >= 10 && raw.charAt(4) == '-' && raw.charAt(7) == '-') {
+        String d10 = raw.substring(0, 10);
+        try { LocalDate.parse(d10); return d10; } catch (DateTimeParseException ignored) {}
+    }
+
+    // last resort: give raw back
+    return raw;
 }
     
 private void loadSubjectsFromDB() {

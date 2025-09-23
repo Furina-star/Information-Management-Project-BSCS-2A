@@ -138,15 +138,14 @@ public class AddResults extends javax.swing.JDialog {
                 .addGap(0, 53, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(TitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(scoreField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dateField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(scoreField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(roundedButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(59, 59, 59))
         );
 
@@ -195,69 +194,72 @@ public class AddResults extends javax.swing.JDialog {
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
 
-    String studentName = studentComboBox.getSelectedItem().toString().trim();
-    String assessmentTitle = assessmentComboBox.getSelectedItem().toString().trim();
-    String scoreText = scoreField.getText().trim();
-    String dateText = dateField.getText().trim();
+        String studentName = studentComboBox.getSelectedItem().toString().trim();     // "LastName, FirstName"
+        String assessmentTitle = assessmentComboBox.getSelectedItem().toString().trim();
+        String scoreText = scoreField.getText().trim();
+        String dateText = dateField.getText().trim();
 
-    if (studentName.isEmpty() || assessmentTitle.isEmpty() || scoreText.isEmpty() || dateText.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "All fields are required.");
-        return;
-    }
-
-    int score;
-    try {
-        score = Integer.parseInt(scoreText);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Score must be a number.");
-        return;
-    }
-
-    java.sql.Date sqlDate;
-    try {
-        java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
-        sqlDate = new java.sql.Date(parsedDate.getTime());
-    } catch (ParseException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
-        return;
-    }
-
-    try (Connection con = Connector.getConnection()) {
-        // Lookup StudentID
-        String studentSQL = "SELECT StudentID FROM student WHERE CONCAT(LastName, ', ', FirstName) = ?";
-        PreparedStatement studentPst = con.prepareStatement(studentSQL);
-        studentPst.setString(1, studentName);
-        ResultSet studentRs = studentPst.executeQuery();
-
-        // Lookup AssessmentID
-        String assessSQL = "SELECT AssessmentID FROM assessment WHERE Title = ?";
-        PreparedStatement assessPst = con.prepareStatement(assessSQL);
-        assessPst.setString(1, assessmentTitle);
-        ResultSet assessRs = assessPst.executeQuery();
-
-        if (studentRs.next() && assessRs.next()) {
-            int studentID = studentRs.getInt("StudentID");
-            int assessmentID = assessRs.getInt("AssessmentID");
-
-            String insertSQL = "INSERT INTO assessmentresult (StudentID, AssessmentID, Score, DateTaken) VALUES (?, ?, ?, ?)";
-            PreparedStatement pst = con.prepareStatement(insertSQL);
-            pst.setInt(1, studentID);
-            pst.setInt(2, assessmentID);
-            pst.setInt(3, score);
-            pst.setDate(4, sqlDate);
-            pst.executeUpdate();
-
-            String rating = getRating(score);
-            JOptionPane.showMessageDialog(this, "Result saved! Rating: " + rating);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Student or Assessment not found.");
+        if (studentName.isEmpty() || assessmentTitle.isEmpty() || scoreText.isEmpty() || dateText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required.");
+            return;
         }
 
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        ex.printStackTrace();
-    }
+        int score;
+        try {
+            score = Integer.parseInt(scoreText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Score must be a number.");
+            return;
+        }
+
+        // Validate yyyy-MM-dd strictly and keep as String
+        java.util.Date parsedDate;
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            parsedDate = sdf.parse(dateText);
+        } catch (java.text.ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
+            return;
+        }
+        String dateOnly = new java.text.SimpleDateFormat("yyyy-MM-dd").format(parsedDate);
+
+        try (java.sql.Connection con = DataBaseConnection.Connector.getConnection()) {
+            // Lookup StudentID (SQLite uses || for concatenation)
+            String studentSQL = "SELECT StudentID FROM student WHERE (LastName || ', ' || FirstName) = ?";
+            java.sql.PreparedStatement studentPst = con.prepareStatement(studentSQL);
+            studentPst.setString(1, studentName);
+            java.sql.ResultSet studentRs = studentPst.executeQuery();
+
+            // Lookup AssessmentID
+            String assessSQL = "SELECT AssessmentID FROM assessment WHERE Title = ?";
+            java.sql.PreparedStatement assessPst = con.prepareStatement(assessSQL);
+            assessPst.setString(1, assessmentTitle);
+            java.sql.ResultSet assessRs = assessPst.executeQuery();
+
+            if (studentRs.next() && assessRs.next()) {
+                int studentID = studentRs.getInt("StudentID");
+                int assessmentID = assessRs.getInt("AssessmentID");
+
+                String insertSQL = "INSERT INTO assessmentresult (StudentID, AssessmentID, Score, DateTaken) VALUES (?, ?, ?, ?)";
+                java.sql.PreparedStatement pst = con.prepareStatement(insertSQL);
+                pst.setInt(1, studentID);
+                pst.setInt(2, assessmentID);
+                pst.setInt(3, score);
+                pst.setString(4, dateOnly); // write as text yyyy-MM-dd
+                pst.executeUpdate();
+
+                String rating = getRating(score);
+                JOptionPane.showMessageDialog(this, "Result saved! Rating: " + rating);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Student or Assessment not found.");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_roundedButton1ActionPerformed
 
     private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
@@ -266,39 +268,43 @@ public class AddResults extends javax.swing.JDialog {
           // then show it
     }//GEN-LAST:event_roundedButton2ActionPerformed
 
-    private void populatestud(){
-        try (Connection con = Connector.getConnection()) {
-    String sql = "SELECT CONCAT(LastName, ', ', FirstName) AS FullName FROM student";
-    PreparedStatement pst = con.prepareStatement(sql);
-    ResultSet rs = pst.executeQuery();
-    while (rs.next()) {
-        studentComboBox.addItem(rs.getString("FullName"));
+    private void populatestud() {
+        studentComboBox.removeAllItems();
+        try (java.sql.Connection con = DataBaseConnection.Connector.getConnection()) {
+            String sql = "SELECT (LastName || ', ' || FirstName) AS FullName FROM student ORDER BY LastName, FirstName";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            java.sql.ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                studentComboBox.addItem(rs.getString("FullName"));
+            }
+        } catch (java.sql.SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading students: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}catch (SQLException ex) {
-    JOptionPane.showMessageDialog(this, "Error loading subjects: " + ex.getMessage());
-    ex.printStackTrace();
-    }
-    }
+    
     private void populatesub(){
         try (Connection con = Connector.getConnection()) {
-    String sql = "SELECT Title FROM assessment";
-    PreparedStatement pst = con.prepareStatement(sql);
-    ResultSet rs = pst.executeQuery();
-    while (rs.next()) {
-        assessmentComboBox.addItem(rs.getString("Title"));
+        String sql = "SELECT Title FROM assessment";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            assessmentComboBox.addItem(rs.getString("Title"));
+        }
     }
-}catch (SQLException ex) {
-    JOptionPane.showMessageDialog(this, "Error loading students: " + ex.getMessage());
-    ex.printStackTrace();
+        catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading students: " + ex.getMessage());
+        ex.printStackTrace();
+        }
     }
-    }
+    
     private String getRating(int score) {
-    if (score == 100) return "God Mode";
-    else if (score >= 85) return "Outstanding";
-    else if (score >= 70) return "Good";
-    else if (score >= 50) return "Fair";
-    else return "Needs Improvement";
-}
+        if (score == 100) return "God Mode";
+        else if (score >= 85) return "Outstanding";
+        else if (score >= 70) return "Good";
+        else if (score >= 50) return "Fair";
+        else return "Needs Improvement";
+    }
     /**
      * @param args the command line arguments
      */

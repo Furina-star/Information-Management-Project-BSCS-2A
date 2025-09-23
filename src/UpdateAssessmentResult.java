@@ -164,54 +164,57 @@ public class UpdateAssessmentResult extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-            String selected = resultComboBox.getSelectedItem().toString();
-    int resultID;
-    try {
-        resultID = Integer.parseInt(selected.split(" - ")[0].trim());
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Invalid result selection.");
-        return;
-    }
+        String selected = resultComboBox.getSelectedItem().toString();
+        int resultID;
+        try {
+            resultID = Integer.parseInt(selected.split(" - ")[0].trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Invalid result selection.");
+            return;
+        }
 
-    String scoreText = scoreField.getText().trim();
-    String dateText = dateField.getText().trim();
+        String scoreText = scoreField.getText().trim();
+        String dateText = dateField.getText().trim();
 
-    if (scoreText.isEmpty() || dateText.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Score and Date are required.");
-        return;
-    }
+        if (scoreText.isEmpty() || dateText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Score and Date are required.");
+            return;
+        }
 
-    int score;
-    try {
-        score = Integer.parseInt(scoreText);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Score must be a number.");
-        return;
-    }
+        int score;
+        try {
+            score = Integer.parseInt(scoreText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Score must be a number.");
+            return;
+        }
 
-    java.sql.Date sqlDate;
-    try {
-        java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
-        sqlDate = new java.sql.Date(parsedDate.getTime());
-    } catch (ParseException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
-        return;
-    }
+        // validate yyyy-MM-dd strictly
+        java.util.Date parsedDate;
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            parsedDate = sdf.parse(dateText);
+        } catch (java.text.ParseException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
+            return;
+        }
+        String dateOnly = new java.text.SimpleDateFormat("yyyy-MM-dd").format(parsedDate);
 
-    try (Connection con = Connector.getConnection()) {
-        String updateSQL = "UPDATE assessmentresult SET Score = ?, DateTaken = ? WHERE ResultID = ?";
-        PreparedStatement pst = con.prepareStatement(updateSQL);
-        pst.setInt(1, score);
-        pst.setDate(2, sqlDate);
-        pst.setInt(3, resultID);
-        pst.executeUpdate();
+        try (java.sql.Connection con = DataBaseConnection.Connector.getConnection()) {
+            String updateSQL = "UPDATE assessmentresult SET Score = ?, DateTaken = ? WHERE ResultID = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(updateSQL);
+            pst.setInt(1, score);
+            pst.setString(2, dateOnly);   // was pst.setDate(2, sqlDate)
+            pst.setInt(3, resultID);
+            pst.executeUpdate();
 
-        JOptionPane.showMessageDialog(this, "Assessment result updated successfully!");
-        dispose();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Update failed: " + ex.getMessage());
-        ex.printStackTrace();
-    }
+            javax.swing.JOptionPane.showMessageDialog(this, "Assessment result updated successfully!");
+            dispose();
+        } catch (java.sql.SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Update failed: " + ex.getMessage());
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
@@ -221,19 +224,19 @@ public class UpdateAssessmentResult extends javax.swing.JDialog {
     }//GEN-LAST:event_BackButtonActionPerformed
 private void populateResultComboBox() {
     resultComboBox.removeAllItems();
-    try (Connection con = Connector.getConnection()) {
-        String sql = "SELECT ar.ResultID, CONCAT(s.LastName, ', ', s.FirstName) AS FullName " +
+    try (java.sql.Connection con = DataBaseConnection.Connector.getConnection()) {
+        String sql = "SELECT ar.ResultID, (s.LastName || ', ' || s.FirstName) AS FullName " +
                      "FROM assessmentresult ar " +
                      "JOIN student s ON ar.StudentID = s.StudentID";
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        java.sql.ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             int resultID = rs.getInt("ResultID");
             String name = rs.getString("FullName");
             resultComboBox.addItem(resultID + " - " + name);
         }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error loading results: " + ex.getMessage());
+    } catch (java.sql.SQLException ex) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error loading results: " + ex.getMessage());
         ex.printStackTrace();
     }
 }

@@ -168,63 +168,66 @@ public class UpdateAssessment extends javax.swing.JDialog {
 
     private void roundedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton1ActionPerformed
 
-    String selected = assessmentComboBox.getSelectedItem().toString();
-    int assessmentID;
-    try {
-        assessmentID = Integer.parseInt(selected.split(" - ")[0].trim());
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Invalid assessment selection.");
-        return;
-    }
+        String selected = assessmentComboBox.getSelectedItem().toString();
+        int assessmentID;
+        try {
+            assessmentID = Integer.parseInt(selected.split(" - ")[0].trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Invalid assessment selection.");
+            return;
+        }
 
-    String title = titleField.getText().trim();
-    String type = typeField.getText().trim();
-    String maxScoreText = maxScoreField.getText().trim();
-    String dateText = dateField.getText().trim();
+        String title = titleField.getText().trim();
+        String type = typeField.getText().trim();
+        String maxScoreText = maxScoreField.getText().trim();
+        String dateText = dateField.getText().trim();
 
-    if (title.isEmpty() || type.isEmpty() || dateText.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Title, Type, and Date are required.");
-        return;
-    }
+        if (title.isEmpty() || type.isEmpty() || dateText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Title, Type, and Date are required.");
+            return;
+        }
 
-    if (!type.equals("Quiz") && !type.equals("Exam") && !type.equals("Assignment") && !type.equals("Project")) {
-        JOptionPane.showMessageDialog(this, "Invalid type. Use: Quiz, Exam, Assignment, or Project.");
-        return;
-    }
+        if (!type.equals("Quiz") && !type.equals("Exam") && !type.equals("Assignment") && !type.equals("Project")) {
+            JOptionPane.showMessageDialog(this, "Invalid type. Use: Quiz, Exam, Assignment, or Project.");
+            return;
+        }
 
-    int maxScore;
-    try {
-        maxScore = maxScoreText.isEmpty() ? 0 : Integer.parseInt(maxScoreText);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Max Score must be a number.");
-        return;
-    }
+        int maxScore;
+        try {
+            maxScore = maxScoreText.isEmpty() ? 0 : Integer.parseInt(maxScoreText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Max Score must be a number.");
+            return;
+        }
 
-    java.sql.Date sqlDate;
-    try {
-        java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
-        sqlDate = new java.sql.Date(parsedDate.getTime());
-    } catch (ParseException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
-        return;
-    }
+        // Validate yyyy-MM-dd strictly and keep as String
+        java.util.Date parsedDate;
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            parsedDate = sdf.parse(dateText);
+        } catch (java.text.ParseException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd.");
+            return;
+        }
+        String dateOnly = new java.text.SimpleDateFormat("yyyy-MM-dd").format(parsedDate);
 
-    try (Connection con = Connector.getConnection()) {
-        String updateSQL = "UPDATE assessment SET Title = ?, Type = ?, MaxScore = ?, DateGiven = ? WHERE AssessmentID = ?";
-        PreparedStatement pst = con.prepareStatement(updateSQL);
-        pst.setString(1, title);
-        pst.setString(2, type);
-        pst.setInt(3, maxScore);
-        pst.setDate(4, sqlDate);
-        pst.setInt(5, assessmentID);
-        pst.executeUpdate();
+        try (java.sql.Connection con = DataBaseConnection.Connector.getConnection()) {
+            String updateSQL = "UPDATE assessment SET Title = ?, Type = ?, MaxScore = ?, DateGiven = ? WHERE AssessmentID = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(updateSQL);
+            pst.setString(1, title);
+            pst.setString(2, type);
+            pst.setInt(3, maxScore);
+            pst.setString(4, dateOnly);     // was pst.setDate(4, sqlDate)
+            pst.setInt(5, assessmentID);
+            pst.executeUpdate();
 
-        JOptionPane.showMessageDialog(this, "Assessment updated successfully!");
-        dispose();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Update failed: " + ex.getMessage());
-        ex.printStackTrace();
-    }
+            javax.swing.JOptionPane.showMessageDialog(this, "Assessment updated successfully!");
+            dispose();
+        } catch (java.sql.SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Update failed: " + ex.getMessage());
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_roundedButton1ActionPerformed
 

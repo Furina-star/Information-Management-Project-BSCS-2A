@@ -197,67 +197,69 @@ public class AddAssessment extends javax.swing.JDialog {
     }//GEN-LAST:event_dateFieldActionPerformed
 
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
+        String subjectCode = Subject.getSelectedItem().toString().trim();
+        String title = titleField.getText().trim();
+        String type = typeField.getText().trim();
+        String maxScoreText = maxScoreField.getText().trim();
+        String dateText = dateField.getText().trim();
 
-    String subjectCode = Subject.getSelectedItem().toString().trim();
-    String title = titleField.getText().trim();
-    String type = typeField.getText().trim();
-    String maxScoreText = maxScoreField.getText().trim();
-    String dateText = dateField.getText().trim();
-    java.sql.Date sqlDate;  
-try {
-    // Parse the date from text input
-    java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
-    sqlDate = new java.sql.Date(parsedDate.getTime());
-} catch (ParseException ex) {
-    JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.");
-    return;
-}
-if (!type.equals("Quiz") && !type.equals("Exam") && !type.equals("Assignment") && !type.equals("Project")) {
-    JOptionPane.showMessageDialog(this, "Invalid type. Use: Quiz, Exam, Assignment, or Project.");
-    return;
-}
-    if (title.isEmpty() || subjectCode.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Title and Subject are required.");
-        return;
-    }
-
-    int maxScore;
-    try {
-        maxScore = maxScoreText.isEmpty() ? 0 : Integer.parseInt(maxScoreText);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Max Score must be a number.");
-        return;
-    }
-
-    try (Connection con = Connector.getConnection()) {
-        // Lookup SubjectID
-        String lookupSQL = "SELECT SubjectID FROM subject WHERE SubjectCode = ?";
-        PreparedStatement lookupPst = con.prepareStatement(lookupSQL);
-        lookupPst.setString(1, subjectCode);
-        ResultSet rs = lookupPst.executeQuery();
-
-        if (rs.next()) {
-            int subjectID = rs.getInt("SubjectID");
-
-            String insertSQL = "INSERT INTO assessment (SubjectID, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = con.prepareStatement(insertSQL);
-            pst.setInt(1, subjectID);
-            pst.setString(2, title);
-            pst.setString(3, type);
-            pst.setInt(4, maxScore);
-            pst.setDate(5,sqlDate);
-            pst.executeUpdate();
-
-            JOptionPane.showMessageDialog(this, "Assessment added successfully!");
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Subject not found.");
+        if (title.isEmpty() || subjectCode.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Title and Subject are required.");
+            return;
+        }
+        if (!type.equals("Quiz") && !type.equals("Exam") && !type.equals("Assignment") && !type.equals("Project")) {
+            JOptionPane.showMessageDialog(this, "Invalid type. Use: Quiz, Exam, Assignment, or Project.");
+            return;
         }
 
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        ex.printStackTrace();
-    }      // TODO add your handling code here:
+        int maxScore;
+        try {
+            maxScore = maxScoreText.isEmpty() ? 0 : Integer.parseInt(maxScoreText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Max Score must be a number.");
+            return;
+        }
+
+        // Validate yyyy-MM-dd strictly and keep it as a string
+        java.util.Date parsedDate;
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            parsedDate = sdf.parse(dateText);
+        } catch (java.text.ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.");
+            return;
+        }
+        String dateOnly = new java.text.SimpleDateFormat("yyyy-MM-dd").format(parsedDate);
+
+        try (Connection con = Connector.getConnection()) {
+            // Lookup SubjectID
+            String lookupSQL = "SELECT SubjectID FROM subject WHERE SubjectCode = ?";
+            PreparedStatement lookupPst = con.prepareStatement(lookupSQL);
+            lookupPst.setString(1, subjectCode);
+            ResultSet rs = lookupPst.executeQuery();
+
+            if (rs.next()) {
+                int subjectID = rs.getInt("SubjectID");
+
+                String insertSQL = "INSERT INTO assessment (SubjectID, Title, Type, MaxScore, DateGiven) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement pst = con.prepareStatement(insertSQL);
+                pst.setInt(1, subjectID);
+                pst.setString(2, title);
+                pst.setString(3, type);
+                pst.setInt(4, maxScore);
+                pst.setString(5, dateOnly); // write as text yyyy-MM-dd
+                pst.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "Assessment added successfully!");
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Subject not found.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_confirmActionPerformed
 
     private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
