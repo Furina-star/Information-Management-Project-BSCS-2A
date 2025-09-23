@@ -74,9 +74,9 @@ public class LoginDialog extends javax.swing.JDialog {
         LoginLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         LoginButton.setBackground(new java.awt.Color(51, 153, 255));
-        LoginButton.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        LoginButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LoginButton.setForeground(new java.awt.Color(255, 255, 255));
-        LoginButton.setText("LOGIN");
+        LoginButton.setText("Login");
         LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoginButtonActionPerformed(evt);
@@ -160,8 +160,8 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SignupLabel1)
                 .addGap(53, 53, 53)
-                .addComponent(LoginButton)
-                .addGap(163, 163, 163)
+                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(155, 155, 155)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SignupLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))

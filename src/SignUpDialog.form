@@ -62,8 +62,12 @@
       <SubComponents>
         <Container class="javax.swing.JScrollPane" name="ScrollPanel">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
             <Property name="verticalScrollBarPolicy" type="int" value="22"/>
+            <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -77,25 +81,19 @@
                   <Color id="Default Cursor"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanel(35)"/>
-              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
-                                  <Component id="LoginLabel" min="-2" pref="198" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
-                                  <Component id="PhotoUploader" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace pref="94" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                          <Component id="PhotoUploader" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="163" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="profilePicLabel" min="-2" pref="220" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -134,39 +132,37 @@
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="BackButton" min="-2" pref="56" max="-2" attributes="0"/>
-                                          <EmptySpace pref="230" max="32767" attributes="0"/>
-                                          <Component id="CloseButton" min="-2" pref="56" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="SignUpButton" alignment="0" pref="342" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="PasswordTextField" max="32767" attributes="0"/>
-                                              <Component id="ConfirmPasswordTextField" alignment="1" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="BackButton" min="-2" pref="56" max="-2" attributes="0"/>
+                                              <EmptySpace pref="230" max="32767" attributes="0"/>
+                                              <Component id="CloseButton" min="-2" pref="56" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="showHideButton1" linkSize="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="showHideButton2" linkSize="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                          <Component id="SignUpButton" alignment="0" pref="342" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="PasswordTextField" max="32767" attributes="0"/>
+                                                  <Component id="ConfirmPasswordTextField" alignment="1" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="showHideButton1" linkSize="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                                  <Component id="showHideButton2" linkSize="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
+                                          <Component id="UsernameTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ContactNumberTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="EmailTextField" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="profilePathField" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="UsernameTextField" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="ContactNumberTextField" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="EmailTextField" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="profilePathField" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="LoginLabel" min="-2" pref="343" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                          <Component id="profilePicLabel" min="-2" pref="220" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -248,7 +244,7 @@
                       <Color blue="ff" green="99" red="33" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="24" style="0"/>
+                      <Font name="Segoe UI" size="18" style="1"/>
                     </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -324,9 +320,6 @@
                 </Component>
                 <Component class="Custom_Components.RoundTextField" name="UsernameTextField">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Image Folder/user.png"/>
-                    </Property>
                     <Property name="placeholderText" type="java.lang.String" value="Username"/>
                   </Properties>
                   <Events>
@@ -473,7 +466,10 @@
                 </Component>
                 <Component class="Custom_Components.ProfilePanel" name="profilePicLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="profilePanel1"/>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Update Profile Picture"/>
                   </Properties>
                 </Component>
               </SubComponents>

@@ -41,11 +41,12 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
      */
     public UpdateStudMainDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        initComponents();
     
     }
 
     UpdateStudMainDialog() {
-        initComponents();
+        this((java.awt.Frame) null, true);
     }
 
     /**
@@ -86,8 +87,7 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
         showHideButton2 = new ShowHideButton();
         showHideButton1 = new ShowHideButton();
         UpdateStudButton = new RoundedButton();
-        BackButton = new ImageButton();
-        CloseButton = new ImageButton();
+        roundedButton2 = new Custom_Components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -252,8 +252,8 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
             }
         });
 
-        UpdateStudButton.setBackground(new java.awt.Color(51, 153, 255));
-        UpdateStudButton.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        UpdateStudButton.setBackground(new java.awt.Color(72, 130, 237));
+        UpdateStudButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         UpdateStudButton.setForeground(new java.awt.Color(255, 255, 255));
         UpdateStudButton.setText("Update");
         UpdateStudButton.addActionListener(new java.awt.event.ActionListener() {
@@ -262,17 +262,13 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
             }
         });
 
-        BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/left-arrow.png"))); // NOI18N
-        BackButton.addActionListener(new java.awt.event.ActionListener() {
+        roundedButton2.setBackground(new java.awt.Color(72, 130, 237));
+        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton2.setText("Back");
+        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        roundedButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackButtonActionPerformed(evt);
-            }
-        });
-
-        CloseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/exit-full-screen.png"))); // NOI18N
-        CloseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CloseButtonActionPerformed(evt);
+                roundedButton2ActionPerformed(evt);
             }
         });
 
@@ -287,13 +283,6 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
             .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
-                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(FindStudentIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(StudentIDTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                         .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(UpdateMainPanelLayout.createSequentialGroup()
@@ -323,34 +312,39 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
                                 .addGroup(UpdateMainPanelLayout.createSequentialGroup()
                                     .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(ConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(PasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(BackButton, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addComponent(PasswordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(showHideButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(showHideButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(ContactLabel)
                                 .addComponent(ContactNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(CreateProfilePicture)
-                                .addComponent(profilePathField, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createSequentialGroup()
+                                .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(69, 69, 69))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createSequentialGroup()
                                 .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
-                                        .addGap(122, 122, 122)
-                                        .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
-                                        .addGap(69, 69, 69)
-                                        .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(22, 22, 22))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createSequentialGroup()
-                .addContainerGap(212, Short.MAX_VALUE)
-                .addComponent(UpdateStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(213, 213, 213))
+                                    .addComponent(CreateProfilePicture)
+                                    .addComponent(profilePathField, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdateMainPanelLayout.createSequentialGroup()
+                                .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144))))
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                        .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(FindStudentIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(StudentIDTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(UpdateMainPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(88, 88, 88)
+                        .addComponent(UpdateStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(146, 146, 146))))
         );
         UpdateMainPanelLayout.setVerticalGroup(
             UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,13 +402,11 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
                         .addComponent(PhotoUploader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40)
-                .addComponent(UpdateStudButton)
-                .addGap(18, 18, 18)
-                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BackButton)
-                    .addComponent(CloseButton))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addGroup(UpdateMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpdateStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(79, 79, 79))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -425,10 +417,10 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UpdateMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(UpdateMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setSize(new java.awt.Dimension(777, 831));
+        setSize(new java.awt.Dimension(777, 778));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -630,18 +622,11 @@ public class UpdateStudMainDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_UpdateStudButtonActionPerformed
 
-    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-UpdateOptions wih = new UpdateOptions();
-wih.setLocationRelativeTo(null); // center the dialog first
-wih.setVisible(true);            // then show it
-this.dispose();                  // close current window
+    private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BackButtonActionPerformed
-
-    private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
-        // TODO add your handling code here:
-        dispose();//System.exit(0);
-    }//GEN-LAST:event_CloseButtonActionPerformed
+        this.dispose();
+        // then show it
+    }//GEN-LAST:event_roundedButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -686,10 +671,8 @@ this.dispose();                  // close current window
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BackButton;
     private Custom_Components.RoundTextField BarangayTextField;
     private Custom_Components.RoundTextField CityTextField;
-    private javax.swing.JButton CloseButton;
     private Custom_Components.RoundPasswordField ConfirmPasswordTextField;
     private javax.swing.JLabel ContactLabel;
     private Custom_Components.RoundTextField ContactNumberTextField;
@@ -715,6 +698,7 @@ this.dispose();                  // close current window
     private Custom_Components.RoundTextField YearTextField1;
     private Custom_Components.RoundTextField profilePathField;
     private Custom_Components.ProfilePanel profilePicLabel;
+    private Custom_Components.RoundedButton roundedButton2;
     private Custom_Components.ShowHideButton showHideButton1;
     private Custom_Components.ShowHideButton showHideButton2;
     // End of variables declaration//GEN-END:variables

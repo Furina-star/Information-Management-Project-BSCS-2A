@@ -49,7 +49,7 @@ public class AddStudMainDialog extends javax.swing.JDialog {
     }
 
     AddStudMainDialog() {
-                this((java.awt.Frame) null, true);
+        this((java.awt.Frame) null, true);
     }
 
     /**

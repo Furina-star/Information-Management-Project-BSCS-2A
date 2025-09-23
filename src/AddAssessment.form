@@ -49,30 +49,19 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                              <Component id="TitleLabel" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="60" pref="60" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="roundedButton2" min="-2" pref="146" max="-2" attributes="0"/>
-                                      <EmptySpace pref="27" max="32767" attributes="0"/>
-                                      <Component id="confirm" min="-2" pref="142" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="titleField" max="32767" attributes="0"/>
-                                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="dateField" alignment="1" max="32767" attributes="0"/>
+                      <Component id="maxScoreField" alignment="1" max="32767" attributes="0"/>
+                      <Component id="typeField" alignment="0" pref="315" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="roundedButton2" min="-2" pref="146" max="-2" attributes="0"/>
+                          <EmptySpace pref="27" max="32767" attributes="0"/>
+                          <Component id="confirm" min="-2" pref="142" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="dateField" alignment="1" pref="315" max="32767" attributes="0"/>
-                          <Component id="maxScoreField" alignment="1" max="32767" attributes="0"/>
-                          <Component id="typeField" alignment="1" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="titleField" max="32767" attributes="0"/>
+                      <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="TitleLabel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="60" max="32767" attributes="0"/>
               </Group>
@@ -156,7 +145,7 @@
               <Font name="Segoe UI" size="36" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Add Subject"/>
+            <Property name="text" type="java.lang.String" value="Add Assessment"/>
             <Property name="horizontalTextPosition" type="int" value="2"/>
           </Properties>
         </Component>

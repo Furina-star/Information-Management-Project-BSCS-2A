@@ -237,6 +237,7 @@ public class MainForm extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         ExportButton = new Custom_Components.RoundedButton();
         AssignSub1 = new Custom_Components.RoundedButton();
+        AssignSub2 = new Custom_Components.RoundedButton();
         Assessment = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         AssessmentTable = new javax.swing.JTable();
@@ -249,7 +250,7 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         Result = new javax.swing.JTable();
         addorcreatetable = new Custom_Components.RoundedButton();
-        roundedButton6 = new Custom_Components.RoundedButton();
+        UpdateResultsButton = new Custom_Components.RoundedButton();
         dEL = new Custom_Components.RoundedButton();
         ExportResultButton = new Custom_Components.RoundedButton();
         jLabel21 = new javax.swing.JLabel();
@@ -1059,27 +1060,36 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        AssignSub2.setText("Update Subject");
+        AssignSub2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        AssignSub2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AssignSub2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SubjectsLayout = new javax.swing.GroupLayout(Subjects);
         Subjects.setLayout(SubjectsLayout);
         SubjectsLayout.setHorizontalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SubjectsLayout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jLabel19)
-                .addGap(18, 18, 18)
-                .addComponent(ExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
-            .addGroup(SubjectsLayout.createSequentialGroup()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addGroup(SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SubjectsLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(18, 18, 18)
+                        .addComponent(ExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(AssignSub2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         SubjectsLayout.setVerticalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1092,7 +1102,8 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AssignSub2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 211, Short.MAX_VALUE))
         );
 
@@ -1170,8 +1181,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
             .addGroup(AssessmentLayout.createSequentialGroup()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         AssessmentLayout.setVerticalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1212,8 +1223,13 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        roundedButton6.setText("Update Results");
-        roundedButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        UpdateResultsButton.setText("Update Results");
+        UpdateResultsButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        UpdateResultsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateResultsButtonActionPerformed(evt);
+            }
+        });
 
         dEL.setBackground(new java.awt.Color(220, 53, 70));
         dEL.setForeground(new java.awt.Color(255, 255, 255));
@@ -1244,21 +1260,20 @@ public class MainForm extends javax.swing.JFrame {
         AssessmentResultLayout.setHorizontalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentResultLayout.createSequentialGroup()
-                .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4)
-                    .addGroup(AssessmentResultLayout.createSequentialGroup()
-                        .addGap(184, 184, 184)
-                        .addComponent(jLabel21)
-                        .addGap(18, 18, 18)
-                        .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)))
-                .addContainerGap())
+                .addContainerGap(316, Short.MAX_VALUE)
+                .addComponent(jLabel21)
+                .addGap(18, 18, 18)
+                .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+            .addGroup(AssessmentResultLayout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         AssessmentResultLayout.setVerticalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1267,7 +1282,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1742,7 +1757,27 @@ DeleteOptions wih = new DeleteOptions(this, true);
 
     private void UpdateAssessmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateAssessmentButtonActionPerformed
         // TODO add your handling code here:
+        UpdateAssessment ua = new UpdateAssessment();
+            ua.setVisible(rootPaneCheckingEnabled);
+                ua.setLocationRelativeTo(null);
+                    ua.setAlwaysOnTop(rootPaneCheckingEnabled);
     }//GEN-LAST:event_UpdateAssessmentButtonActionPerformed
+
+    private void UpdateResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateResultsButtonActionPerformed
+        // TODO add your handling code here:
+        UpdateAssessmentResult nig = new UpdateAssessmentResult();
+            nig.setVisible(rootPaneCheckingEnabled);
+                nig.setLocationRelativeTo(null);
+                    nig.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_UpdateResultsButtonActionPerformed
+
+    private void AssignSub2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssignSub2ActionPerformed
+        // TODO add your handling code here:
+        UpdateSubject usub = new UpdateSubject();
+            usub.setVisible(rootPaneCheckingEnabled);
+                usub.setLocationRelativeTo(null);
+                    usub.setAlwaysOnTop(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_AssignSub2ActionPerformed
 private DefaultTableModel assessmentModel;
 
 private void loadAssessments() {
@@ -1929,6 +1964,7 @@ private String getRating(int score) {
     private javax.swing.JTable AssessmentTable;
     private Custom_Components.RoundedButton AssignSub;
     private Custom_Components.RoundedButton AssignSub1;
+    private Custom_Components.RoundedButton AssignSub2;
     private javax.swing.JPanel BgPanel;
     private javax.swing.JPanel BodyPanel;
     private Custom_Components.PressedDownAnimButton CAddButton;
@@ -1961,6 +1997,7 @@ private String getRating(int score) {
     private Custom_Components.PressedDownAnimButton UExportButton;
     private Custom_Components.RoundedButton UnAssign;
     private Custom_Components.RoundedButton UpdateAssessmentButton;
+    private Custom_Components.RoundedButton UpdateResultsButton;
     private javax.swing.JPanel UpperNavigationPanel;
     private javax.swing.JLabel UtilitiesLabel;
     private Custom_Components.PressedDownAnimButton VAssessmentButton;
@@ -2012,7 +2049,6 @@ private String getRating(int score) {
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblYear;
     private javax.swing.JLabel profilePicLabel;
-    private Custom_Components.RoundedButton roundedButton6;
     private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 }

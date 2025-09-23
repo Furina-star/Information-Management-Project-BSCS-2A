@@ -182,30 +182,25 @@ public class UpdateOptions extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aserActionPerformed
-            UpdateAssessmentResult wih = new UpdateAssessmentResult();
-        wih.setVisible(rootPaneCheckingEnabled);
-           wih.setLocationRelativeTo(null);
-            wih.setAlwaysOnTop(rootPaneCheckingEnabled);
+        UpdateAssessmentResult wih = new UpdateAssessmentResult();
+            wih.setVisible(true);
+        
     }//GEN-LAST:event_aserActionPerformed
 
     private void assessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assessActionPerformed
-             UpdateAssessment weh = new UpdateAssessment();
-        weh.setVisible(rootPaneCheckingEnabled);
-           weh.setLocationRelativeTo(null);
-            weh.setAlwaysOnTop(rootPaneCheckingEnabled);
+        UpdateAssessment weh = new UpdateAssessment();
+            weh.setVisible(true);
+
     }//GEN-LAST:event_assessActionPerformed
 
     private void subActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subActionPerformed
       UpdateSubject omg = new UpdateSubject();
-        omg.setVisible(rootPaneCheckingEnabled);
-             omg.setLocationRelativeTo(null);
-                omg.setAlwaysOnTop(rootPaneCheckingEnabled);
+        omg.setVisible(true);
     }//GEN-LAST:event_subActionPerformed
 
     private void studActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studActionPerformed
-    UpdateStudMainDialog yes = new UpdateStudMainDialog();
-      this.dispose();
-        yes.setVisible(true);
+        UpdateStudMainDialog yes = new UpdateStudMainDialog();
+            yes.setVisible(true);
     
     }//GEN-LAST:event_studActionPerformed
 
