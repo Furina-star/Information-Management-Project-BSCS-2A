@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import Custom_Components.TableStyler;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -52,6 +53,17 @@ public class MainForm extends javax.swing.JFrame {
     // Constructor with username
     public MainForm(String username) {
         initComponents(); // generated UI components
+        
+        //Table Design
+        TableStyler.apply(subjectTable);
+        TableStyler.apply(AssessmentTable);
+        TableStyler.apply(Result);
+        TableStyler.apply(StudentTable);
+
+        TableStyler.alignRight(subjectTable, 1); // e.g., SubjectID column
+        TableStyler.alignRight(subjectTable, 4); // Units
+        TableStyler.alignRight(subjectTable, 5); // Credits
+        
         //Export Result into excel
         ExportResultButton.addActionListener(this::ExportResultButtonActionPerformed);
         
@@ -198,7 +210,7 @@ public class MainForm extends javax.swing.JFrame {
         StudentsPanel = new javax.swing.JPanel();
         TableScrollPane1 = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
-        jPanel2 = new RoundedPanel(20);
+        jPanel2 = new javax.swing.JPanel();
         profilePicLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -556,7 +568,7 @@ public class MainForm extends javax.swing.JFrame {
 
         ExportAllButton.setBackground(new java.awt.Color(0, 153, 153));
         ExportAllButton.setForeground(new java.awt.Color(255, 255, 255));
-        ExportAllButton.setText("Export All");
+        ExportAllButton.setText("EXPORT ALL");
         ExportAllButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ExportAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -786,9 +798,6 @@ public class MainForm extends javax.swing.JFrame {
         StudentsPanel.setForeground(new java.awt.Color(255, 153, 153));
         StudentsPanel.setOpaque(false);
 
-        TableScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        TableScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
         StudentTable.setAutoCreateRowSorter(true);
         StudentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -956,7 +965,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(lblUsername))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout StudentsPanelLayout = new javax.swing.GroupLayout(StudentsPanel);
@@ -973,18 +982,15 @@ public class MainForm extends javax.swing.JFrame {
             StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentsPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(54, 54, 54))
+                .addGroup(StudentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
 
         BodyPanel.add(StudentsPanel, "StudentsPanel");
 
         Subjects.setOpaque(false);
-
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
