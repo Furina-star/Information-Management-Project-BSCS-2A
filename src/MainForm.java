@@ -61,10 +61,6 @@ public class MainForm extends javax.swing.JFrame {
         TableStyler.apply(AssessmentTable);
         TableStyler.apply(Result);
         TableStyler.apply(StudentTable);
-
-        TableStyler.alignRight(subjectTable, 1); // e.g., SubjectID column
-        TableStyler.alignRight(subjectTable, 4); // Units
-        TableStyler.alignRight(subjectTable, 5); // Credits
         
         
             BodyPanel.setVisible(false);
@@ -1044,7 +1040,7 @@ public class MainForm extends javax.swing.JFrame {
 
         ExportButton.setBackground(new java.awt.Color(0, 153, 153));
         ExportButton.setForeground(new java.awt.Color(255, 255, 255));
-        ExportButton.setText("EXPORT");
+        ExportButton.setText("Export");
         ExportButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1144,7 +1140,7 @@ public class MainForm extends javax.swing.JFrame {
 
         ExportAssessmentButton.setBackground(new java.awt.Color(0, 153, 153));
         ExportAssessmentButton.setForeground(new java.awt.Color(255, 255, 255));
-        ExportAssessmentButton.setText("EXPORT");
+        ExportAssessmentButton.setText("Export");
         ExportAssessmentButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ExportAssessmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1169,7 +1165,7 @@ public class MainForm extends javax.swing.JFrame {
         AssessmentLayout.setHorizontalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AssessmentLayout.createSequentialGroup()
-                .addContainerGap(242, Short.MAX_VALUE)
+                .addContainerGap(245, Short.MAX_VALUE)
                 .addComponent(jLabel20)
                 .addGap(18, 18, 18)
                 .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1243,7 +1239,7 @@ public class MainForm extends javax.swing.JFrame {
 
         ExportResultButton.setBackground(new java.awt.Color(0, 153, 153));
         ExportResultButton.setForeground(new java.awt.Color(255, 255, 255));
-        ExportResultButton.setText("EXPORT");
+        ExportResultButton.setText("Export");
         ExportResultButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ExportResultButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1260,7 +1256,7 @@ public class MainForm extends javax.swing.JFrame {
         AssessmentResultLayout.setHorizontalGroup(
             AssessmentResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentResultLayout.createSequentialGroup()
-                .addContainerGap(316, Short.MAX_VALUE)
+                .addContainerGap(319, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addGap(18, 18, 18)
                 .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

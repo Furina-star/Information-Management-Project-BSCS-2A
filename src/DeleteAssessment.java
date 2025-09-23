@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import Custom_Components.RoundedPanel;
 
 /**
  *
@@ -20,8 +21,7 @@ public class DeleteAssessment extends javax.swing.JDialog {
         PopulateAss();
     }
     DeleteAssessment(){
-              initComponents();
-        PopulateAss();
+        this((java.awt.Frame) null, true); 
     }
 
     /**
@@ -34,66 +34,89 @@ public class DeleteAssessment extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        assessmentComboBox = new Custom_Components.ComboBox();
         ConfirmDel = new Custom_Components.RoundedButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        TitleLabel = new javax.swing.JLabel();
+        jPanel11 = new RoundedPanel(20);
+        assessmentComboBox = new Custom_Components.ComboBox();
+        roundedButton2 = new Custom_Components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("DELETE ASSESSMENT");
-
-        assessmentComboBox.setLabeText("Select Assessment");
-
+        ConfirmDel.setBackground(new java.awt.Color(72, 130, 237));
+        ConfirmDel.setForeground(new java.awt.Color(255, 255, 255));
         ConfirmDel.setText("Confirm");
+        ConfirmDel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         ConfirmDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfirmDelActionPerformed(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/exit-full-screen.png"))); // NOI18N
+        TitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TitleLabel.setText("Delete Assessment");
+        TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/left-arrow.png"))); // NOI18N
+        jPanel11.setBackground(new java.awt.Color(72, 130, 237));
+
+        assessmentComboBox.setLabeText("Select Assessment");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(assessmentComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(assessmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        roundedButton2.setBackground(new java.awt.Color(72, 130, 237));
+        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton2.setText("Back");
+        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        roundedButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roundedButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(204, 204, 204)
-                .addComponent(ConfirmDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(211, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(0, 20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TitleLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(assessmentComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(65, 65, 65))
+                        .addComponent(ConfirmDel, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addComponent(TitleLabel)
                 .addGap(18, 18, 18)
-                .addComponent(assessmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addComponent(ConfirmDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(50, 50, 50))
+                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ConfirmDel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(79, 79, 79))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -107,7 +130,8 @@ public class DeleteAssessment extends javax.swing.JDialog {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(395, 352));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConfirmDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmDelActionPerformed
@@ -148,6 +172,12 @@ public class DeleteAssessment extends javax.swing.JDialog {
     }
         // TODO add your handling code here:
     }//GEN-LAST:event_ConfirmDelActionPerformed
+
+    private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        // then show it
+    }//GEN-LAST:event_roundedButton2ActionPerformed
 private void PopulateAss(){
     try (Connection con = Connector.getConnection()) {
     String sql = "SELECT AssessmentID, Title FROM assessment";
@@ -207,10 +237,10 @@ private void PopulateAss(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom_Components.RoundedButton ConfirmDel;
+    private javax.swing.JLabel TitleLabel;
     private Custom_Components.ComboBox assessmentComboBox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private Custom_Components.RoundedButton roundedButton2;
     // End of variables declaration//GEN-END:variables
 }

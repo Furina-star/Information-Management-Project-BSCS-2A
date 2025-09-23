@@ -44,7 +44,7 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
         initComponents();
     }
     DeleteStudeMainDialog(){
-        initComponents(); 
+        this((java.awt.Frame) null, true); 
     }
 
     /**
@@ -62,8 +62,7 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
         StudentIDTextField = new Custom_Components.RoundTextField();
         VerifyButton = new Custom_Components.RoundedButton();
         DeleteStudButton = new RoundedButton();
-        BackButton = new ImageButton();
-        CloseButton = new ImageButton();
+        roundedButton2 = new Custom_Components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -91,8 +90,8 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
             }
         });
 
-        DeleteStudButton.setBackground(new java.awt.Color(51, 153, 255));
-        DeleteStudButton.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        DeleteStudButton.setBackground(new java.awt.Color(72, 130, 237));
+        DeleteStudButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         DeleteStudButton.setForeground(new java.awt.Color(255, 255, 255));
         DeleteStudButton.setText("Delete");
         DeleteStudButton.addActionListener(new java.awt.event.ActionListener() {
@@ -101,17 +100,13 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
             }
         });
 
-        BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/left-arrow.png"))); // NOI18N
-        BackButton.addActionListener(new java.awt.event.ActionListener() {
+        roundedButton2.setBackground(new java.awt.Color(72, 130, 237));
+        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
+        roundedButton2.setText("Back");
+        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        roundedButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackButtonActionPerformed(evt);
-            }
-        });
-
-        CloseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image Folder/exit-full-screen.png"))); // NOI18N
-        CloseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CloseButtonActionPerformed(evt);
+                roundedButton2ActionPerformed(evt);
             }
         });
 
@@ -121,22 +116,18 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(FindStudentIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(StudentIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BackButton))
+                        .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(DeleteStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(StudentIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(CloseButton)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(DeleteStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(TitleLabel)))
-                        .addGap(0, 23, Short.MAX_VALUE))))
+                        .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FindStudentIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,13 +140,11 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(StudentIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(VerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(DeleteStudButton)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BackButton)
-                    .addComponent(CloseButton))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGap(68, 68, 68)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DeleteStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(79, 79, 79))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -166,10 +155,10 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setSize(new java.awt.Dimension(395, 358));
+        setSize(new java.awt.Dimension(395, 343));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -259,17 +248,11 @@ public class DeleteStudeMainDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_DeleteStudButtonActionPerformed
 
-    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-DeleteOptions wih = new DeleteOptions();
-        wih.setVisible(rootPaneCheckingEnabled);
-           wih.setLocationRelativeTo(null);
-            this.dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_BackButtonActionPerformed
-
-    private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
+    private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
         // TODO add your handling code here:
-        dispose();//System.exit(0);
-    }//GEN-LAST:event_CloseButtonActionPerformed
+        this.dispose();
+        // then show it
+    }//GEN-LAST:event_roundedButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,13 +297,12 @@ DeleteOptions wih = new DeleteOptions();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BackButton;
-    private javax.swing.JButton CloseButton;
     private javax.swing.JButton DeleteStudButton;
     private javax.swing.JLabel FindStudentIDLabel;
     private Custom_Components.RoundTextField StudentIDTextField;
     private javax.swing.JLabel TitleLabel;
     private Custom_Components.RoundedButton VerifyButton;
     private javax.swing.JPanel jPanel1;
+    private Custom_Components.RoundedButton roundedButton2;
     // End of variables declaration//GEN-END:variables
 }

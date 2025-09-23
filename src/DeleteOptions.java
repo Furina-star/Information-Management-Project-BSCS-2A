@@ -182,29 +182,22 @@ public class DeleteOptions extends javax.swing.JDialog {
 
     private void DeleteStudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteStudActionPerformed
         DeleteStudeMainDialog del = new DeleteStudeMainDialog();
-        this.dispose();
-        del.setVisible(true);
+            del.setVisible(true);
     }//GEN-LAST:event_DeleteStudActionPerformed
 
     private void DeleteSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteSubActionPerformed
      DeleteSubject dele = new DeleteSubject();
-     dele.setVisible(rootPaneCheckingEnabled);
-     dele.setLocationRelativeTo(null);
-     dele.setAlwaysOnTop(rootPaneCheckingEnabled);
+        dele.setVisible(true);
     }//GEN-LAST:event_DeleteSubActionPerformed
 
     private void DeleteAssActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteAssActionPerformed
-     DeleteAssessment yes = new DeleteAssessment();
-     yes.setVisible(rootPaneCheckingEnabled);
-     yes.setLocationRelativeTo(null);
-     yes.setAlwaysOnTop(rootPaneCheckingEnabled);
+        DeleteAssessment yes = new DeleteAssessment();
+            yes.setVisible(true);
     }//GEN-LAST:event_DeleteAssActionPerformed
 
     private void DeleteAssRedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteAssRedActionPerformed
         DeleteAssessmentResults passobemsolto = new DeleteAssessmentResults();
-        passobemsolto.setVisible(rootPaneCheckingEnabled);
-        passobemsolto.setLocationRelativeTo(null);
-        passobemsolto.setAlwaysOnTop(rootPaneCheckingEnabled);
+            passobemsolto.setVisible(true);
     }//GEN-LAST:event_DeleteAssRedActionPerformed
 
     private void roundedButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton2ActionPerformed
