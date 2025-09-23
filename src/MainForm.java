@@ -1,3 +1,5 @@
+import Export_Components.ExportUtils;
+import Export_Components.XlsxExportUtils;
 import java.sql.Types;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -413,6 +415,11 @@ public class MainForm extends javax.swing.JFrame {
         UExportButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         UExportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         UExportButton.setIconTextGap(30);
+        UExportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UExportButtonActionPerformed(evt);
+            }
+        });
 
         VHomeButton.setBackground(new java.awt.Color(44, 62, 80));
         VHomeButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1675,6 +1682,52 @@ DeleteOptions wih = new DeleteOptions(this, true);
             }
         }
     }//GEN-LAST:event_ExportAllButtonActionPerformed
+
+    private void UExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UExportButtonActionPerformed
+        // TODO add your handling code here:
+        boolean allEmpty =
+            StudentTable.getRowCount() == 0 &&
+            subjectTable.getRowCount() == 0 &&
+            AssessmentTable.getRowCount() == 0 &&
+            Result.getRowCount() == 0;
+
+        if (allEmpty) {
+            javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
+            return;
+        }
+
+        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+        chooser.setDialogTitle("Save all data");
+        chooser.setSelectedFile(new java.io.File("all-data.xlsx"));
+
+        javax.swing.filechooser.FileNameExtensionFilter xlsx =
+                new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
+        javax.swing.filechooser.FileNameExtensionFilter csv =
+                new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
+        chooser.addChoosableFileFilter(xlsx);
+        chooser.addChoosableFileFilter(csv);
+        chooser.setFileFilter(xlsx);
+
+        int result = chooser.showSaveDialog(this);
+        if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File file = chooser.getSelectedFile();
+            boolean toXlsx = chooser.getFileFilter() == xlsx
+                    || file.getName().toLowerCase().endsWith(".xlsx");
+
+            try {
+                if (toXlsx) {
+                    XlsxExportUtils.exportTablesToXlsx(StudentTable, subjectTable, AssessmentTable, Result, file);
+                } else {
+                    ExportUtils.exportTablesToSingleCsv(StudentTable, subjectTable, AssessmentTable, Result, file);
+                }
+                javax.swing.JOptionPane.showMessageDialog(this, "Exported to:\n" + file.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this, "Export failed:\n" + ex.getMessage(),
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_UExportButtonActionPerformed
 private DefaultTableModel assessmentModel;
 
 private void loadAssessments() {
