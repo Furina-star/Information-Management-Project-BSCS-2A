@@ -66,8 +66,6 @@ public class MainForm extends javax.swing.JFrame {
         TableStyler.alignRight(subjectTable, 4); // Units
         TableStyler.alignRight(subjectTable, 5); // Credits
         
-        //Export Result into excel
-        ExportResultButton.addActionListener(this::ExportResultButtonActionPerformed);
         
             BodyPanel.setVisible(false);
             String[] columnss = {"Result ID", "Student", "Assessment", "Score", "Date Taken", "Rating"};
@@ -246,6 +244,7 @@ public class MainForm extends javax.swing.JFrame {
         deleteass = new Custom_Components.RoundedButton();
         ExportAssessmentButton = new Custom_Components.RoundedButton();
         jLabel20 = new javax.swing.JLabel();
+        UpdateAssessmentButton = new Custom_Components.RoundedButton();
         AssessmentResult = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         Result = new javax.swing.JTable();
@@ -1064,7 +1063,6 @@ public class MainForm extends javax.swing.JFrame {
         Subjects.setLayout(SubjectsLayout);
         SubjectsLayout.setHorizontalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)
             .addGroup(SubjectsLayout.createSequentialGroup()
                 .addGap(121, 121, 121)
                 .addComponent(jLabel19)
@@ -1078,7 +1076,10 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(AssignSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
+            .addGroup(SubjectsLayout.createSequentialGroup()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         SubjectsLayout.setVerticalGroup(
             SubjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1144,23 +1145,32 @@ public class MainForm extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("QUICK ACCESS");
 
+        UpdateAssessmentButton.setText("Update Assessment");
+        UpdateAssessmentButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        UpdateAssessmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateAssessmentButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout AssessmentLayout = new javax.swing.GroupLayout(Assessment);
         Assessment.setLayout(AssessmentLayout);
         AssessmentLayout.setHorizontalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AssessmentLayout.createSequentialGroup()
-                .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(AssessmentLayout.createSequentialGroup()
-                        .addContainerGap(392, Short.MAX_VALUE)
-                        .addComponent(jLabel20)
-                        .addGap(18, 18, 18)
-                        .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)))
+            .addGroup(AssessmentLayout.createSequentialGroup()
+                .addContainerGap(242, Short.MAX_VALUE)
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(UpdateAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
+            .addGroup(AssessmentLayout.createSequentialGroup()
+                .addComponent(jScrollPane3)
                 .addContainerGap())
         );
         AssessmentLayout.setVerticalGroup(
@@ -1172,7 +1182,8 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpdateAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(211, Short.MAX_VALUE))
         );
 
@@ -1728,6 +1739,10 @@ DeleteOptions wih = new DeleteOptions(this, true);
             }
         }
     }//GEN-LAST:event_UExportButtonActionPerformed
+
+    private void UpdateAssessmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateAssessmentButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdateAssessmentButtonActionPerformed
 private DefaultTableModel assessmentModel;
 
 private void loadAssessments() {
@@ -1945,6 +1960,7 @@ private String getRating(int score) {
     private Custom_Components.PressedDownAnimButton UCloseButton;
     private Custom_Components.PressedDownAnimButton UExportButton;
     private Custom_Components.RoundedButton UnAssign;
+    private Custom_Components.RoundedButton UpdateAssessmentButton;
     private javax.swing.JPanel UpperNavigationPanel;
     private javax.swing.JLabel UtilitiesLabel;
     private Custom_Components.PressedDownAnimButton VAssessmentButton;
