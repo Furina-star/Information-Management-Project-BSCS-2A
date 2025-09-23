@@ -21,14 +21,17 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 //import javax.lang.model.util.Types;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -49,6 +52,8 @@ public class MainForm extends javax.swing.JFrame {
     // Constructor with username
     public MainForm(String username) {
         initComponents(); // generated UI components
+        //Export Result into excel
+        ExportResultButton.addActionListener(this::ExportResultButtonActionPerformed);
         
             BodyPanel.setVisible(false);
             String[] columnss = {"Result ID", "Student", "Assessment", "Score", "Date Taken", "Rating"};
@@ -105,6 +110,18 @@ public class MainForm extends javax.swing.JFrame {
                             setLocationRelativeTo(null); // center on screen
                                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    // Optional helper if you want a brief success toast
+    private void showAutoClosingInfo(String message, int millis) {
+        javax.swing.JOptionPane pane = new javax.swing.JOptionPane(
+                message, javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        javax.swing.JDialog dialog = pane.createDialog(this, "Export");
+        dialog.setModal(false);
+        dialog.setDefaultCloseOperation(javax.swing.JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+        new javax.swing.Timer(millis, e -> dialog.dispose()) {{ setRepeats(false); }}.start();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,6 +156,7 @@ public class MainForm extends javax.swing.JFrame {
         Searchbar = new Custom_Components.SearchBar();
         GreetLabel1 = new javax.swing.JLabel();
         Refresher = new Custom_Components.RoundedButton();
+        ExportAllButton = new Custom_Components.RoundedButton();
         BodyPanel = new javax.swing.JPanel();
         Home = new javax.swing.JPanel();
         jPanel1 = new Custom_Components.Wrapper(
@@ -205,14 +223,14 @@ public class MainForm extends javax.swing.JFrame {
         UnAssign = new Custom_Components.RoundedButton();
         DeleteSub = new Custom_Components.RoundedButton();
         jLabel19 = new javax.swing.JLabel();
-        roundedButton2 = new Custom_Components.RoundedButton();
+        ExportButton = new Custom_Components.RoundedButton();
         AssignSub1 = new Custom_Components.RoundedButton();
         Assessment = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         AssessmentTable = new javax.swing.JTable();
         creation = new Custom_Components.RoundedButton();
         deleteass = new Custom_Components.RoundedButton();
-        roundedButton4 = new Custom_Components.RoundedButton();
+        ExportAssessmentButton = new Custom_Components.RoundedButton();
         jLabel20 = new javax.swing.JLabel();
         AssessmentResult = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -220,7 +238,7 @@ public class MainForm extends javax.swing.JFrame {
         addorcreatetable = new Custom_Components.RoundedButton();
         roundedButton6 = new Custom_Components.RoundedButton();
         dEL = new Custom_Components.RoundedButton();
-        roundedButton8 = new Custom_Components.RoundedButton();
+        ExportResultButton = new Custom_Components.RoundedButton();
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -536,6 +554,16 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        ExportAllButton.setBackground(new java.awt.Color(0, 153, 153));
+        ExportAllButton.setForeground(new java.awt.Color(255, 255, 255));
+        ExportAllButton.setText("Export All");
+        ExportAllButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportAllButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout UpperNavigationPanelLayout = new javax.swing.GroupLayout(UpperNavigationPanel);
         UpperNavigationPanel.setLayout(UpperNavigationPanelLayout);
         UpperNavigationPanelLayout.setHorizontalGroup(
@@ -551,7 +579,10 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
                         .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(GreetLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(UpperNavigationPanelLayout.createSequentialGroup()
+                                .addComponent(Refresher, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ExportAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         UpperNavigationPanelLayout.setVerticalGroup(
@@ -564,7 +595,9 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(GreetLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Refresher, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addGroup(UpperNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Refresher, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(ExportAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -996,10 +1029,15 @@ public class MainForm extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("QUICK ACCESS:");
 
-        roundedButton2.setBackground(new java.awt.Color(0, 153, 153));
-        roundedButton2.setForeground(new java.awt.Color(255, 255, 255));
-        roundedButton2.setText("EXPORT");
-        roundedButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportButton.setBackground(new java.awt.Color(0, 153, 153));
+        ExportButton.setForeground(new java.awt.Color(255, 255, 255));
+        ExportButton.setText("EXPORT");
+        ExportButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportButtonActionPerformed(evt);
+            }
+        });
 
         AssignSub1.setText("Add Subject");
         AssignSub1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1018,7 +1056,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(121, 121, 121)
                 .addComponent(jLabel19)
                 .addGap(18, 18, 18)
-                .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1039,7 +1077,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(UnAssign, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DeleteSub, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(AssignSub1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 211, Short.MAX_VALUE))
         );
@@ -1079,13 +1117,13 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        roundedButton4.setBackground(new java.awt.Color(0, 153, 153));
-        roundedButton4.setForeground(new java.awt.Color(255, 255, 255));
-        roundedButton4.setText("EXPORT");
-        roundedButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        roundedButton4.addActionListener(new java.awt.event.ActionListener() {
+        ExportAssessmentButton.setBackground(new java.awt.Color(0, 153, 153));
+        ExportAssessmentButton.setForeground(new java.awt.Color(255, 255, 255));
+        ExportAssessmentButton.setText("EXPORT");
+        ExportAssessmentButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportAssessmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roundedButton4ActionPerformed(evt);
+                ExportAssessmentButtonActionPerformed(evt);
             }
         });
 
@@ -1104,7 +1142,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addContainerGap(392, Short.MAX_VALUE)
                         .addComponent(jLabel20)
                         .addGap(18, 18, 18)
-                        .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19)
@@ -1120,7 +1158,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(creation, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteass, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(211, Short.MAX_VALUE))
         );
@@ -1163,10 +1201,15 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        roundedButton8.setBackground(new java.awt.Color(0, 153, 153));
-        roundedButton8.setForeground(new java.awt.Color(255, 255, 255));
-        roundedButton8.setText("EXPORT");
-        roundedButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportResultButton.setBackground(new java.awt.Color(0, 153, 153));
+        ExportResultButton.setForeground(new java.awt.Color(255, 255, 255));
+        ExportResultButton.setText("EXPORT");
+        ExportResultButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ExportResultButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportResultButtonActionPerformed(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
@@ -1183,7 +1226,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addGap(184, 184, 184)
                         .addComponent(jLabel21)
                         .addGap(18, 18, 18)
-                        .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -1202,7 +1245,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(addorcreatetable, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(roundedButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dEL, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roundedButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExportResultButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(212, Short.MAX_VALUE))
         );
@@ -1433,9 +1476,48 @@ DeleteOptions wih = new DeleteOptions(this, true);
                 amor.setAlwaysOnTop(rootPaneCheckingEnabled);
     }//GEN-LAST:event_deleteassActionPerformed
 
-    private void roundedButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundedButton4ActionPerformed
+    private void ExportAssessmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAssessmentButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_roundedButton4ActionPerformed
+        if (AssessmentTable.getRowCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
+            return;
+        }
+
+        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+        chooser.setDialogTitle("Save assessment export");
+        chooser.setSelectedFile(new java.io.File("assessments.xlsx"));
+
+        javax.swing.filechooser.FileNameExtensionFilter xlsx =
+                new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
+        javax.swing.filechooser.FileNameExtensionFilter csv =
+                new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
+        chooser.addChoosableFileFilter(xlsx);
+        chooser.addChoosableFileFilter(csv);
+        chooser.setFileFilter(xlsx); // default to .xlsx
+
+        int result = chooser.showSaveDialog(this);
+        if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File file = chooser.getSelectedFile();
+            javax.swing.filechooser.FileNameExtensionFilter sel =
+                    (javax.swing.filechooser.FileNameExtensionFilter) chooser.getFileFilter();
+            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+
+            try {
+                if (toXlsx) {
+                    XlsxExportUtils.exportTableToXlsx(AssessmentTable, file);
+                } else {
+                    ExportUtils.exportTableToCsv(AssessmentTable, file);
+                }
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Exported to:\n" + file.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Export failed:\n" + ex.getMessage(),
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_ExportAssessmentButtonActionPerformed
 
     private void dELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dELActionPerformed
         DeleteAssessmentResults diewithasmile = new DeleteAssessmentResults();
@@ -1457,6 +1539,136 @@ DeleteOptions wih = new DeleteOptions(this, true);
                 ladygaga.setLocationRelativeTo(null);
                     ladygaga.setAlwaysOnTop(rootPaneCheckingEnabled);
     }//GEN-LAST:event_AssignSub1ActionPerformed
+
+    private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
+        // TODO add your handling code here:
+        if (subjectTable.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "There is no data to export.");
+            return;
+        }
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Save Subject export");
+        chooser.setSelectedFile(new File("subjects.xlsx"));
+
+        FileNameExtensionFilter xlsx =
+                new FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
+        FileNameExtensionFilter csv =
+                new FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
+        chooser.addChoosableFileFilter(xlsx);
+        chooser.addChoosableFileFilter(csv);
+        chooser.setFileFilter(xlsx);
+
+        int result = chooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            FileNameExtensionFilter sel =
+                    (FileNameExtensionFilter) chooser.getFileFilter();
+            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+
+            try {
+                if (toXlsx) {
+                    XlsxExportUtils.exportTableToXlsx(subjectTable, file);
+                } else {
+                    ExportUtils.exportTableToCsv(subjectTable, file);
+                }
+                JOptionPane.showMessageDialog(this, "Exported to:\n" + file.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Export failed:\n" + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_ExportButtonActionPerformed
+
+    private void ExportResultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportResultButtonActionPerformed
+        // TODO add your handling code here:
+        if (Result.getRowCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
+            return;
+        }
+
+        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+        chooser.setDialogTitle("Save results export");
+        chooser.setSelectedFile(new java.io.File("results.xlsx"));
+
+        javax.swing.filechooser.FileNameExtensionFilter xlsx =
+                new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
+        javax.swing.filechooser.FileNameExtensionFilter csv =
+                new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
+        chooser.addChoosableFileFilter(xlsx);
+        chooser.addChoosableFileFilter(csv);
+        chooser.setFileFilter(xlsx); // default to .xlsx
+
+        int result = chooser.showSaveDialog(this);
+        if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File file = chooser.getSelectedFile();
+            javax.swing.filechooser.FileNameExtensionFilter sel =
+                    (javax.swing.filechooser.FileNameExtensionFilter) chooser.getFileFilter();
+            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+
+            try {
+                if (toXlsx) {
+                    XlsxExportUtils.exportTableToXlsx(Result, file);
+                } else {
+                    ExportUtils.exportTableToCsv(Result, file);
+                }
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Exported to:\n" + file.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Export failed:\n" + ex.getMessage(),
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_ExportResultButtonActionPerformed
+
+    private void ExportAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportAllButtonActionPerformed
+        // TODO add your handling code here:
+        boolean allEmpty =
+            StudentTable.getRowCount() == 0 &&
+            subjectTable.getRowCount() == 0 &&
+            AssessmentTable.getRowCount() == 0 &&
+            Result.getRowCount() == 0;
+
+        if (allEmpty) {
+            javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
+            return;
+        }
+
+        javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+        chooser.setDialogTitle("Save all data");
+        chooser.setSelectedFile(new java.io.File("all-data.xlsx"));
+
+        javax.swing.filechooser.FileNameExtensionFilter xlsx =
+                new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
+        javax.swing.filechooser.FileNameExtensionFilter csv =
+                new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
+        chooser.addChoosableFileFilter(xlsx);
+        chooser.addChoosableFileFilter(csv);
+        chooser.setFileFilter(xlsx);
+
+        int result = chooser.showSaveDialog(this);
+        if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File file = chooser.getSelectedFile();
+            boolean toXlsx = chooser.getFileFilter() == xlsx
+                    || file.getName().toLowerCase().endsWith(".xlsx");
+
+            try {
+                if (toXlsx) {
+                    XlsxExportUtils.exportTablesToXlsx(StudentTable, subjectTable, AssessmentTable, Result, file);
+                } else {
+                    ExportUtils.exportTablesToSingleCsv(StudentTable, subjectTable, AssessmentTable, Result, file);
+                }
+                javax.swing.JOptionPane.showMessageDialog(this, "Exported to:\n" + file.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this, "Export failed:\n" + ex.getMessage(),
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_ExportAllButtonActionPerformed
 private DefaultTableModel assessmentModel;
 
 private void loadAssessments() {
@@ -1651,6 +1863,10 @@ private String getRating(int score) {
     private javax.swing.JLabel CustomizeLabel;
     private javax.swing.JLabel DeadLineDis;
     private Custom_Components.RoundedButton DeleteSub;
+    private Custom_Components.RoundedButton ExportAllButton;
+    private Custom_Components.RoundedButton ExportAssessmentButton;
+    private Custom_Components.RoundedButton ExportButton;
+    private Custom_Components.RoundedButton ExportResultButton;
     private javax.swing.JLabel GradeDisplay;
     private javax.swing.JLabel GreetLabel;
     private javax.swing.JLabel GreetLabel1;
@@ -1721,10 +1937,7 @@ private String getRating(int score) {
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblYear;
     private javax.swing.JLabel profilePicLabel;
-    private Custom_Components.RoundedButton roundedButton2;
-    private Custom_Components.RoundedButton roundedButton4;
     private Custom_Components.RoundedButton roundedButton6;
-    private Custom_Components.RoundedButton roundedButton8;
     private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 }
