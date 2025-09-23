@@ -1,3 +1,15 @@
 /build/
 /dist/
 /nbproject/private/
+# Build outputs
+/out/
+/out/**/
+/dist/
+/nbproject/private/
+
+# Installers and binaries
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.app
