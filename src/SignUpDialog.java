@@ -504,30 +504,29 @@ public class SignUpDialog extends javax.swing.JDialog {
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
 try(Connection con = Connector.getConnection()){
     String Lastname = LastnameTextField.getText();
-    String Firstname = FirstnameTextField.getText();
-    String Middlename = MiddlenameTextField.getText();
-    String Barangay = BarangayTextField.getText();
-    String City = CityTextField.getText();
-    String Province = ProvinceTextField.getText();
-    String Country = CountryTextField.getText();
-    String CPnumber = ContactNumberTextField.getText();
-    String Email = EmailTextField.getText();
-    String Username = UsernameTextField.getText();
-    
+        String Firstname = FirstnameTextField.getText();
+            String Middlename = MiddlenameTextField.getText();
+                String Barangay = BarangayTextField.getText();
+                    String City = CityTextField.getText();
+                        String Province = ProvinceTextField.getText();
+                    String Country = CountryTextField.getText();
+                String CPnumber = ContactNumberTextField.getText();
+            String Email = EmailTextField.getText();
+        String Username = UsernameTextField.getText();
     String Password = new String (PasswordTextField.getPassword());
-    String ConfirmPassword = new String (ConfirmPasswordTextField.getPassword());
+        String ConfirmPassword = new String (ConfirmPasswordTextField.getPassword());
     
     if (Lastname.isEmpty()||Firstname.isEmpty() || Middlename.isEmpty()||Barangay.isEmpty()|| City.isEmpty()
             ||Province.isEmpty()||Country.isEmpty()||CPnumber.isEmpty()||Email.isEmpty()||Username.isEmpty()||
-            Password.isEmpty()||ConfirmPassword.isEmpty()){
-        JOptionPane.showMessageDialog(this, "Please make sure to fill out all requirements", "Error",JOptionPane.ERROR_MESSAGE);
-        return;
+                Password.isEmpty()||ConfirmPassword.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Please make sure to fill out all requirements", "Error",JOptionPane.ERROR_MESSAGE);
+                        return;
     }
-    if (!Password.equals(ConfirmPassword)){
-        JOptionPane.showMessageDialog(this, "Passwords Do not Match", "Error", JOptionPane.ERROR_MESSAGE);
-    return;
+                    if (!Password.equals(ConfirmPassword)){
+                JOptionPane.showMessageDialog(this, "Passwords Do not Match", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
     }
-    //checks whether a username alreasy exist or not
+    //check whether a username alreasy exist or not
     String CheckSql = "SELECT COUNT(*) FROM admin WHERE Username = ?";
     PreparedStatement checkPst = con.prepareStatement(CheckSql);
     checkPst.setString(1,Username);

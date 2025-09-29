@@ -40,6 +40,12 @@ import javax.swing.table.DefaultTableModel;
 import Custom_Components.TableStyler;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import DataBaseConnection.Connector;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import Custom_Components.RoundedPanel;
+import com.mysql.cj.protocol.Resultset;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -105,10 +111,8 @@ public class MainForm extends javax.swing.JFrame {
                                 TableScrollPane1.getVerticalScrollBar().setUI(new ThinScrollBarUI());
                                     TableScrollPane1.getHorizontalScrollBar().setUI(new ThinScrollBarUI());
                                         TableScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
-
-                         //for the Assessment Table
-
-                             //for the Subject table
+                        //load stats
+                        dashboardStats();
 
 
                         //Search bar placeholder
@@ -187,7 +191,7 @@ public class MainForm extends javax.swing.JFrame {
         ;
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        ValueDisplayAss = new javax.swing.JLabel();
+        ValueDisplaySUB = new javax.swing.JLabel();
         jPanel3 = new Custom_Components.Wrapper(
             new Color(27,39,50),
             new Color(30, 45, 50),
@@ -205,7 +209,7 @@ public class MainForm extends javax.swing.JFrame {
         ;
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        DeadLineDis = new javax.swing.JLabel();
+        ValueDisplayASS = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         StudentsPanel = new javax.swing.JPanel();
         TableScrollPane1 = new javax.swing.JScrollPane();
@@ -656,16 +660,16 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Assessments");
+        jLabel4.setText("Subjects");
 
         jLabel6.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Pending ");
+        jLabel6.setText("Total ");
 
-        ValueDisplayAss.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
-        ValueDisplayAss.setForeground(new java.awt.Color(255, 255, 255));
-        ValueDisplayAss.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ValueDisplayAss.setText("100%");
+        ValueDisplaySUB.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        ValueDisplaySUB.setForeground(new java.awt.Color(255, 255, 255));
+        ValueDisplaySUB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ValueDisplaySUB.setText("100%");
 
         javax.swing.GroupLayout TotalAssessmentLayout = new javax.swing.GroupLayout(TotalAssessment);
         TotalAssessment.setLayout(TotalAssessmentLayout);
@@ -676,14 +680,14 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ValueDisplayAss, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ValueDisplaySUB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         TotalAssessmentLayout.setVerticalGroup(
             TotalAssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TotalAssessmentLayout.createSequentialGroup()
                 .addGap(187, 187, 187)
-                .addComponent(ValueDisplayAss)
+                .addComponent(ValueDisplaySUB)
                 .addGap(53, 53, 53)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -709,10 +713,10 @@ public class MainForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GradeDisplay))
+                    .addComponent(GradeDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -729,15 +733,15 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Deadlines");
+        jLabel5.setText("Assessments");
 
         jLabel7.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Upcoming");
+        jLabel7.setText("Total");
 
-        DeadLineDis.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
-        DeadLineDis.setForeground(new java.awt.Color(255, 255, 255));
-        DeadLineDis.setText("100%");
+        ValueDisplayASS.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        ValueDisplayASS.setForeground(new java.awt.Color(255, 255, 255));
+        ValueDisplayASS.setText("100%");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -745,17 +749,20 @@ public class MainForm extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DeadLineDis, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(ValueDisplayASS, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(187, 187, 187)
-                .addComponent(DeadLineDis)
+                .addComponent(ValueDisplayASS)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -783,7 +790,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1169,7 +1176,7 @@ public class MainForm extends javax.swing.JFrame {
         AssessmentLayout.setHorizontalGroup(
             AssessmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AssessmentLayout.createSequentialGroup()
-                .addContainerGap(245, Short.MAX_VALUE)
+                .addContainerGap(243, Short.MAX_VALUE)
                 .addComponent(jLabel20)
                 .addGap(18, 18, 18)
                 .addComponent(ExportAssessmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1519,27 +1526,27 @@ DeleteOptions wih = new DeleteOptions(this, true);
         // TODO add your handling code here:
         if (AssessmentTable.getRowCount() == 0) {
             javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
-            return;
+                return;
         }
 
         javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-        chooser.setDialogTitle("Save assessment export");
-        chooser.setSelectedFile(new java.io.File("assessments.xlsx"));
+            chooser.setDialogTitle("Save assessment export");
+                chooser.setSelectedFile(new java.io.File("assessments.xlsx"));
 
         javax.swing.filechooser.FileNameExtensionFilter xlsx =
                 new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
         javax.swing.filechooser.FileNameExtensionFilter csv =
                 new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
-        chooser.addChoosableFileFilter(xlsx);
-        chooser.addChoosableFileFilter(csv);
-        chooser.setFileFilter(xlsx); // default to .xlsx
+                    chooser.addChoosableFileFilter(xlsx);
+                        chooser.addChoosableFileFilter(csv);
+                            chooser.setFileFilter(xlsx); // default to .xlsx
 
         int result = chooser.showSaveDialog(this);
         if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File file = chooser.getSelectedFile();
-            javax.swing.filechooser.FileNameExtensionFilter sel =
+                javax.swing.filechooser.FileNameExtensionFilter sel =
                     (javax.swing.filechooser.FileNameExtensionFilter) chooser.getFileFilter();
-            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+                        boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
 
             try {
                 if (toXlsx) {
@@ -1551,7 +1558,7 @@ DeleteOptions wih = new DeleteOptions(this, true);
                         "Exported to:\n" + file.getAbsolutePath());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                javax.swing.JOptionPane.showMessageDialog(this,
+                    javax.swing.JOptionPane.showMessageDialog(this,
                         "Export failed:\n" + ex.getMessage(),
                         "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
@@ -1587,23 +1594,23 @@ DeleteOptions wih = new DeleteOptions(this, true);
         }
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Save Subject export");
-        chooser.setSelectedFile(new File("subjects.xlsx"));
+            chooser.setDialogTitle("Save Subject export");
+                chooser.setSelectedFile(new File("subjects.xlsx"));
 
         FileNameExtensionFilter xlsx =
                 new FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
         FileNameExtensionFilter csv =
                 new FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
-        chooser.addChoosableFileFilter(xlsx);
-        chooser.addChoosableFileFilter(csv);
-        chooser.setFileFilter(xlsx);
+                    chooser.addChoosableFileFilter(xlsx);
+                        chooser.addChoosableFileFilter(csv);
+                            chooser.setFileFilter(xlsx);
 
         int result = chooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            FileNameExtensionFilter sel =
+                FileNameExtensionFilter sel =
                     (FileNameExtensionFilter) chooser.getFileFilter();
-            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+                        boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
 
             try {
                 if (toXlsx) {
@@ -1624,27 +1631,27 @@ DeleteOptions wih = new DeleteOptions(this, true);
         // TODO add your handling code here:
         if (Result.getRowCount() == 0) {
             javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
-            return;
+                return;
         }
 
         javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-        chooser.setDialogTitle("Save results export");
-        chooser.setSelectedFile(new java.io.File("results.xlsx"));
+            chooser.setDialogTitle("Save results export");
+                chooser.setSelectedFile(new java.io.File("results.xlsx"));
 
         javax.swing.filechooser.FileNameExtensionFilter xlsx =
                 new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
         javax.swing.filechooser.FileNameExtensionFilter csv =
                 new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
-        chooser.addChoosableFileFilter(xlsx);
-        chooser.addChoosableFileFilter(csv);
-        chooser.setFileFilter(xlsx); // default to .xlsx
+                    chooser.addChoosableFileFilter(xlsx);
+                        chooser.addChoosableFileFilter(csv);
+                            chooser.setFileFilter(xlsx); // default to .xlsx
 
         int result = chooser.showSaveDialog(this);
         if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File file = chooser.getSelectedFile();
-            javax.swing.filechooser.FileNameExtensionFilter sel =
+                javax.swing.filechooser.FileNameExtensionFilter sel =
                     (javax.swing.filechooser.FileNameExtensionFilter) chooser.getFileFilter();
-            boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
+                        boolean toXlsx = sel == xlsx || file.getName().toLowerCase().endsWith(".xlsx");
 
             try {
                 if (toXlsx) {
@@ -1667,9 +1674,9 @@ DeleteOptions wih = new DeleteOptions(this, true);
         // TODO add your handling code here:
         boolean allEmpty =
             StudentTable.getRowCount() == 0 &&
-            subjectTable.getRowCount() == 0 &&
-            AssessmentTable.getRowCount() == 0 &&
-            Result.getRowCount() == 0;
+                subjectTable.getRowCount() == 0 &&
+                    AssessmentTable.getRowCount() == 0 &&
+                        Result.getRowCount() == 0;
 
         if (allEmpty) {
             javax.swing.JOptionPane.showMessageDialog(this, "There is no data to export.");
@@ -1677,16 +1684,16 @@ DeleteOptions wih = new DeleteOptions(this, true);
         }
 
         javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
-        chooser.setDialogTitle("Save all data");
-        chooser.setSelectedFile(new java.io.File("all-data.xlsx"));
+            chooser.setDialogTitle("Save all data");
+                chooser.setSelectedFile(new java.io.File("all-data.xlsx"));
 
         javax.swing.filechooser.FileNameExtensionFilter xlsx =
                 new javax.swing.filechooser.FileNameExtensionFilter("Excel Workbook (*.xlsx)", "xlsx");
         javax.swing.filechooser.FileNameExtensionFilter csv =
                 new javax.swing.filechooser.FileNameExtensionFilter("CSV (Comma delimited) (*.csv)", "csv");
-        chooser.addChoosableFileFilter(xlsx);
-        chooser.addChoosableFileFilter(csv);
-        chooser.setFileFilter(xlsx);
+                    chooser.addChoosableFileFilter(xlsx);
+                        chooser.addChoosableFileFilter(csv);
+                            chooser.setFileFilter(xlsx);
 
         int result = chooser.showSaveDialog(this);
         if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
@@ -1948,7 +1955,45 @@ private String getRating(int score) {
     else return "Needs Improvement";
 }
 
-
+private void dashboardStats(){
+    try (Connection con = Connector.getConnection()) {
+    // for total number of students
+    String sqlStud = "SELECT COUNT(*) FROM student";
+        PreparedStatement pstStud = con.prepareStatement(sqlStud);
+            ResultSet rstStud = pstStud.executeQuery();
+    if (rstStud.next()){
+        ValueDisplayStud.setText(String.valueOf(rstStud.getInt(1)));
+    }
+    // for subjects
+    String sqlSub = "SELECT COUNT(*) FROM subject";
+        PreparedStatement pstSub = con.prepareStatement(sqlSub);
+            ResultSet rstSub = pstSub.executeQuery();
+    if(rstSub.next()){
+        ValueDisplaySUB.setText(String.valueOf(rstSub.getInt(1)));
+    }
+    // for Assessments
+    String sqlASS = "SELECT COUNT(*) FROM assessment";
+        PreparedStatement pstAss = con.prepareStatement(sqlASS);
+            ResultSet rstASS = pstAss.executeQuery();
+    if (rstASS.next()){
+        ValueDisplayASS.setText(String.valueOf(rstASS.getInt(1)));
+    }
+    //for the total Average of all students
+    String sqlAve = "SELECT COUNT(*) FROM assessmentresult";
+        PreparedStatement pstAve = con.prepareStatement(sqlAve);
+            ResultSet rstAve = pstAve.executeQuery();
+            if (rstAve.next()){
+                double average = rstAve.getDouble(1);
+                        GradeDisplay.setText(String.format("%.2f", average));
+            }
+    
+}
+    catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(),
+                                  "SQL Error", JOptionPane.ERROR_MESSAGE);
+    
+}
+}
     /**
      * @param args the command line arguments
      */
@@ -1996,7 +2041,6 @@ private String getRating(int score) {
     private Custom_Components.PressedDownAnimButton CDeleteButton;
     private Custom_Components.PressedDownAnimButton CUpdateButton;
     private javax.swing.JLabel CustomizeLabel;
-    private javax.swing.JLabel DeadLineDis;
     private Custom_Components.RoundedButton DeleteSub;
     private Custom_Components.RoundedButton ExportAllButton;
     private Custom_Components.RoundedButton ExportAssessmentButton;
@@ -2030,7 +2074,8 @@ private String getRating(int score) {
     private Custom_Components.PressedDownAnimButton VHomeButton;
     private Custom_Components.PressedDownAnimButton VStudentButton;
     private Custom_Components.PressedDownAnimButton VSubjectButton;
-    private javax.swing.JLabel ValueDisplayAss;
+    private javax.swing.JLabel ValueDisplayASS;
+    private javax.swing.JLabel ValueDisplaySUB;
     private javax.swing.JLabel ValueDisplayStud;
     private javax.swing.JLabel ViewLabel;
     private Custom_Components.RoundedButton addorcreatetable;
