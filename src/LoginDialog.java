@@ -10,6 +10,7 @@ import Custom_Components.TextPrompt;
 import javax.swing.*;
 import DataBaseConnection.Connector;
 import java.awt.Color;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,12 +37,16 @@ public class LoginDialog extends javax.swing.JDialog {
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
-        setUndecorated(true);
-        setBackground(new java.awt.Color(0, 0, 0, 0));
-        
         initComponents();
         setLocationRelativeTo(parent);
+        
+        URL iconURL = getClass().getResource("/Image Folder/EduHub.png");
+        System.out.println("Icon URL: " + iconURL);
+        if (iconURL != null) {
+            setIconImage(new ImageIcon(iconURL).getImage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Icon not found!");
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.

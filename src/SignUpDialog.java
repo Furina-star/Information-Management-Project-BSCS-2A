@@ -33,6 +33,7 @@ import java.awt.event.ActionListener;          // For button click listener
 import java.awt.event.ActionEvent;             // For event object in listener
 import java.io.File;                           // To handle the selected file
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
@@ -53,9 +54,6 @@ public class SignUpDialog extends javax.swing.JDialog {
      */
     public SignUpDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
- 
-        this.setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 0));
         
         initComponents();
         
@@ -67,12 +65,18 @@ public class SignUpDialog extends javax.swing.JDialog {
         PanelHolder.setBorder(BorderFactory.createEmptyBorder());
         ScrollPanel.getVerticalScrollBar().setUI(new ThinScrollBarUI());
         ScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
+        
+        URL iconURL = getClass().getResource("/Image Folder/EduHub.png");
+        System.out.println("Icon URL: " + iconURL);
+        if (iconURL != null) {
+            setIconImage(new ImageIcon(iconURL).getImage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Icon not found!");
+        }
     }
 
     SignUpDialog() {
         this((java.awt.Frame) null, true);
-        this.setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 0));
 
     }
     /**

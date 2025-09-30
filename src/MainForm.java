@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import Custom_Components.RoundedPanel;
 import com.mysql.cj.protocol.Resultset;
+import java.net.URL;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -64,7 +65,15 @@ public class MainForm extends javax.swing.JFrame {
 
     // Constructor with username
     public MainForm(String username) {
-        initComponents(); // generated UI components
+        initComponents(); // generated UI components    
+        
+        URL iconURL = getClass().getResource("/Image Folder/EduHub.png");
+        System.out.println("Icon URL: " + iconURL);
+        if (iconURL != null) {
+            setIconImage(new ImageIcon(iconURL).getImage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Icon not found!");
+        }
         
         //Table Design
         TableStyler.apply(subjectTable);
@@ -790,7 +799,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(62, 62, 62))
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

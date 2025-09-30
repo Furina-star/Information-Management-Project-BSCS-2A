@@ -4,11 +4,13 @@ import Custom_Components.RoundedButton;
 import Custom_Components.RoundedPanel;
 import Custom_Components.ShowHideButton;
 import java.awt.Color;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -29,12 +31,18 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
     public ForgotPasswordDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        URL iconURL = getClass().getResource("/Image Folder/EduHub.png");
+        System.out.println("Icon URL: " + iconURL);
+        if (iconURL != null) {
+            setIconImage(new ImageIcon(iconURL).getImage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Icon not found!");
+        }
     }
     
     ForgotPasswordDialog() {
         this((java.awt.Frame) null, true);
-        this.setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 0));
+        
     }
 
     /**
