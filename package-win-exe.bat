@@ -12,7 +12,7 @@ echo Using jpackage: %JPACKAGE%
 
 REM App settings
 set "APP_NAME=EduHub"
-set "APP_VERSION=1.0.1"
+set "APP_VERSION=1.0.2"
 set "MAIN_JAR=Information-Management--Project-BSCS-2A.jar"
 set "ICON=branding\EduHub.ico"
 
